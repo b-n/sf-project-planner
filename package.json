@@ -1,0 +1,22 @@
+{
+  "name": "sf-project-planner",
+  "version": "0.0.1",
+  "description": "Salesforce project planner for great victory and success",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nzchicken/sf-project-planner.git"
+  },
+  "keywords": [
+    "sfdc"
+  ],
+  "author": "Ben Naylor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nzchicken/sf-project-planner/issues"
+  },
+  "homepage": "https://github.com/nzchicken/sf-project-planner#readme"
+}
