@@ -1,0 +1,7 @@
+header {
+  position: static !important;
+}
+
+main {
+  padding: 1rem;
+}

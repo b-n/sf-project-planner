@@ -5,7 +5,8 @@ import Login from './containers/login'
 import Projects from './containers/projects'
 
 import Layout from './layout/main'
-
+import './App.css'
+ 
 class App extends Component {
   render() {
     return (
