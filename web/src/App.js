@@ -3,7 +3,8 @@ import {Router, Route, IndexRoute, hashHistory } from 'react-router'
 
 import Login from './containers/login'
 import Projects from './containers/projects'
-import Layout from './components/layout'
+
+import Layout from './layout/main'
 
 class App extends Component {
   render() {
@@ -18,4 +19,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
