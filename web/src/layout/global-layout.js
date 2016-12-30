@@ -4,7 +4,7 @@ import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-s
 import GlobalHeader from './global-header'
 import GlobalFooter from './global-footer'
 
-const Layout = (props) => {
+const GlobalLayout = (props) => {
   return (
     <div className='slds'>
       <GlobalHeader/>
@@ -16,8 +16,8 @@ const Layout = (props) => {
   )
 }
 
-Layout.propTypes = {
+GlobalLayout.propTypes = {
   children: React.element
 }
 
-export default Layout
+export default GlobalLayout
