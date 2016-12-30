@@ -1,10 +1,10 @@
 import React from 'react'
 
-const ProjectTableRow (props) => {
+const ProjectTableRow = (props) => {
   return (
-    <div>
+    <tr>
       JSON.stringify(this.props.project, null, 4)
-    </div>
+    </tr>
   )
 }
 

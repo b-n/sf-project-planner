@@ -1,9 +1,9 @@
-import Redux from 'redux'
+import { createStore } from 'redux'
 import ReactRedux from 'react-redux'
 
-import RootReducer from './reducers/root-reducer '
+import RootReducer from './reducers/root-reducer'
 
-const store = Redux.createStore(RootReducer)
+const store = createStore(RootReducer)
 
 const mapStateToProps = (state) =>  {
   return {
@@ -17,4 +17,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const connector = ReactRedux.connect(mapStateToProps, mapDispatchToProps)
+//const connector = ReactRedux.connect(mapStateToProps, mapDispatchToProps)
+
+export default { store }

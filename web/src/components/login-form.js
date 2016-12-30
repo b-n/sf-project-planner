@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 class LoginForm extends Component {
   render() {
     return (
-      <div>
+      <form>
         <div className='slds-form-element'>
           <label className='slds-form-element__label' for='username'>Username</label>
           <div className='slds-form-element__control'>
@@ -17,12 +17,8 @@ class LoginForm extends Component {
             <input id='password' className='slds-input' type='password' placeholder='password' />
           </div>
         </div>
-        <div className='slds-form-element'>
-          <div className='slds-form-element__control'>
-            <button className='slds-button--brand'>Login</button>
-          </div>
-        </div>
-      </div>
+        <button className='slds-button--brand'>Login</button>
+      </form>
     )
   }
 }
