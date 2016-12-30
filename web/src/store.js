@@ -5,7 +5,7 @@ import RootReducer from './reducers/root-reducer'
 
 const store = createStore(RootReducer)
 
-const mapStateToProps = (state) =>  {
+/*const mapStateToProps = (state) =>  {
   return {
     'projects': state.projects
   }
@@ -17,6 +17,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-//const connector = ReactRedux.connect(mapStateToProps, mapDispatchToProps)
+const connector = ReactRedux.connect(mapStateToProps, mapDispatchToProps)*/
 
 export default { store }
