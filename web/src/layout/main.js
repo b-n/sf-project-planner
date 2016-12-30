@@ -1,17 +1,17 @@
 import React from 'react'
 import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'
 
-import Header from './header'
-import Footer from './footer'
+import GlobalHeader from './global-header'
+import GlobalFooter from './global-footer'
 
 const Layout = (props) => {
   return (
     <div className='slds'>
-      <Header/>
+      <GlobalHeader/>
       <main>
         {props.children}
       </main>
-      <Footer/>
+      <GlobalFooter/>
     </div>
   )
 }

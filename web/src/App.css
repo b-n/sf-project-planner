@@ -5,3 +5,7 @@ header {
 main {
   padding: 1rem;
 }
+
+#logo-form {
+  width: 100%;
+}
