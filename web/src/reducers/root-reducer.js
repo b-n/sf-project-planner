@@ -15,17 +15,3 @@ const RootReducer = (state, action) => {
         return state
     }
 }
-
-const mapStateToProps = (state) =>  {
-  return {
-    'projects': state.projects
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
-
-export default RootReducer
