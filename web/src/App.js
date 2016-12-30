@@ -5,7 +5,7 @@ import Login from './pages/login'
 import Projects from './pages/projects'
 
 import GlobalLayout from './layout/global-layout'
-import './App.css'
+import './app.css'
 
 const App = () => {
   return (
