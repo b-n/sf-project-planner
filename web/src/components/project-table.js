@@ -8,9 +8,9 @@ const ProjectTable = (props) => {
     <table>
       <ProjectTableHeader />
       <tbody>
-        {this.props.projects.map(project) => {
+        {this.props.projects.map((project) => {
           return <ProjectTableRow project={project} />
-        }}
+        })}
       </tbody>
     </table>
   )

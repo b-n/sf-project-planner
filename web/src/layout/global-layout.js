@@ -9,7 +9,7 @@ const GlobalLayout = (props) => {
     <div className='slds'>
       <GlobalHeader/>
       <main>
-        {props.children}
+        {this.props.children}
       </main>
       <GlobalFooter/>
     </div>

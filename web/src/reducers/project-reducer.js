@@ -7,14 +7,12 @@ const initialState = {
   'projects': [{ 'Project Name': 'WAP Group Migration'}, {'Project Name': 'Guidion Service Cloud'}]
 }
 
-const ProjectReducer = (state, action) => {
-  if (!state)
-    state = initialState
-    switch (action.type) {
-      case '':
-        return
-      default:
-        return state
+const ProjectReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case '':
+      return
+    default:
+      return state
     }
 }
 
