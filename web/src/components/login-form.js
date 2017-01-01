@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router'
 
 class LoginForm extends Component {
-  render() {
     return (
       <form>
         <div className='slds-form-element'>
