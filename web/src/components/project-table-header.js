@@ -1,21 +1,15 @@
 import React from 'react'
 
+import ProjectTableHeaderCol from './project-table-header-col'
+
 const ProjectTableHeader = () => {
   return (
     <thead>
       <tr className='slds-text-title--caps'>
-        <th scope='col'>
-          <div className='slds-truncate'>ID</div>
-        </th>
-        <th scope='col'>
-          <div className='slds-truncate'>Project Name</div>
-        </th>
-        <th scope='col'>
-          <div className='slds-truncate'>Customer</div>
-        </th>
-        <th scope='col'>
-          <div className='slds-truncate'>Resources</div>
-        </th>
+        <ProjectTableHeaderCol colName='Id'/>
+        <ProjectTableHeaderCol colName='Project Name'/>
+        <ProjectTableHeaderCol colName='Customer'/>
+        <ProjectTableHeaderCol colName='Resources'/>
       </tr>
     </thead>
   )

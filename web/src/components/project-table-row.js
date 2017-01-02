@@ -19,12 +19,11 @@ const ProjectTableRow = (props) => {
   )
 }
 
-// TODO - add prop types
 ProjectTableRow.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string,
   name: PropTypes.string,
   customer: PropTypes.string,
-  resources: PropTypes.array 
+  resources: PropTypes.array
 }
 
 export default ProjectTableRow
