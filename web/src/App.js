@@ -6,7 +6,7 @@ import Login from './pages/login'
 import Projects from './pages/projects'
 import GlobalLayout from './layout/global-layout'
 
-import { store } from './store'
+import store from './store'
 
 import './app.css'
 

@@ -3,7 +3,7 @@ import React from 'react'
 const ProjectTableRow = (props) => {
   return (
     <tr>
-      JSON.stringify(this.props.project, null, 4)
+      <th>{JSON.stringify(props.project, null, 4)}</th>
     </tr>
   )
 }
