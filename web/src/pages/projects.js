@@ -3,9 +3,9 @@ import ProjectTable from '../components/project-table'
 
 const Projects = () => {
   return (
-    <h1>
+    <div className='slds-container--center slds-container--x-large'>
       <ProjectTable />
-    </h1>
+    </div>
   )
 }
 

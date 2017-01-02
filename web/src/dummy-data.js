@@ -1,6 +1,6 @@
 const projects = [
-  { 'Project Name': 'WAP Group Migration', 'id': 1},
-  {'Project Name': 'Guidion Service Cloud', 'id': 2}
+  { name: 'WAP Group Migration', customer: 'WAP', id: 1, resources: []},
+  { name: 'Guidion Service Cloud', customer: 'Guidion', id: 2, resources: []}
 ]
 
 export {

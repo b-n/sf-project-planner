@@ -7,7 +7,7 @@ import ProjectTableRow from './project-table-row'
 class ProjectTable extends Component {
   render() {
     return (
-      <table>
+      <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
         <ProjectTableHeader />
         <tbody>
           {this.props.projects.map((project) => {
@@ -26,6 +26,7 @@ const mapStateToProps = (state) =>  {
   }
 }
 
+// TODO: connect to backend API
 const mapDispatchToProps = (dispatch) => {
   return {
 
