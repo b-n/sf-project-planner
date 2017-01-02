@@ -1,5 +1,5 @@
 import React from 'react'
-import {Router, Route, IndexRoute, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import { Provider } from 'react-redux'
 
 import Login from './pages/login'

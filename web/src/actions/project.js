@@ -1,3 +1,6 @@
 export const projectActions = {
-
+  ADD_PROJECT: 'ADD_PROJECT',
+  REMOVE_PROJECT: 'REMOVE_PROJECT',
+  ADD_HOURS: 'ADD_HOURS',
+  REMOVE_HOURS: 'REMOVE_HOURS'
 }

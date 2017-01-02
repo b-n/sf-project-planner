@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import LoginForm from '../components/login-form'
 import Logo from '../components/logo'

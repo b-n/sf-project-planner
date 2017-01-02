@@ -9,14 +9,14 @@ const GlobalLayout = (props) => {
     <div className='slds'>
       <GlobalHeader/>
       <main>
-        {this.props.children}
+        {props.children}
       </main>
       <GlobalFooter/>
     </div>
   )
 }
 
-GlobalLayout.propTypes = {
+GlobalLayout.PropTypes = {
   children: React.element
 }
 

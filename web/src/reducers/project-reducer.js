@@ -1,19 +1,12 @@
-import Redux from 'redux'
-import ReactRedux from 'react-redux'
+import dummyData from '../dummy-data'
 
-import projectActions from '../actions/project'
-
-import { projects } from '../dummy-data'
-
-const initialState = projects
-
-const ProjectReducer = (state = initialState, action) => {
+const projectReducer = (state = dummyData.projects, action) => {
   switch (action.type) {
     case '':
-      return
+      return state
     default:
       return state
   }
 }
 
-export default ProjectReducer
+export default projectReducer
