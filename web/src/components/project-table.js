@@ -11,7 +11,7 @@ class ProjectTable extends Component {
         <ProjectTableHeader />
         <tbody>
           {this.props.projects.map((project) => {
-            return <ProjectTableRow project={project} key={project.id}/>
+            return <ProjectTableRow {...project} key={project.id}/>
           })}
         </tbody>
       </table>

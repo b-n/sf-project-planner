@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'
 
 import GlobalHeader from './global-header'
@@ -16,8 +16,8 @@ const GlobalLayout = (props) => {
   )
 }
 
-GlobalLayout.PropTypes = {
-  children: React.element
+GlobalLayout.propTypes = {
+  children: PropTypes.element
 }
 
 export default GlobalLayout
