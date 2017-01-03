@@ -1,6 +1,7 @@
 node_modules/
 *.swp
 *.env
+env.js
 .npmignore
 .serverless
 npm-debug.log

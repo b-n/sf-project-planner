@@ -1,7 +1,7 @@
-//const jsforce = require('jsforce');
-//const hasha = require('hasha');
-require('file-loader?name=.env!./.env');
-require('dotenv').config();
+const jsforce = require('jsforce');
+const hasha = require('hasha');
+const env = require('./env.js');
+
 
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
@@ -38,10 +38,8 @@ module.exports.authenticate = (event, context, callback) => {
 
 module.exports.login = (event, context, callback) => {
     
-    return callback(null, process.env.SF_USERNAME);
-    
-    /*const { username, password } = event;
-    const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = process.env;
+    const { username, password } = event;
+    const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
 
     const conn = new jsforce.Connection({
         loginUrl: SF_ENDPOINT
@@ -56,5 +54,5 @@ module.exports.login = (event, context, callback) => {
             console.log(hashedPassword === record.Password__c);
             callback(null, 'Some bearer token for your shiz');
         });
-    });*/
+    });
 };
