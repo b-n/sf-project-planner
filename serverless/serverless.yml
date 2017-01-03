@@ -1,5 +1,11 @@
 service: sf-project-planner
 
+plugins:
+    - serverless-webpack
+
+custom:
+    webpackIncludeModules: true
+
 provider:
     name: aws
     runtime: nodejs4.3
