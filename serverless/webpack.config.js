@@ -30,14 +30,6 @@ module.exports = {
                 exclude: [
                     /node_modules/
                 ]
-            },
-            {
-                test: /\.env.*/,
-                loaders: ['file'],
-                include: __dirname,
-                exclude: [
-                    /node_modules/
-                ]
             }
         ]
     }
