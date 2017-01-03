@@ -38,7 +38,10 @@ module.exports.authenticate = (event, context, callback) => {
 
 module.exports.login = (event, context, callback) => {
     
-    const { username, password } = event;
+    console.log(event);
+    const { username, password } = event.body;
+
+    if (!username || !password) return callback('Need to specify a username and password for this call');
     const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
 
     const conn = new jsforce.Connection({
@@ -51,8 +54,7 @@ module.exports.login = (event, context, callback) => {
             const record = res.records[0];
 
             const hashedPassword = hasha(password + record.Salt__c, { encoding: 'base64' });
-            console.log(hashedPassword === record.Password__c);
-            callback(null, 'Some bearer token for your shiz');
+            callback(null, { hashedPassword, recordPassword: record.Password__c, matches: hashedPassword === record.Password__c });
         });
     });
 };
