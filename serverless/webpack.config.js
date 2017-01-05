@@ -1,4 +1,5 @@
 var nodeExternals = require('webpack-node-externals');
+var webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -13,6 +14,16 @@ module.exports = {
     },
     target: 'node',
     externals: [nodeExternals()],
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                unused: true,
+                dead_code: true,
+                drop_debugger: true
+            },
+            mangle: false
+        })
+    ],
     module: {
         preLoaders: [{
             test: /\.js$/,
