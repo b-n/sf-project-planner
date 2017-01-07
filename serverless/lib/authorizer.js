@@ -18,9 +18,9 @@ const generatePolicy = (principalId, effect, resource) => {
     return authResponse;
 };
 
-export function authorizer(event, context, callback) {
+export function authorizer({ event, context, callback }, { dynamo }) {
+    console.log(event);
     if (event.authorizationToken) {
-        console.log(event);
 
         console.log(event.authorizationToken, event.methodArn);
         
@@ -28,6 +28,6 @@ export function authorizer(event, context, callback) {
         // check dynamo db to ensure the bearer token is valid (exists + not expired);
         callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
     } else {
-        callback('Unauthorized');
+        callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
     }
 }
