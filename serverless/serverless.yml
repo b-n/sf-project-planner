@@ -27,9 +27,9 @@ provider:
 
 functions:
     authenticate:
-        handler: auth.authenticate
+        handler: handler._authorizer
     login:
-        handler: auth.login
+        handler: handler._login
         events:
             - http:
                 path: login
@@ -37,7 +37,7 @@ functions:
                 integration: lambda
                 cors: true
     resources:
-        handler: resources.default
+        handler: handler._resources
         events:
             - http:
                 path: resources
@@ -52,7 +52,7 @@ functions:
                 authorizer: authenticate
                 cors: true
     projects:
-        handler: projects.hello
+        handler: handler._projects
         events:
             - http:
                 path: projects
