@@ -8,3 +8,4 @@ npm-debug.log
 .webpack
 coverage/
 .DS_Store
+.idea/
