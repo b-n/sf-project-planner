@@ -1,7 +1,4 @@
-import moment from 'moment';
-
 import env from './env.js';
-import messages from './messages.js';
 
 export function projects({ event, context, callback }, { salesforce }) {
 
@@ -25,4 +22,4 @@ export function projects({ event, context, callback }, { salesforce }) {
     .catch(err => {
         callback(err);
     });
-};
+}
