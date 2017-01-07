@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
     const authResponse = {
@@ -18,16 +20,56 @@ const generatePolicy = (principalId, effect, resource) => {
     return authResponse;
 };
 
-export function authorizer({ event, context, callback }, { dynamo }) {
-    console.log(event);
+const generateParams = (bearer) => {
+    return {
+        Key: {
+            bearerToken: bearer
+        },
+        TableName: 'sf-project-planner-auth'
+    };
+};
+
+export function authorizer({ event, callback }, { dynamo }) {
+
     if (event.authorizationToken) {
 
-        console.log(event.authorizationToken, event.methodArn);
-        
-        //TODO:
-        // check dynamo db to ensure the bearer token is valid (exists + not expired);
-        callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
+        const paramsForGet = generateParams(event.authorizationToken.replace('Bearer ', ''));
+
+        dynamo.get(paramsForGet).promise()
+            .then((data) => {
+
+                //TODO: fix error in how time is stored in db (in login function and below with newTtl)
+                if (moment(data.Item.ttl).isBefore(moment())) throw new Error('[401] Your login has expired.');
+                return data.Item;
+            })
+            .then((item) => {
+
+                const newTtl = moment().utc().add(6, 'hours').format();
+                const paramsForUpdate = generateParams(item.bearerToken);
+                paramsForUpdate.AttributeUpdates = {
+                    ttl: {
+                        Action: 'PUT',
+                        Value: newTtl
+                    }
+                };
+
+                return dynamo.update(paramsForUpdate).promise()
+                    .then(() => {
+                        return item.employeeId;
+                    })
+                    .catch(() => {
+                        throw new Error('[401] Unable to update ttl.');
+                    });
+            })
+            .then((employeeId) => {
+                console.log('employee', employeeId);
+                callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
+            })
+            .catch((e) => {
+                callback(e);
+            });
+
     } else {
-        callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
+        callback('[401] No bearer token provided in request.');
     }
 }
