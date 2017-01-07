@@ -2,7 +2,7 @@ import hasha from 'hasha';
 import moment from 'moment';
 import { v4 as uuidV4 } from 'uuid';
 
-import * as env from './env.js';
+import env from './env.js';
 
 export function login({ event, callback }, { dynamo, salesforce }) {
     
@@ -22,7 +22,6 @@ export function login({ event, callback }, { dynamo, salesforce }) {
         callback('Could not connect to salesforce to authenticate');
     })
     .then(() => {
-        console.log(conn);
         return conn.query('SELECT Id, Username__c, Password__c, Salt__c FROM Employee__c where Username__c = \'' + username + '\'');    
     })
     .catch(err => {
