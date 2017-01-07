@@ -6,3 +6,4 @@ env.js
 .serverless
 npm-debug.log
 .webpack
+coverage/
