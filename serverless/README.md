@@ -20,7 +20,6 @@ To test an endpoint from the handler:
 
     babel-node tests/handler.js
 
-
 ## Environment variables:
 
 For dev in project root, you need `.env` with the following:
@@ -37,3 +36,14 @@ For deploying and salesforce connection under `./lib/env.js` you need the follow
         SF_TOKEN: '',
         SF_ENDPOINT: 'https://test.salesforce.com/'
     }
+
+## Testing:
+
+Test!
+
+    npm run test
+
+Coverage!
+
+    npm run coverage
+
