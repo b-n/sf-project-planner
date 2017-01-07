@@ -1,1 +1,1 @@
-import './auth.js';
+import './login.js';
