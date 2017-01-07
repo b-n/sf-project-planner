@@ -18,10 +18,9 @@ export function login({ event, callback }, { dynamo, salesforce }) {
 
     const conn = new salesforce(SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT);
    
-    conn.login().catch(err => { throw new Error(messages.ERROR_SF_AUTH); })
+    conn.login()
     .then(() => {
-        return conn.query('SELECT Id, Username__c, Password__c, Salt__c FROM Employee__c where Username__c = \'' + username + '\'')
-        .catch(err => { throw new Error(messages.ERROR_QUERY_FAILED); });
+        return conn.query('SELECT Id, Username__c, Password__c, Salt__c FROM Employee__c where Username__c = \'' + username + '\'');
     })
     .then(res => {
         if (!res) {

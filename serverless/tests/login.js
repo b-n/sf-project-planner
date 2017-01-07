@@ -46,6 +46,7 @@ describe('login', function() {
         login({ event, callback }, { dynamo, salesforce });
     });
     
+    /** move to salesforce class
     it('errors nicely if it cannot connect to salesforce', function(done) {
         loginStub.rejects('nope');
 
@@ -71,7 +72,7 @@ describe('login', function() {
         }
 
         login({ event, callback }, { dynamo, salesforce });
-    });
+    });*/
 
     it('fails if password does not match', function(done) {
         loginStub.resolves();

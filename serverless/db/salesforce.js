@@ -1,5 +1,6 @@
 import jsforce from 'jsforce';
 
+import messages from './../lib/messages.js';
 
 export default class {
     
@@ -17,7 +18,7 @@ export default class {
         return new Promise((resolve, reject) => {
             this.conn.login(this.username, this.password + this.token, (err, res) => {
                 if (err) {
-                    reject(err);
+                    reject(messages.ERROR_SF_AUTH);
                     return;
                 }
                 this.loggedIn = true;
@@ -29,13 +30,14 @@ export default class {
     query(queryString) {
         return new Promise((resolve, reject) => {
             if (!this.loggedIn) {
-                reject('Not logged in');
+                reject(messages.ERROR_SF_AUTH);
                 return;
             }
 
             this.conn.query(queryString, (err, res) => {
                 if (err) {
-                    reject(err);
+                    console.log(err);
+                    reject(messages.ERROR_SF_QUERY_FAILED);
                     return;
                 }
                 resolve(res);

@@ -1,4 +1,4 @@
-import { _login } from '../handler.js';
+import { _projects } from '../handler.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,7 +10,7 @@ dotenv.config();
         }
     }
 
-    _login(event, {} , (error, success) => {
+    _projects(event, {} , (error, success) => {
         console.log('error', error);
         console.log('success', success);
     });
