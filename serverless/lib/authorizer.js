@@ -36,7 +36,7 @@ export function authorizer({ event, callback }, { dynamo }) {
         const paramsForGet = generateParams(event.authorizationToken.replace('Bearer ', ''));
 
         dynamo.get(paramsForGet).promise()
-            .then((data) => {
+            .then(data => {
 
                 //TODO: fix error in how time is stored in db (in login function and below with newTtl)
                 if (moment(data.Item.ttl).isBefore(moment())) {
@@ -44,7 +44,7 @@ export function authorizer({ event, callback }, { dynamo }) {
                 }
                 return data.Item;
             })
-            .then((item) => {
+            .then(item => {
 
                 const newTtl = moment().utc().add(6, 'hours').format();
                 const paramsForUpdate = generateParams(item.bearerToken);
@@ -63,15 +63,11 @@ export function authorizer({ event, callback }, { dynamo }) {
                         throw new Error('Can\'t store token.');
                     });
             })
-            .then((employeeId) => {
+            .then(employeeId => {
                 callback(null, generatePolicy(employeeId, 'Allow', event.methodArn));
             })
-            .catch((e) => {
-                if (e) {
-                    callback(e);
-                    return;
-                }
-                callback('Unauthorized');
+            .catch(e => {
+                callback(e.message);
             });
 
     } else {
