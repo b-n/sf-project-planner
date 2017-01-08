@@ -17,6 +17,7 @@ export default class Login {
         .then(result => { return this.generateConnection(result) })
         .then(result => { return this.runQuery(result) })
         .then(result => { return this.parseRecord(result) })
+        .then(result => { return this.updateDynamo(result) })
         .then(result => { return this.sendCallback(result) })
         .catch(result => { return this.errorCallback(result) });
     }

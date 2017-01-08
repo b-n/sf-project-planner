@@ -42,6 +42,12 @@ describe('login', function() {
         };
     });
 
+    beforeEach(function() {
+        dynamoStub.reset();
+        loginStub.reset();
+        queryStub.reset();
+    });
+
     it('run: end to end works', function(done) {
         const handler = new Login({ dynamo, salesforce });
         
@@ -55,6 +61,9 @@ describe('login', function() {
         const callback = (error, success) => {
             assert.equal(error, null);
             assert.notEqual(success, null);
+            assert(dynamoStub.calledOnce);
+            assert(loginStub.calledOnce);
+            assert(queryStub.calledOnce);
             done(); 
         }
         handler.run({ event, callback });
