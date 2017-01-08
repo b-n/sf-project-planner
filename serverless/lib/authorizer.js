@@ -39,7 +39,9 @@ export function authorizer({ event, callback }, { dynamo }) {
             .then((data) => {
 
                 //TODO: fix error in how time is stored in db (in login function and below with newTtl)
-                if (moment(data.Item.ttl).isBefore(moment())) throw new Error('Unauthorized');
+                if (moment(data.Item.ttl).isBefore(moment())) {
+                    throw new Error('Token expired');
+                }
                 return data.Item;
             })
             .then((item) => {
@@ -58,18 +60,21 @@ export function authorizer({ event, callback }, { dynamo }) {
                         return item.employeeId;
                     })
                     .catch(() => {
-                        console.log('Unable to update ttl.');
-                        throw new Error('[401] Unable to update ttl.');
+                        throw new Error('Can\'t store token.');
                     });
             })
             .then((employeeId) => {
                 callback(null, generatePolicy(employeeId, 'Allow', event.methodArn));
             })
             .catch((e) => {
+                if (e) {
+                    callback(e);
+                    return;
+                }
                 callback('Unauthorized');
             });
 
     } else {
-        callback('Unauthorized');
+        callback('No bearer token supplied');
     }
 }
