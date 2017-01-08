@@ -1,15 +1,11 @@
 import { LOGIN_ATTEMPT } from '../actions/action-types'
 
-const initialState = {
-  isLoggedIn = false
-}
+const initialState = false
 
 const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_ATTEMPT:
-      return {
-        isLoggedIn: action.payload
-      }
+      return action.payload
     default:
       return state
   }

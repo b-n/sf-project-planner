@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { LOGIN_ATTEMPT } from '../actions/action-types'
+
+import * as actions from '../actions/login'
 
 import LoginFormInput from './login-form-input'
 import LoginFormSubmit from './login-form-submit'
@@ -36,7 +37,7 @@ const mapStateToProps = (state) =>  {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     attemptLogin: () => {
-      dispatch(LOGIN_ATTEMPT)
+      dispatch(actions.loginAttempt(ownProps.username, ownProps.password))
     }
   }
 }

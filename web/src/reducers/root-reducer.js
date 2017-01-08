@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 
 import projectReducer from './project-reducer'
+import loginReducer from './login-reducer'
 
 const rootReducer = combineReducers(
   {
-    projects: projectReducer
+    projects: projectReducer,
+    login: loginReducer
   }
 )
 
