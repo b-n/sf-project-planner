@@ -24,9 +24,7 @@ export default class Projects {
                                 FROM   Project__c 
                                 WHERE  Status__c in ('Active','On Hold','Planning') OR
                                 (Status__c = 'Completed' AND End_Date__c = LAST_N_DAYS:21)`)
-        .then(result => {
-            return !result || !result.records ? [] : result.records;
-        });
+        .then(result => result.records);
     }
     
     sendCallback(message) {
