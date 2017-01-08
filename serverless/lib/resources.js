@@ -1,51 +1,66 @@
-import env from './env.js';
+export default class Resources {
+    
+    constructor({ salesforce }) {
+        this.salesforce = salesforce;
+    }
 
-export function resources({ event, context, callback }, { salesforce }) {
+    run({ event, context, callback }) {
+        this.callback = callback;
+        const { principalId, query, method, body } = event;
 
-    const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
-    const conn = new salesforce(SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT);
-    const { employeeId, query, method } = event;
+        this.generateConnection()
+        .then(() => {
+            if (method === 'GET') return this.getMethod(principalId, query);
+            if (method === 'POST') return this.postMethod(body);
+            return Promise.reject(new Error('Invalid method'));
+        })
+        .then(result => { return this.sendCallback(result) })
+        .catch(result => { return this.errorCallback(result) });
+    }
+    
+    generateConnection() {
+        this.conn = new this.salesforce();
 
-    const get = function() {
-        return conn.login()
-            .then(() => {
-                return conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Hours__c
-                                   FROM   Resource_Hours__c 
-                                   WHERE  Employee__c = '${employeeId}'
-                                          AND Week_Start__c <= ${query.weekEnd} 
-                                          AND Week_Start__c >= ${query.weekStart}`);
-            })
-            .then(res => {
-                return res.records;
-            })
-            .then(response => {
-                callback(null, response);
-            })
-            .catch(err => {
-                callback(err);
-            });
-    };
+        return this.conn.login();
+    }
 
-    const post = function() {
-        const recordsToDelete = event.body
+    getMethod(employeeId, query) {
+        if (!query || !query.weekstart || !query.weekend) {
+            return Promise.reject(new Error('Missing parameters'));
+        }
+        return this.conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Hours__c
+                                FROM   Resource_Hours__c 
+                                WHERE  Employee__c = '${employeeId}'
+                                       AND Week_Start__c <= ${query.weekEnd} 
+                                       AND Week_Start__c >= ${query.weekStart}`)
+        .then(res => res.records);
+    }
+
+    postMethod(body) {
+        const recordsToDelete = body
             .filter(record => record.Hours__c === 0)
             .map(record => record.Id);
 
-        const recordsToUpsert = event.body
-            .filter(record => record.Hours__c > 0);
+        const recordsToUpdate = body
+            .filter(record => !!record.Id);
 
-        return conn.login()
-            .then(() => {
-                return Promise.all([
-                    conn.del('Resource_Hours__c', recordsToDelete),
-                    conn.upsert('Resource_Hours__c', 'Id', recordsToUpsert)
-                ]);
-            })
-            .catch(err => {
-                callback(err);
-            });
-    };
+        const recordsToInsert = body
+            .filter(record => !record.Id);
 
-    if (method === 'GET') get();
-    if (method === 'POST') post();
+        const request = {
+            delete: recordsToDelete,
+            update: recordsToUpdate,
+            insert: recordsToInsert
+        };
+
+        return this.conn.resourceUpdate(request);
+    }
+
+    sendCallback(result) {
+        this.callback(null, result);
+    }
+
+    errorCallback(error) {
+        this.callback(error);
+    }
 }

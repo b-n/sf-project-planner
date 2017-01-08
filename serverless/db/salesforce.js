@@ -47,40 +47,8 @@ export default class {
         });    
     }
 
-    del(resource, recordIds) {
-        return new Promise((resolve, reject) => {
-            if (!this.loggedIn) {
-                reject(messages.ERROR_SF_AUTH);
-                return;
-            }
-
-            this.conn.sobject(resource).del(recordIds, (err, res) => {
-                if (err) {
-                    console.log(err);
-                    reject(messages.ERROR_SF_QUERY_FAILED);
-                    return;
-                }
-                resolve(res);
-            });
-        });
+    resourceUpdate(resources) {
+        //TODO: need to implement this in apex
+        return Promise.resolve('done');
     }
-
-    upsert(resource, id, records) {
-        return new Promise((resolve, reject) => {
-            if (!this.loggedIn) {
-                reject(messages.ERROR_SF_AUTH);
-                return;
-            }
-
-            this.conn.sobject(resource).upsert(records, id, (err, res) => {
-                if (err) {
-                    console.log(err);
-                    reject(messages.ERROR_SF_QUERY_FAILED);
-                    return;
-                }
-                resolve(res);
-            });
-        });
-    }
-
 } 

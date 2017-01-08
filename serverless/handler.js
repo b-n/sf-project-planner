@@ -3,7 +3,7 @@ import salesforce from './db/salesforce.js';
 
 import Login from './lib/login.js';
 import Projects from './lib/projects.js';
-import { resources } from './lib/resources.js';
+import Resources from './lib/resources.js';
 import { authorizer } from './lib/authorizer.js';
 
 
@@ -17,7 +17,8 @@ export function _login(event, context, callback) {
 }
 
 export function _resources(event, context, callback) {
-    resources({ event, context, callback }, { salesforce });
+    const handler = new Resources({ salesforce });
+    handler.run({ event, context, callback });
 }
 
 export function _projects(event, context, callback) {
