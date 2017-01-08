@@ -4,7 +4,7 @@ export function resources({ event, context, callback }, { salesforce }) {
 
     const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
     const conn = new salesforce(SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT);
-    const { employeeId, query, method, body } = event;
+    const { employeeId, query, method } = event;
 
     const get = function() {
         return conn.login()
