@@ -53,39 +53,12 @@ describe('projects', function() {
         .catch(done);
     });
 
-    it('runQuery: queries from salesforce', function(done) {
+    it('runQuery: return query from salesforce', function(done) {
         const handler = new Projects({ salesforce });
         handler.generateConnection();
         
         handler.runQuery()
         .then(() => { done() })
-        .catch(done);
-    });
-
-    it('parseQueryResult: returns empty array if no results', function(done) {
-        const handler = new Projects({ salesforce });
-
-        handler.parseQueryResult()
-        .then(result => {
-            assert.deepEqual(result, []);
-            done();
-        })
-        .catch(done);
-    });
-
-    it('parseQueryResult: returns records if there are some', function(done) {
-        const handler = new Projects({ salesforce });
-        
-        const records = generateSFRecords(); 
-
-        const queryResult = {
-            records
-        }
-        handler.parseQueryResult(queryResult)
-        .then(result => {
-            assert.deepEqual(result, records);
-            done();
-        })
         .catch(done);
     });
 
