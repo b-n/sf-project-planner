@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import * as actions from '../actions/login'
@@ -8,8 +8,8 @@ import LoginFormSubmit from './login-form-submit'
 
 // TODO: ADD proptypes
 class LoginForm extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.submit = this.submit.bind(this)
   }
   submit(e){

@@ -1,4 +1,4 @@
-export const actionTypes = {
+export default {
   LOGIN_ATTEMPT: 'LOGIN_ATTEMPT',
   ADD_PROJECT: 'ADD_PROJECT',
   REMOVE_PROJECT: 'REMOVE_PROJECT',

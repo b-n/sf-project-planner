@@ -1,8 +1,8 @@
-import { LOGIN_ATTEMPT } from './action-types'
+import actionTypes from './action-types'
 
 export function loginAttempt(username, password) {
   return {
-    type: 'LOGIN_ATTEMPT',
+    type: actionTypes.LOGIN_ATTEMPT,
     payload: true
   }
 }
