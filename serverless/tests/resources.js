@@ -8,23 +8,39 @@ import Resources from '../lib/resources.js';
 
 describe('resources', function() {
     
-    function generateSFRecords() {
-        return [ 
-            { name: 'record1' },
-            { name: 'record2' }
-        ];
-    }
+    const postRecords = [
+        {
+            Id: 'existing records',
+            Hours__c: 10
+        },
+        {
+            Id: 'delete record',
+            Hours__c: 0
+        },
+        {
+            Id: null,
+            Hours__c: 10
+        }
+    ];
+
+    const queryRecords = [
+        { name: 'record1' },
+        { name: 'record2' }
+    ];
 
     const loginStub = stub();
     const queryStub = stub();
+    const resourceUpdateStub = stub();
     
     loginStub.resolves();
-    queryStub.resolves({ records: generateSFRecords() });
+    queryStub.resolves({ records: queryRecords });
+    resourceUpdateStub.resolves();
 
     const salesforce = spy(() => {
         return {
             login: loginStub,
-            query: queryStub
+            query: queryStub,
+            resourceUpdate: resourceUpdateStub
         };
     });
 
@@ -49,6 +65,7 @@ describe('resources', function() {
     });
 
     it('run: POST method works', function(done) {
+        //TODO: need to actually write this test
         done();
     });
 
@@ -80,16 +97,27 @@ describe('resources', function() {
         });
     });
 
-    it('getMethod: returns a result', function(done) {
+    it('getMethod: gets results', function(done) {
         const handler = new Resources({ salesforce });
         handler.generateConnection();
         
         const query = {
-            weekstart: 'start',
-            weekend: 'end'
-        };
+            weekstart: 'weekStart',
+            weekend: 'weekEnd'
+        }
 
-        handler.getMethod('dummyId', query)
+        handler.getMethod('RandomId', query)
+        .then(() => { done(); })
+        .catch(done);
+    });
+
+    it('postMethod: posts the recods', function(done) {
+        const handler = new Resources({ salesforce });
+        handler.generateConnection();
+        
+        const body = postRecords;
+
+        handler.postMethod(body)
         .then(() => { done(); })
         .catch(done);
     });
