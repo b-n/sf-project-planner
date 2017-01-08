@@ -17,7 +17,7 @@ export function _login(event, context, callback) {
 }
 
 export function _resources(event, context, callback) {
-    resources({ event, context, callback }, {});
+    resources({ event, context, callback }, { salesforce });
 }
 
 export function _projects(event, context, callback) {

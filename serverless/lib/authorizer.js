@@ -66,7 +66,11 @@ export function authorizer({ event, callback }, { dynamo }) {
                 callback(null, generatePolicy('LITERALLYNOTARANDOMSTRING', 'Allow', event.methodArn));
             })
             .catch((e) => {
-                callback(e);
+                if (e) {
+                    callback(e);
+                    return;
+                }
+                callback('[401] Unauthorised');
             });
 
     } else {
