@@ -1,16 +1,19 @@
 import jsforce from 'jsforce';
+import env from '../lib/env.js';
 
 import messages from './../lib/messages.js';
 
 export default class {
     
-    constructor(username, password, token, endpoint) {
-        this.username = username;
-        this.password = password;
-        this.token = token;
+    constructor() {
+        const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
+        
+        this.username = SF_USERNAME;
+        this.password = SF_PASSWORD;
+        this.token = SF_TOKEN;
         this.loggedIn = false;
         this.conn = new jsforce.Connection({
-            loginUrl: endpoint
+            loginUrl: SF_ENDPOINT
         });
     }
 

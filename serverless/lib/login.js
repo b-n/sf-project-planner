@@ -2,7 +2,6 @@ import hasha from 'hasha';
 import moment from 'moment';
 import { v4 as uuidV4 } from 'uuid';
 
-import env from './env.js';
 import messages from './messages.js';
 
 export default class Login {
@@ -38,15 +37,14 @@ export default class Login {
     }
 
     generateConnection() {
-        const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
-
-        this.conn = new this.salesforce(SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT);
+        this.conn = new this.salesforce();
         
         return this.conn.login();
     }
 
     runQuery() {
-        return this.conn.query('SELECT Id, Username__c, Password__c, Salt__c FROM Employee__c where Username__c = \'' + this.username + '\'');
+        return this.conn.query(`SELECT Id, Username__c, Password__c, Salt__c
+                                FROM   Employee__c where Username__c = '${this.username}'`);
     }
 
     parseRecord(res) {
