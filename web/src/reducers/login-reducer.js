@@ -1,14 +1,14 @@
-import { LOGIN_ATTEMPT } from '../actions/action-types'
+import actionTypes from '../actions/action-types'
 
 const initialState = {
-  isLoggedIn = false
+  loggedIn: false
 }
 
 const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_ATTEMPT:
+    case actionTypes.LOGIN_ATTEMPT:
       return {
-        isLoggedIn: action.payload
+        loggedIn: action.payload
       }
     default:
       return state
