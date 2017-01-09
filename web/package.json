@@ -3,18 +3,19 @@
   "version": "0.0.1",
   "description": "front end for planner",
   "devDependencies": {
+    "babel-polyfill": "^6.20.0",
     "react-scripts": "0.8.4"
   },
   "dependencies": {
     "@salesforce-ux/design-system": "^2.2.0",
+    "axios": "^0.15.3",
+    "babel-polyfill": "^6.20.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "redux": "^3.6.0",
-    "redux-logger": "^2.7.4",
-    "redux-promise-middleware": "^4.2.0",
-    "redux-thunk": "^2.1.0"
+    "redux-logger": "^2.7.4"
   },
   "license": "MIT",
   "scripts": {
