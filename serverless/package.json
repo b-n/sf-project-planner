@@ -4,13 +4,12 @@
   "description": "back end proxy for making calls to salesforce",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register tests/test.js",
-    "coverage": "babel-node node_modules/.bin/babel-istanbul cover _mocha tests/test.js"
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register tests/test.js",
+    "coverage": "./node_modules/.bin/babel-node node_modules/.bin/babel-istanbul cover _mocha tests/test.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "babel-istanbul": "^0.12.1",
     "dotenv": "^2.0.0",
     "hasha": "^2.2.0",
     "istanbul": "^0.4.5",
@@ -20,8 +19,10 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.7.21",
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
+    "babel-istanbul": "^0.12.1",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
