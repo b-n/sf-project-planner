@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware } from 'redux'
+import 'babel-polyfill'
 
-import thunk from 'redux-thunk'
 import logger from 'redux-logger'
-import promise from 'redux-promise-middleware'
+import sagaMiddleware from 'redux-saga'
 
 import rootReducer from './reducers/root-reducer'
 
-const store = createStore(rootReducer, applyMiddleware(thunk, logger(), promise()))
+const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger()))
 
 export default store
