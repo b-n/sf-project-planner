@@ -11,7 +11,7 @@ const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_ATTEMPT:
       return Object.assign({}, state, {
-        loggedIn: true
+        loggedIn: action.payload.displaySpinner
       })
     case actionTypes.LOGIN_REDIRECT:
       return Object.assign({}, state, {
@@ -27,5 +27,7 @@ const LoginReducer = (state = initialState, action) => {
       return state
   }
 }
+
+
 
 export default LoginReducer

@@ -1,6 +1,6 @@
 import actionTypes from './action-types'
 
-const loginAttempt = () => {
+export const loginAttempt = () => {
   return {
     type: actionTypes.LOGIN_ATTEMPT,
     payload: {
@@ -9,7 +9,7 @@ const loginAttempt = () => {
   }
 }
 
-const loginSucceded = () => {
+export const loginSucceded = () => {
   return {
     type: actionTypes.LOGIN_REDIRECT,
     payload: {
@@ -20,10 +20,12 @@ const loginSucceded = () => {
   }
 }
 
-const loginError = () => {
-  type: action.Types.LOGIN_ERROR,
-  payload: {
-    displayError: true,
-    displaySpinner: false
+export const loginError = () => {
+  return {
+    type: actionTypes.Types.LOGIN_ERROR,
+    payload: {
+      displayError: true,
+      displaySpinner: false
+    }
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ADD_PROJECT, REMOVE_PROJECT, ADD_HOURS, REMOVE_HOURS } from '../actions/action-types'
 
 import ProjectTableHeader from './project-table-header'
 import ProjectTableRow from './project-table-row'
@@ -27,21 +26,5 @@ const mapStateToProps = (state) =>  {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addProject: () => {
-      dispatch(ADD_PROJECT)
-    },
-    removeProject: () => {
-      dispatch(REMOVE_PROJECT)
-    },
-    addHours: () => {
-      dispatch(ADD_HOURS)
-    },
-    removeHours: () => {
-      dispatch(REMOVE_HOURS)
-    }
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectTable)
+export default connect(mapStateToProps)(ProjectTable)

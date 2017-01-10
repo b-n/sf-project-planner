@@ -1,4 +1,4 @@
-import actionTypes from '../actions/project'
+import actionTypes from '../actions/action-types'
 
 import { projects } from '../dummy-data'
 
