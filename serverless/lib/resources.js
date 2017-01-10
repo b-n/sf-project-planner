@@ -11,7 +11,7 @@ export default class Resources {
         this.generateConnection()
         .then(() => {
             if (method === 'GET') return this.getMethod(principalId, query);
-            if (method === 'POST') return this.postMethod(body);
+            if (method === 'POST') return this.postMethod(principalId, body);
             return Promise.reject(new Error('Invalid method'));
         })
         .then(result => { return this.sendCallback(result) })
@@ -36,23 +36,25 @@ export default class Resources {
         .then(res => res.records);
     }
 
-    postMethod(body) {
-        const recordsToDelete = body
+    postMethod(employeeId, body) {
+        const records = body.map(record => { return { ...record, Employee__c: employeeId }; } );
+
+        const recordsToDelete = records
             .filter(record => record.Hours__c === 0)
             .map(record => record.Id);
 
-        const recordsToUpdate = body
+        const recordsToUpdate = records
             .filter(record => !!record.Id);
 
-        const recordsToInsert = body
+        const recordsToInsert = records
             .filter(record => !record.Id);
 
         const request = {
-            delete: recordsToDelete,
-            update: recordsToUpdate,
-            insert: recordsToInsert
+            recordsToDelete,
+            recordsToUpdate,
+            recordsToInsert
         };
-
+        
         return this.conn.resourceUpdate(request);
     }
 

@@ -49,6 +49,19 @@ export default class {
 
     resourceUpdate(resources) {
         //TODO: need to implement this in apex
-        return Promise.resolve('done');
+        return Promise((resolve, reject) => {
+            if (!this.loggedIn) {
+                reject(new Error(messages.ERROR_SF_AUTH));
+                return;
+            }
+            
+            this.conn.apex.post('/ResourceHours/', resources, (err, res) => {
+                if (err) {
+                    reject(new Error('Failed to call rest resource'));
+                    return;
+                }
+                resolve(res);
+            });
+        });
     }
 } 

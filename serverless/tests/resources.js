@@ -23,10 +23,7 @@ describe('resources', function() {
         }
     ];
 
-    const queryRecords = [
-        { name: 'record1' },
-        { name: 'record2' }
-    ];
+    const queryRecords = postRecords;
 
     const loginStub = stub();
     const queryStub = stub();
@@ -44,6 +41,12 @@ describe('resources', function() {
         };
     });
 
+    beforeEach(function() {
+        loginStub.reset();
+        queryStub.reset();
+        resourceUpdateStub.reset();
+    });
+
     it('run: GET method works', function(done) {
         const handler = new Resources({ salesforce });
         
@@ -59,14 +62,32 @@ describe('resources', function() {
         const callback = (error, success) => {
             assert.equal(error, null);
             assert.notEqual(success, null);
+            assert(queryStub.calledOnce);
             done(); 
         }
         handler.run({ event, callback });
     });
 
     it('run: POST method works', function(done) {
-        //TODO: need to actually write this test
-        done();
+        const handler = new Resources({ salesforce });
+        
+        const body = postRecords;
+
+        const event = {
+            method: 'POST',
+            principalId: 'randomId',
+            body
+        };
+
+        const callback = (error, success) => {
+            assert.equal(error, null);
+            assert.isTrue(loginStub.calledOnce);
+            assert.isTrue(queryStub.notCalled);
+            assert.isTrue(resourceUpdateStub.calledOnce);
+            done(); 
+        }
+
+        handler.run({ event, callback });
     });
 
     it('constructor: stores deps', function() {
@@ -117,7 +138,7 @@ describe('resources', function() {
         
         const body = postRecords;
 
-        handler.postMethod(body)
+        handler.postMethod('RandomId', body)
         .then(() => { done(); })
         .catch(done);
     });
