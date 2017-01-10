@@ -1,13 +1,9 @@
 import actionTypes from './action-types'
 
-
 const loginAttempt = () => {
   return {
     type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-      loggedIn: false,
-      shouldRedirect: false,
-      displayError: true,
       displaySpinner: true
     }
   }
@@ -19,7 +15,6 @@ const loginSucceded = () => {
     payload: {
       loggedIn: true,
       shouldRedirect: true,
-      displayError: false,
       displaySpinner: false
     }
   }
@@ -28,8 +23,6 @@ const loginSucceded = () => {
 const loginError = () => {
   type: action.Types.LOGIN_ERROR,
   payload: {
-    loggedIn: false,
-    shouldRedirect: false,
     displayError: true,
     displaySpinner: false
   }

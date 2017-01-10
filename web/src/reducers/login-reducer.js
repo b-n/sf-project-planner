@@ -15,7 +15,13 @@ const LoginReducer = (state = initialState, action) => {
       })
     case actionTypes.LOGIN_REDIRECT:
       return Object.assign({}, state, {
-        shouldRedirect: true
+        loggedIn: action.payload.loggedIn,
+        shouldRedirect: action.payload.shouldRedirect
+      })
+    case actionTypes.LOGIN_ERROR:
+      return Object.assign({}, state, {
+        displayError: action.payload.displayError,
+        displaySpinner: action.payload.displaySpinner
       })
     default:
       return state

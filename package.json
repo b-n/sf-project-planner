@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nzchicken/sf-project-planner#readme",
   "dependencies": {
+    "redux-saga": "^0.14.2",
     "redux-thunk": "^2.1.0",
     "serverless-dynamodb-local": "^0.2.17",
     "serverless-webpack": "^1.0.0-rc.3"
