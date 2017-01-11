@@ -1,10 +1,9 @@
 import actionTypes from '../actions/action-types'
 
-import { projects } from '../dummy-data'
+import projects from '../dummy-data'
 
-const initialState = {
-  projects: projects
-}
+
+const initialState = projects
 
 // dummy code - TODO -> implement state changes
 const projectReducer = (state = initialState, action) => {

@@ -2,7 +2,6 @@ import actionTypes from '../actions/action-types'
 
 const initialState = {
   loggedIn: false,
-  shouldRedirect: false,
   displayError: false,
   displaySpinner: false
 }
@@ -15,8 +14,7 @@ const LoginReducer = (state = initialState, action) => {
       })
     case actionTypes.LOGIN_REDIRECT:
       return Object.assign({}, state, {
-        loggedIn: action.payload.loggedIn,
-        shouldRedirect: action.payload.shouldRedirect
+        loggedIn: action.payload.loggedIn
       })
     case actionTypes.LOGIN_ERROR:
       return Object.assign({}, state, {

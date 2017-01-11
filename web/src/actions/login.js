@@ -14,7 +14,6 @@ export const loginSucceded = () => {
     type: actionTypes.LOGIN_REDIRECT,
     payload: {
       loggedIn: true,
-      shouldRedirect: true,
       displaySpinner: false
     }
   }

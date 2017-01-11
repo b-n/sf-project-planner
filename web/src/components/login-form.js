@@ -14,15 +14,7 @@ class LoginForm extends Component {
 
   submit(e){
     e.preventDefault()
-    const { username, password } = this.refs
-    this.props.dispatch(actionCreators.loginAttempt(username, password))
-  }
-
-  componentWillUpdate() {
-    console.log('component will update!')
-    const { router } = this.context
-    if (this.props.shouldRedirect)
-      router.transition('/projects')
+    this.props.dispatch(actionCreators.loginAttempt('',''))
   }
 
   render() {
@@ -39,7 +31,6 @@ class LoginForm extends Component {
 const mapStateToProps = (state) =>  {
   return {
     loggedIn: state.loggedIn,
-    shouldRedirect: state.shouldRedirect,
     displayError: state.displayError,
     displaySpinner: state.displaySpinner
   }

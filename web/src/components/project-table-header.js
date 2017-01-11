@@ -10,6 +10,7 @@ const ProjectTableHeader = () => {
         <ProjectTableHeaderCol colName='Project Name'/>
         <ProjectTableHeaderCol colName='Customer'/>
         <ProjectTableHeaderCol colName='Resources'/>
+
       </tr>
     </thead>
   )

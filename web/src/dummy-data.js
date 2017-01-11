@@ -3,6 +3,4 @@ const projects = [
   { name: 'Guidion Service Cloud', customer: 'Guidion', id: '2', resources: []}
 ]
 
-export {
-  projects
-}
+export default projects
