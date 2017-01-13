@@ -6,11 +6,14 @@ const ProjectTableRow = (props) => {
   return (
     <tr>
       <td>
-        <input value={props.name} />
+        <input onChange={props.onChange} value={props.name} />
       </td>
       {Array.from(Array(props.weekTo - props.weekFrom).keys()).map((__, index) =>{
         return <ProjectTableRowInput key={index}/>
       })}
+      <td>
+        <button onClick={ () => {props.removeHandler()} }>Remove</button>
+      </td>
     </tr>
   )
 }
@@ -18,7 +21,9 @@ const ProjectTableRow = (props) => {
 ProjectTableRow.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  status: PropTypes.string
+  status: PropTypes.string,
+  onChange: PropTypes.func,
+  removeHandler: PropTypes.func
 }
 
 export default ProjectTableRow

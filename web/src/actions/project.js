@@ -10,11 +10,11 @@ export const addProject = () => {
   }
 }
 
-export const removeProject = () => {
+export const removeProject = (index) => {
   return {
     type: actionTypes.REMOVE_PROJECT,
     payload: {
-
+      projectIndex: index
     }
   }
 }
@@ -23,7 +23,7 @@ export const saveToServer = () => {
   return {
     type: actionTypes.SAVE_TO_SERVER,
     payload: {
-      
+
     }
   }
 }
