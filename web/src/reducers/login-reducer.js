@@ -3,7 +3,8 @@ import actionTypes from '../actions/action-types'
 const initialState = {
   loggedIn: false,
   displayError: false,
-  displaySpinner: false
+  displaySpinner: false,
+  token: ''
 }
 
 const LoginReducer = (state = initialState, action) => {

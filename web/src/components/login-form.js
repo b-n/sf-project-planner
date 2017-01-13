@@ -20,8 +20,8 @@ class LoginForm extends Component {
   render() {
     return (
       <form className='slds-form--stacked' onSubmit={this.submit}>
-        <LoginFormInput label='Username' ref='username' type='text' placeholder='username@beethree.nl' />
-        <LoginFormInput label='Password' ref='password' type='password' placeholder='password' />
+        <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' />
+        <LoginFormInput label='Password' type='password' placeholder='password' />
         <LoginFormSubmit label='Login' />
       </form>
     )

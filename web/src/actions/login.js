@@ -2,9 +2,9 @@ import actionTypes from './action-types'
 
 export const loginAttempt = () => {
   return {
-    type: actionTypes.LOGIN_ATTEMPT,
+    type: actionTypes.ADD_PROJECT,
     payload: {
-      displaySpinner: true
+
     }
   }
 }

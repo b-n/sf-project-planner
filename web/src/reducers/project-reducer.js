@@ -5,11 +5,10 @@ import projects from '../dummy-data'
 
 const initialState = projects
 
-// dummy code - TODO -> implement state changes
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_PROJECT:
-      return state
+      return [...state, action.payload.newProject]
     case actionTypes.REMOVE_PROJECT:
       return state
     case actionTypes.ADD_HOURS:

@@ -1,20 +1,16 @@
 import React, { PropTypes } from 'react'
 
+import ProjectTableRowInput from './project-table-row-input'
+
 const ProjectTableRow = (props) => {
   return (
     <tr>
       <td>
-        <div className='slds-truncate'>{props.id}</div>
+        <input value={props.name} />
       </td>
-      <td>
-        <div className='slds-truncate'>{props.name}</div>
-      </td>
-      <td>
-        <div className='slds-truncate'>{props.customer}</div>
-      </td>
-      <td>
-        <div className='slds-truncate'>{props.resources}</div>
-      </td>
+      {Array.from(Array(props.weekTo - props.weekFrom).keys()).map((__, index) =>{
+        return <ProjectTableRowInput key={index}/>
+      })}
     </tr>
   )
 }
@@ -22,8 +18,7 @@ const ProjectTableRow = (props) => {
 ProjectTableRow.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
-  customer: PropTypes.string,
-  resources: PropTypes.array
+  status: PropTypes.string
 }
 
 export default ProjectTableRow
