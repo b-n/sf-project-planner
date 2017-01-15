@@ -31,8 +31,8 @@ export default class Resources {
         return this.conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Hours__c
                                 FROM   Resource_Hours__c 
                                 WHERE  Employee__c = '${employeeId}'
-                                       AND Week_Start__c <= ${query.weekEnd} 
-                                       AND Week_Start__c >= ${query.weekStart}`)
+                                       AND Week_Start__c <= ${query.weekend} 
+                                       AND Week_Start__c >= ${query.weekstart}`)
         .then(res => res.records);
     }
 
@@ -40,14 +40,17 @@ export default class Resources {
         const records = body.map(record => { return { ...record, Employee__c: employeeId }; } );
 
         const recordsToDelete = records
-            .filter(record => record.Hours__c === 0)
-            .map(record => record.Id);
+            .filter(record => record.Id && record.Hours__c === 0)
+            .map(record => { return Object.assign({ Id: '' }, record); });
 
         const recordsToUpdate = records
-            .filter(record => !!record.Id);
+            .filter(record => record.Id && record.Hours__c !== 0);
+            .map(record => { return Object.assign({ Id: '', Employee__c: employeeId, Hours__c: 0, Project__c: '', record.Week_Start__c: '' }, record); });
+
 
         const recordsToInsert = records
-            .filter(record => !record.Id);
+            .filter(record => !record.Id && record.Hours__c !== 0);
+            .map(record => { return Object.assign({ Employee__c: employeeId, Hours__c: 0, Project__c: '', record.Week_Start__c: '' }, record); });
 
         const request = {
             recordsToDelete,

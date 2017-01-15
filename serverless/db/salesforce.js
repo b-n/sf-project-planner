@@ -39,6 +39,7 @@ export default class {
 
             this.conn.query(queryString, (err, res) => {
                 if (err) {
+                    console.log(err);
                     reject(new Error(messages.ERROR_SF_QUERY_FAILED));
                     return;
                 }
@@ -48,8 +49,7 @@ export default class {
     }
 
     resourceUpdate(resources) {
-        //TODO: need to implement this in apex
-        return Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (!this.loggedIn) {
                 reject(new Error(messages.ERROR_SF_AUTH));
                 return;
@@ -57,6 +57,7 @@ export default class {
             
             this.conn.apex.post('/ResourceHours/', resources, (err, res) => {
                 if (err) {
+                    console.log(err);
                     reject(new Error('Failed to call rest resource'));
                     return;
                 }
