@@ -20,8 +20,12 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.addProject())
   }
 
+  removeProject(index){
+    this.props.dispatch(actionCreators.removeProject(index))
+  }
+
   saveToServer(){
-    alert('test')
+    this.props.dispatch(actionCreators.saveToServer())
   }
 
   render() {
@@ -32,7 +36,7 @@ class ProjectTable extends Component {
           <ProjectTableHeader weekFrom={5} weekTo={9}/>
           <tbody>
             {this.props.projects.map((project) => {
-              return <ProjectTableRow {...project} key={project.id} weekFrom={5} weekTo={9}/>
+              return <ProjectTableRow {...project} key={project.id} weekFrom={5} weekTo={9} removeHandler={this.removeProject}/>
             })}
           </tbody>
         </table>
