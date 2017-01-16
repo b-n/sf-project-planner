@@ -2,9 +2,9 @@ import actionTypes from './action-types'
 
 export const loginAttempt = () => {
   return {
-    type: actionTypes.ADD_PROJECT,
+    type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-
+      loggedIn: true
     }
   }
 }

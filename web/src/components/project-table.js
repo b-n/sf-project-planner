@@ -30,8 +30,6 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.removeProject(index))
   }
 
-
-
   saveToServer() {
     this.props.dispatch(actionCreators.saveToServer())
   }
@@ -59,9 +57,9 @@ class ProjectTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.projects,
-    weekFrom: state.weekFrom,
-    weekTo: state.weekTo
+    projects: state.projects.projectArray,
+    weekFrom: state.projects.weekFrom,
+    weekTo: state.projects.weekTo
   }
 }
 
