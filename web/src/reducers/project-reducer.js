@@ -10,7 +10,7 @@ const projectReducer = (state = initialState, action) => {
     case actionTypes.ADD_PROJECT:
       return [...state, action.payload.newProject]
     case actionTypes.REMOVE_PROJECT:
-      return state.splice(action.payload.projectIndex)
+      return state.splice(action.payload.projectIndex, 1)
     default:
       return state
   }

@@ -19,11 +19,11 @@ export const removeProject = (index) => {
   }
 }
 
-export const saveToServer = () => {
+export const saveToServer = (projects) => {
   return {
     type: actionTypes.SAVE_TO_SERVER,
     payload: {
-
+      projects: projects
     }
   }
 }

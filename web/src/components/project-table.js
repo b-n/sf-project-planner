@@ -10,22 +10,29 @@ import ProjectTableSaveButton from './project-table-save-button'
 import ProjectAddNew from './project-table-add-new'
 
 class ProjectTable extends Component {
-  constructor(){
+
+  constructor() {
       super()
       this.addProject = this.addProject.bind(this)
-      this.removeProject = this.removeProject.bind(this)
+      this.projectNameOnChange = this.projectNameOnChange.bind(this)
+      this.removeProjectHandler = this.removeProjectHandler.bind(this)
       this.saveToServer = this.saveToServer.bind(this)
   }
 
-  addProject(){
+  addProject() {
     this.props.dispatch(actionCreators.addProject())
   }
 
-  removeProject(index){
+  projectNameOnChange() {
+
+  }
+  removeProjectHandler(index) {
     this.props.dispatch(actionCreators.removeProject(index))
   }
 
-  saveToServer(){
+
+
+  saveToServer() {
     this.props.dispatch(actionCreators.saveToServer())
   }
 
@@ -37,7 +44,8 @@ class ProjectTable extends Component {
           <ProjectTableHeader weekFrom={5} weekTo={9}/>
           <tbody>
             {this.props.projects.map((project, index) => {
-              return <ProjectTableRow {...project} index={index} key={project.id} weekFrom={5} weekTo={9} removeHandler={this.removeProject}/>
+              return <ProjectTableRow {...project} index={index} key={index} weekFrom={5} weekTo={9}
+                      removeHandler={this.removeProjectHandler}/>
             })}
           </tbody>
         </table>
