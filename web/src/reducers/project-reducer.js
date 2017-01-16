@@ -10,11 +10,7 @@ const projectReducer = (state = initialState, action) => {
     case actionTypes.ADD_PROJECT:
       return [...state, action.payload.newProject]
     case actionTypes.REMOVE_PROJECT:
-      return state
-    case actionTypes.ADD_HOURS:
-      return state
-    case actionTypes.REMOVE_HOURS:
-      return state
+      return state.splice(action.payload.projectIndex)
     default:
       return state
   }

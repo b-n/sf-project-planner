@@ -12,7 +12,7 @@ const ProjectTableRow = (props) => {
         return <ProjectTableRowInput key={index}/>
       })}
       <td>
-        <button onClick={ () => {props.removeHandler()} }>Remove</button>
+        <button onClick={ () => { props.removeHandler(props.index)} }>Remove</button>
       </td>
     </tr>
   )

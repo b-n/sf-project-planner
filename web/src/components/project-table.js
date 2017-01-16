@@ -12,8 +12,9 @@ import ProjectAddNew from './project-table-add-new'
 class ProjectTable extends Component {
   constructor(){
       super()
-      this.saveToServer = this.saveToServer.bind(this)
       this.addProject = this.addProject.bind(this)
+      this.removeProject = this.removeProject.bind(this)
+      this.saveToServer = this.saveToServer.bind(this)
   }
 
   addProject(){
@@ -35,8 +36,8 @@ class ProjectTable extends Component {
         <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
           <ProjectTableHeader weekFrom={5} weekTo={9}/>
           <tbody>
-            {this.props.projects.map((project) => {
-              return <ProjectTableRow {...project} key={project.id} weekFrom={5} weekTo={9} removeHandler={this.removeProject}/>
+            {this.props.projects.map((project, index) => {
+              return <ProjectTableRow {...project} index={index} key={project.id} weekFrom={5} weekTo={9} removeHandler={this.removeProject}/>
             })}
           </tbody>
         </table>
