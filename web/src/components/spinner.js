@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
-const Spinner = () => {
+const Spinner = (props) => {
   return (
-    <div class="slds-spinner_container">
-      <div role="status" class="slds-spinner slds-spinner--medium">
-        <span class="slds-assistive-text">Loading</span>
-        <div class="slds-spinner__dot-a"></div>
-        <div class="slds-spinner__dot-b"></div>
+    <div className={props.show ? 'slds-show' : 'slds-hide'}>
+      <div className='slds-spinner_container'>
+        <div role='status' className='slds-spinner slds-spinner--medium'>
+          <span className='slds-assistive-text'>Loading</span>
+          <div className='slds-spinner__dot-a'></div>
+          <div className='slds-spinner__dot-b'></div>
+        </div>
       </div>
     </div>
   )
+}
+
+Spinner.propTypes = {
+  show: PropTypes.bool.isRequired
 }
 
 export default Spinner

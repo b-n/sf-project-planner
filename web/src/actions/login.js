@@ -4,13 +4,13 @@ export const loginAttempt = () => {
   return {
     type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-      loggedIn: true,
-      displayError: false
+      displayError: false,
+      displaySpinner: true
     }
   }
 }
 
-export const loginSucceded = () => {
+export const loginRedirect = () => {
   return {
     type: actionTypes.LOGIN_REDIRECT,
     payload: {
