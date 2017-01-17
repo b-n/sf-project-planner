@@ -22,7 +22,7 @@ export const loginRedirect = () => {
 
 export const loginError = () => {
   return {
-    type: actionTypes.Types.LOGIN_ERROR,
+    type: actionTypes.LOGIN_ERROR,
     payload: {
       displayError: true,
       displaySpinner: false
