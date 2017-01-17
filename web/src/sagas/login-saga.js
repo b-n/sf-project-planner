@@ -1,18 +1,27 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 
 import endpoints from '../endpoints'
 import actionTypes from '../actions/action-types'
-import * as actionCreators from '../actions/login'
 
-function* attemptLogin(){
+function* attemptLogin(action){
   try {
-    const data = yield call(fetch, endpoints.login, {
-      method: 'POST', body: { username: 'nayben@gmail.com', password: 'derp' }
+    const { username, password } = action.payload
+    
+    const body = JSON.stringify({
+        username,
+        password
     })
-    console.log(data)
-    yield put(actionCreators.loginRedirect())
+
+    const data = yield fetch(endpoints.login, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body 
+    })
+    .then(response => response.json())
+
+    yield put({ type: actionTypes.LOGIN_REDIRECT, payload: { token: data.bearerToken }})
   } catch(e){
-    yield put(actionCreators.loginError())
+    yield put({ type: actionTypes.LOGIN_ERROR })
   }
 }
 

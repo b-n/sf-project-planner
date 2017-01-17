@@ -5,7 +5,7 @@ const LoginFormInput = (props) => {
     <div className='slds-form-element'>
       <label className='slds-form-element__label' htmlFor={props.id}>{props.label}</label>
       <div className='slds-form-element__control'>
-        <input id={props.id} className='slds-input' type={props.type} placeholder={props.placeholder} />
+        <input id={props.id} className='slds-input' type={props.type} placeholder={props.placeholder} onChange={props.onChange.bind(this)}/>
       </div>
     </div>
   )
