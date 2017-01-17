@@ -2,14 +2,15 @@ import actionTypes from './action-types'
 
 export const loginAttempt = () => {
   return {
-    type: actionTypes.ADD_PROJECT,
+    type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-
+      displayError: false,
+      displaySpinner: true
     }
   }
 }
 
-export const loginSucceded = () => {
+export const loginRedirect = () => {
   return {
     type: actionTypes.LOGIN_REDIRECT,
     payload: {

@@ -6,13 +6,13 @@ const ProjectTableRow = (props) => {
   return (
     <tr>
       <td>
-        <input onChange={props.onChange} value={props.name} />
+        <input value={props.Name} readOnly/>
       </td>
       {Array.from(Array(props.weekTo - props.weekFrom).keys()).map((__, index) =>{
         return <ProjectTableRowInput key={index}/>
       })}
       <td>
-        <button onClick={ () => {props.removeHandler()} }>Remove</button>
+        <button onClick={ () => { props.removeHandler(props.index) } }>Remove</button>
       </td>
     </tr>
   )

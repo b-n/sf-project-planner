@@ -12,5 +12,4 @@ ProjectTableSaveButton.propTypes = {
   submit: PropTypes.func
 }
 
-
 export default ProjectTableSaveButton
