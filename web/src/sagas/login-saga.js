@@ -4,12 +4,14 @@ import endpoints from '../endpoints'
 import actionTypes from '../actions/action-types'
 import * as actionCreators from '../actions/login'
 
-function* attemptLogin(){
+function* attemptLogin(username, password){
   try {
     const data = yield call(fetch, endpoints.login, {
-      method: 'POST', body: { username: 'nayben@gmail.com', password: 'derp' }
+      method: 'POST', body: { username: username, password: password}
     })
-    console.log(data)
+    if (data){
+      
+    }
     yield put(actionCreators.loginRedirect())
   } catch(e){
     yield put(actionCreators.loginError())
