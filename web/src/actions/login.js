@@ -1,31 +1,29 @@
 import actionTypes from './action-types'
 
-export const loginAttempt = () => {
+export const loginAttempt = (username, password) => {
   return {
     type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-      displayError: false,
-      displaySpinner: true
+      username,
+      password
     }
   }
 }
 
-export const loginRedirect = () => {
+export const loginRedirect = (token) => {
   return {
     type: actionTypes.LOGIN_REDIRECT,
     payload: {
-      loggedIn: true,
-      displaySpinner: false
+      token
     }
   }
 }
 
-export const loginError = () => {
+export const loginError = (error) => {
   return {
     type: actionTypes.LOGIN_ERROR,
     payload: {
-      displayError: true,
-      displaySpinner: false
+      error
     }
   }
 }
