@@ -27,9 +27,12 @@ class LoginForm extends Component {
     this.props.dispatch(actionCreators.loginAttempt(this.state.username, this.state.password))
   }
 
-  changeInput(e, inputElem) {
-    const value = e.target.value
-    this.setState({ [inputElem]: value })
+  changeUsername(e) {
+    this.setState({ username: e.target.value })
+  }
+
+  changePassword(e) {
+    this.setState({ password: e.target.value })
   }
 
   render() {
@@ -37,8 +40,8 @@ class LoginForm extends Component {
       <div>
         <Spinner show={this.props.displaySpinner}/>
         <form className='slds-form--stacked' onSubmit={this.submit}>
-          <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={e=>this.changeInput(e, 'username')} />
-          <LoginFormInput label='Password' type='password' placeholder='password' onChange={e=>this.changeInput(e, 'password')} />
+          <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={e=>this.changeUsername(e)} />
+          <LoginFormInput label='Password' type='password' placeholder='password' onChange={e=>this.changePassword(e)} />
           <LoginFormSubmit label='Login' />
         </form>
       </div>
