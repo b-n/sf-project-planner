@@ -44,13 +44,13 @@ export default class Resources {
             .map(record => { return Object.assign({ Id: '' }, record); });
 
         const recordsToUpdate = records
-            .filter(record => record.Id && record.Hours__c !== 0);
-            .map(record => { return Object.assign({ Id: '', Employee__c: employeeId, Hours__c: 0, Project__c: '', record.Week_Start__c: '' }, record); });
+            .filter(record => record.Id && record.Hours__c !== 0)
+            .map(record => { return Object.assign({ Id: '', Employee__c: employeeId, Hours__c: 0, Project__c: '', Week_Start__c: '' }, record); });
 
 
         const recordsToInsert = records
-            .filter(record => !record.Id && record.Hours__c !== 0);
-            .map(record => { return Object.assign({ Employee__c: employeeId, Hours__c: 0, Project__c: '', record.Week_Start__c: '' }, record); });
+            .filter(record => !record.Id && record.Hours__c !== 0)
+            .map(record => { return Object.assign({ Employee__c: employeeId, Hours__c: 0, Project__c: '', Week_Start__c: '' }, record); });
 
         const request = {
             recordsToDelete,
