@@ -17,7 +17,7 @@ const projectReducer = (state = initialState, action) => {
       })
     case actionTypes.REMOVE_PROJECT:
       return Object.assign({}, state, {
-        projectArray: state.projectArray.splice(action.payload.projectIndex, 1)
+        projectArray: [...state.projectArray.slice(0, action.payload.projectIndex), ...state.projectArray.slice(action.payload.projectIndex + 1)]
       })
     case actionTypes.UPDATE_WEEKS:
       return state

@@ -14,7 +14,6 @@ class ProjectTable extends Component {
   constructor() {
       super()
       this.addProject = this.addProject.bind(this)
-      this.projectNameOnChange = this.projectNameOnChange.bind(this)
       this.removeProjectHandler = this.removeProjectHandler.bind(this)
       this.saveToServer = this.saveToServer.bind(this)
   }
@@ -23,9 +22,6 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.addProject())
   }
 
-  projectNameOnChange() {
-
-  }
   removeProjectHandler(index) {
     this.props.dispatch(actionCreators.removeProject(index))
   }
@@ -44,7 +40,8 @@ class ProjectTable extends Component {
             {this.props.projects.map((project, index) => {
               return <ProjectTableRow {...project} index={index} key={index} weekFrom={5} weekTo={9}
                       removeHandler={this.removeProjectHandler}/>
-            })}
+              }
+            )}
           </tbody>
         </table>
         <ProjectAddNew onClick={this.addProject} />

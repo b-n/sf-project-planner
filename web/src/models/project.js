@@ -1,6 +1,7 @@
 const Project = () => {
   return {
     'Id': '',
+    'name': '',
     'Account__r.Name': '',
     'Description__c': '',
     'Start_Date__c': '',

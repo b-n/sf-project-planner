@@ -11,11 +11,13 @@ const LoginReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_ATTEMPT:
       return Object.assign({}, state, {
-        loggedIn: action.payload.displaySpinner
+        displaySpinner: action.payload.displaySpinner,
+        displayError: action.payload.displayError
       })
     case actionTypes.LOGIN_REDIRECT:
       return Object.assign({}, state, {
-        loggedIn: action.payload.loggedIn
+        loggedIn: action.payload.loggedIn,
+        displaySpinner: action.payload.displaySpinner
       })
     case actionTypes.LOGIN_ERROR:
       return Object.assign({}, state, {

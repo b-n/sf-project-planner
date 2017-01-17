@@ -4,7 +4,8 @@ export const loginAttempt = () => {
   return {
     type: actionTypes.LOGIN_ATTEMPT,
     payload: {
-      loggedIn: true
+      loggedIn: true,
+      displayError: false
     }
   }
 }

@@ -6,7 +6,7 @@ const ProjectTableRow = (props) => {
   return (
     <tr>
       <td>
-        <input onChange={props.onChange} value={props.name} />
+        <input value={props.name} readOnly/>
       </td>
       {Array.from(Array(props.weekTo - props.weekFrom).keys()).map((__, index) =>{
         return <ProjectTableRowInput key={index}/>
