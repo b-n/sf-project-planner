@@ -11,8 +11,10 @@ class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
-    this.username = '';
-    this.password = '';
+    this.state = {
+        username: '',
+        password: ''
+    }
   }
 
   componentDidUpdate() {
@@ -22,12 +24,12 @@ class LoginForm extends Component {
 
   submit(e) {
     e.preventDefault()
-    this.props.dispatch(actionCreators.loginAttempt(this.username, this.password))
+    this.props.dispatch(actionCreators.loginAttempt(this.state.username, this.state.password))
   }
 
   changeInput(e, inputElem) {
-    const value = e.target.value;
-    this[inputElem] = value;
+    const value = e.target.value
+    this.setState({ [inputElem]: value })
   }
 
   render() {
