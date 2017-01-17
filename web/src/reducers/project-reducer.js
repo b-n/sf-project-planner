@@ -2,8 +2,8 @@ import actionTypes from '../actions/action-types'
 
 const initialState = {
   projectArray: [
-    { name: 'WAP Group Migration', customer: 'WAP', id: '1', resources: []},
-    { name: 'Guidion Service Cloud', customer: 'Guidion', id: '2', resources: []}
+    { Name: 'WAP Group Migration' },
+    { Name: 'Guidion Service Cloud' }
   ],
   weekTo: 5,
   weekFrom: 10,

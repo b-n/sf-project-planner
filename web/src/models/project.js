@@ -1,7 +1,7 @@
 const Project = () => {
   return {
     'Id': '',
-    'name': '',
+    'Name': '',
     'Account__r.Name': '',
     'Description__c': '',
     'Start_Date__c': '',
