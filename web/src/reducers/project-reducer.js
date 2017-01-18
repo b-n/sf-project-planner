@@ -1,12 +1,13 @@
 import actionTypes from '../actions/action-types'
+import moment from 'moment'
 
 const initialState = {
   projectArray: [
     { Name: 'WAP Group Migration' },
     { Name: 'Guidion Service Cloud' }
   ],
-  weekTo: 5,
-  weekFrom: 10,
+  weekTo: moment().isoWeek(),
+  weekFrom: moment().add('week', 5).isoWeek()
 }
 
 const projectReducer = (state = initialState, action) => {
