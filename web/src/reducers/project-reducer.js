@@ -6,8 +6,8 @@ const initialState = {
     { Name: 'WAP Group Migration' },
     { Name: 'Guidion Service Cloud' }
   ],
-  weekTo: moment().isoWeek(),
-  weekFrom: moment().add('week', 5).isoWeek()
+  weekFrom: moment().isoWeek(),
+  weekTo: moment().add(5, 'week').isoWeek()
 }
 
 const projectReducer = (state = initialState, action) => {

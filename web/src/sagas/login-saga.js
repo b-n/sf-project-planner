@@ -19,8 +19,11 @@ function* attemptLogin(action){
     })
     .then(response => response.json())
 
-    if (!data.bearerToken) throw new Error('no token in response');
-    yield put({ type: actionTypes.LOGIN_REDIRECT, payload: { token: data.bearerToken }})
+    if (!data.bearerToken) throw new Error('no token in response')
+    yield put({ type: actionTypes.LOGIN_REDIRECT, payload: {
+        token: data.bearerToken
+      }
+    })
   } catch(e){
     yield put({ type: actionTypes.LOGIN_ERROR })
   }

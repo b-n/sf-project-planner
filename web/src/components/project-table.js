@@ -18,6 +18,14 @@ class ProjectTable extends Component {
       this.saveToServer = this.saveToServer.bind(this)
   }
 
+  componentDidMount() {
+
+  }
+
+  componentDidUpdate() {
+
+  }
+
   addProject() {
     this.props.dispatch(actionCreators.addProject())
   }
@@ -35,10 +43,11 @@ class ProjectTable extends Component {
       <div>
         <ProjectTableDatePicker/>
         <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
-          <ProjectTableHeader weekFrom={5} weekTo={9}/>
+          <ProjectTableHeader weekFrom={this.props.weekFrom} weekTo={this.props.weekTo}/>
           <tbody>
             {this.props.projects.map((project, index) => {
-              return <ProjectTableRow {...project} index={index} key={index} weekFrom={5} weekTo={9}
+              return <ProjectTableRow {...project} index={index} key={index} weekFrom={this.props.weekFrom}
+                      weekTo={this.props.weekTo}
                       removeHandler={this.removeProjectHandler}/>
               }
             )}

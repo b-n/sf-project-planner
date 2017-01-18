@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react'
 import ProjectTableRowInput from './project-table-row-input'
 
 const ProjectTableRow = (props) => {
+
   return (
     <tr>
       <td>
