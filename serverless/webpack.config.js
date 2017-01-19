@@ -10,6 +10,7 @@ module.exports = {
         filename: '[name].js'
     },
     target: 'node',
+    devtool: 'source-map',
     externals: [nodeExternals()],
     module: {
         preLoaders: [{

@@ -44,7 +44,23 @@ export const saveToServer = (projects) => {
   return {
     type: actionTypes.SAVE_TO_SERVER,
     payload: {
-      projects: projects
+      projects
+    }
+  }
+}
+
+export const getResources = () => {
+  return {
+    type: actionTypes.GET_RESOURCES,
+    payload: { }
+  }
+}
+
+export const setResources = (projectData) => {
+  return {
+    type: actionTypes.SET_RESOURCES,
+    payload: {
+      projectData
     }
   }
 }

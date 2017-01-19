@@ -20,6 +20,7 @@ class ProjectTable extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(actionCreators.getResources())
     this.props.dispatch(actionCreators.fetchProjects())
   }
 
@@ -27,8 +28,8 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.addProject())
   }
 
-  removeProjectHandler(index) {
-    this.props.dispatch(actionCreators.removeProject(index))
+  removeProjectHandler(projectId) {
+    this.props.dispatch(actionCreators.removeProject(projectId))
   }
 
   saveToServer() {
@@ -43,12 +44,17 @@ class ProjectTable extends Component {
         <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
           <ProjectTableHeader weekFrom={this.props.weekFrom} weekTo={this.props.weekTo}/>
           <tbody>
-            {this.props.projects.map((project, index) => {
-              return <ProjectTableRow {...project} index={index} key={index} weekFrom={this.props.weekFrom}
-                      weekTo={this.props.weekTo}
-                      removeHandler={this.removeProjectHandler}/>
-              }
-            )}
+            {
+              this.props.projects.map((project, index) => {
+                return <ProjectTableRow
+                  project={project}
+                  key={project.id}
+                  weekFrom={this.props.weekFrom}
+                  weekTo={this.props.weekTo}
+                  removeHandler={this.removeProjectHandler}
+                />
+              })
+            }
           </tbody>
         </table>
         <ProjectAddNew onClick={this.addProject} />
@@ -61,7 +67,7 @@ class ProjectTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.projects.projectArray,
+    projects: state.projects.projectData,
     weekFrom: state.projects.weekFrom,
     weekTo: state.projects.weekTo,
     fetchingProjects: state.projects.fetchingProjects
