@@ -1,11 +1,11 @@
 import endpoints from '../endpoints'
 
 export function doLogin(username, password) {
-    
+
   if (!username || !password) return Promise.reject(new Error('Need a username and password'))
 
   return new Promise((resolve, reject) => {
-        
+
     const body = JSON.stringify({
       username,
       password
@@ -20,8 +20,7 @@ export function doLogin(username, password) {
     .then(data => {
       if (!data.bearerToken) {
         reject(new Error('Wrong username/password'))
-        return;
-      } 
+      }
 
       resolve(data);
     })
