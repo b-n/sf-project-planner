@@ -1,5 +1,5 @@
 export default class Resources {
-    
+
     constructor({ salesforce }) {
         this.salesforce = salesforce;
     }
@@ -15,9 +15,9 @@ export default class Resources {
             return Promise.reject(new Error('Invalid method'));
         })
         .then(result => { return this.sendCallback(result) })
-        .catch(result => { return this.errorCallback(result) });
+        .catch(result => { return this.errorCallback(result.message) });
     }
-    
+
     generateConnection() {
         this.conn = new this.salesforce();
 
@@ -29,9 +29,9 @@ export default class Resources {
             return Promise.reject(new Error('Missing parameters'));
         }
         return this.conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Hours__c
-                                FROM   Resource_Hours__c 
+                                FROM   Resource_Hours__c
                                 WHERE  Employee__c = '${employeeId}'
-                                       AND Week_Start__c <= ${query.weekend} 
+                                       AND Week_Start__c <= ${query.weekend}
                                        AND Week_Start__c >= ${query.weekstart}`)
         .then(res => res.records);
     }
@@ -57,7 +57,7 @@ export default class Resources {
             recordsToUpdate,
             recordsToInsert
         };
-        
+
         return this.conn.resourceUpdate(request);
     }
 
