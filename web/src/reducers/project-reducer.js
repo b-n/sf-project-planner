@@ -2,12 +2,10 @@ import actionTypes from '../actions/action-types'
 import moment from 'moment'
 
 const initialState = {
-  projectArray: [
-    { Name: 'WAP Group Migration' },
-    { Name: 'Guidion Service Cloud' }
-  ],
+  projectArray: [],
   weekFrom: moment().isoWeek(),
-  weekTo: moment().add(5, 'week').isoWeek()
+  weekTo: moment().add(5, 'week').isoWeek(),
+  projectsFetched: false
 }
 
 const projectReducer = (state = initialState, action) => {
@@ -18,9 +16,18 @@ const projectReducer = (state = initialState, action) => {
       })
     case actionTypes.REMOVE_PROJECT:
       return Object.assign({}, state, {
-        projectArray: [...state.projectArray.slice(0, action.payload.projectIndex), ...state.projectArray.slice(action.payload.projectIndex + 1)]
+        projectArray: [...state.projectArray.slice(0, action.payload.projectIndex),
+                       ...state.projectArray.slice(action.payload.projectIndex + 1)]
       })
+    case actionTypes.PROJECTS_RETRIEVED:
+      return state
     case actionTypes.UPDATE_WEEKS:
+      return state
+    case actionTypes.SAVE_TO_SERVER:
+      return state
+    case actionTypes.SAVE_SUCCESS:
+      return state
+    case actionTypes.SAVE_ERROR:
       return state
     default:
       return state

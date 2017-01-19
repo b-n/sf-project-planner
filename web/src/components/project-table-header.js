@@ -10,7 +10,7 @@ const ProjectTableHeader = (props) => {
         <ProjectTableHeaderCol colName='Project'/>
 
         {
-          Array.from({length: props.weekTo - props.weekFrom}, (value, index) => props.weekFrom + value)
+          Array.from({length: props.weekTo - props.weekFrom}, (value, index) => props.weekFrom + index)
             .map((week, index) =>{
               return <ProjectTableHeaderCol colName={`Week ${week}`} key={index}/>
             }

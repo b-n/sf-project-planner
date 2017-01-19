@@ -8,6 +8,7 @@ import ProjectTableHeader from './project-table-header'
 import ProjectTableRow from './project-table-row'
 import ProjectTableSaveButton from './project-table-save-button'
 import ProjectAddNew from './project-table-add-new'
+import Spinner from './spinner'
 
 class ProjectTable extends Component {
 
@@ -41,6 +42,7 @@ class ProjectTable extends Component {
   render() {
     return (
       <div>
+        <Spinner show={props.projectsFetched}/>
         <ProjectTableDatePicker/>
         <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
           <ProjectTableHeader weekFrom={this.props.weekFrom} weekTo={this.props.weekTo}/>
