@@ -7,7 +7,7 @@ import actionCreators from '../actions/project'
 function* fetchProjects(){
   try {
     const data = yield api.doFetchProjects()
-    console.log(data)
+    console.log('testing')
     yield put(actionCreators.projectsFetched())
   } catch(e) {
 
