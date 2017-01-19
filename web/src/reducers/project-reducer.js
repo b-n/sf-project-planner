@@ -4,7 +4,8 @@ import moment from 'moment'
 const initialState = {
   projectData: [ ],
   weekFrom: moment().startOf('isoWeek'),
-  weekTo: moment().add(5, 'week').startOf('isoWeek')
+  weekTo: moment().add(5, 'week').startOf('isoWeek'),
+  fetchingProjects: true
 }
 
 const projectReducer = (state = initialState, action) => {
@@ -33,6 +34,16 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         projectData: Object.values(projectData)
       }
+    case actionTypes.PROJECTS_FETCHED:
+      return Object.assign({}, state, {
+        fetchingProjects: false
+      })
+    case actionTypes.SAVE_TO_SERVER:
+      return state
+    case actionTypes.SAVE_SUCCESS:
+      return state
+    case actionTypes.SAVE_ERROR:
+      return state
     default:
       return state
   }

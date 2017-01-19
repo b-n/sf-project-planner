@@ -31,8 +31,21 @@ function* getProjectData(action){
   }
 }
 
+function* fetchProjects(){
+  try {
+    const data = yield api.doFetchProjects()
+    console.log(data)
+    //yield put(actionCreators.projectsFetched())
+  } catch(e) {
+
+  }
+}
+
 function* projectSaga(){
-  yield takeEvery(actionTypes.GET_RESOURCES, getProjectData)
+  yield [
+    takeEvery(actionTypes.GET_RESOURCES, getProjectData),
+    takeEvery(actionTypes.FETCH_PROJECTS, fetchProjects)
+  ]
 }
 
 export default projectSaga

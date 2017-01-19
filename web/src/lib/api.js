@@ -32,7 +32,6 @@ export function doLogin(username, password) {
   })
 }
 
-
 export function getResources(token, { weekstart, weekend }) {
   //TODO holy smokes batman, this function needs to be refactored a bit
   if (!token) return Promise.reject(new Error('Not authenticated'))
@@ -94,4 +93,10 @@ export function getResources(token, { weekstart, weekend }) {
 function handleErrors(response) {
   if (!response.ok) throw Error(response.statusText)
   return response
+}
+
+export function doFetchProjects(){
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
 }

@@ -19,6 +19,18 @@ export const removeProject = (index) => {
   }
 }
 
+export const fetchProjects = () => {
+  return {
+    type: actionTypes.FETCH_PROJECTS
+  }
+}
+
+export const projectsFetched = () => {
+  return {
+    type: actionTypes.PROJECTS_FETCHED
+  }
+}
+
 export const updateWeeks = () => {
   return {
     type: actionTypes.UPDATE_WEEKS,
