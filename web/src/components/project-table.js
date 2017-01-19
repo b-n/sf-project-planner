@@ -20,11 +20,7 @@ class ProjectTable extends Component {
   }
 
   componentDidMount() {
-
-  }
-
-  componentDidUpdate() {
-
+    this.props.dispatch(actionCreators.fetchProjects())
   }
 
   addProject() {
@@ -42,7 +38,7 @@ class ProjectTable extends Component {
   render() {
     return (
       <div>
-        <Spinner show={props.projectsFetched}/>
+        <Spinner show={this.props.fetchingProjects}/>
         <ProjectTableDatePicker/>
         <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
           <ProjectTableHeader weekFrom={this.props.weekFrom} weekTo={this.props.weekTo}/>
@@ -67,7 +63,8 @@ const mapStateToProps = (state) => {
   return {
     projects: state.projects.projectArray,
     weekFrom: state.projects.weekFrom,
-    weekTo: state.projects.weekTo
+    weekTo: state.projects.weekTo,
+    fetchingProjects: state.projects.fetchingProjects
   }
 }
 

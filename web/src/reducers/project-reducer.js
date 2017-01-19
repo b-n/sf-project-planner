@@ -5,7 +5,7 @@ const initialState = {
   projectArray: [],
   weekFrom: moment().isoWeek(),
   weekTo: moment().add(5, 'week').isoWeek(),
-  projectsFetched: false
+  fetchingProjects: true
 }
 
 const projectReducer = (state = initialState, action) => {
@@ -19,8 +19,10 @@ const projectReducer = (state = initialState, action) => {
         projectArray: [...state.projectArray.slice(0, action.payload.projectIndex),
                        ...state.projectArray.slice(action.payload.projectIndex + 1)]
       })
-    case actionTypes.PROJECTS_RETRIEVED:
-      return state
+    case actionTypes.PROJECTS_FETCHED:
+      return Object.assign({}, state, {
+        fetchingProjects: false
+      })
     case actionTypes.UPDATE_WEEKS:
       return state
     case actionTypes.SAVE_TO_SERVER:

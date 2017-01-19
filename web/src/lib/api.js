@@ -30,3 +30,9 @@ export function doLogin(username, password) {
 
   })
 }
+
+export function doFetchProjects(){
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
+}
