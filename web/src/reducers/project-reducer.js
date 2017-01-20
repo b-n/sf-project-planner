@@ -5,7 +5,13 @@ const initialState = {
   projectData: [ ],
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  fetchingProjects: true
+  fetchingProjects: true,
+  availableProjects: [
+    {
+      Id: 'idgoeshere',
+      Name: 'goeshere'
+    }
+  ]
 }
 
 const projectReducer = (state = initialState, action) => {

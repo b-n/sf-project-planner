@@ -5,7 +5,6 @@ import ProjectTableRowInput from './project-table-row-input'
 const ProjectTableRow = (props) => {
 
   const { name, id, displayValues } = props.project
-  console.log(displayValues);
 
   return (
     <tr>
