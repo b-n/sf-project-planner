@@ -1,0 +1,15 @@
+header {
+  position: static !important;
+}
+
+main {
+  padding: 1rem;
+}
+
+body {
+  height: 100%;
+}
+
+#form-logo {
+
+}
