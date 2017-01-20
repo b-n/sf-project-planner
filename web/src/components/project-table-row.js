@@ -1,23 +1,19 @@
 import React, { PropTypes } from 'react'
-import moment from 'moment'
 
 import ProjectTableRowInput from './project-table-row-input'
 
 const ProjectTableRow = (props) => {
 
-  const { weekFrom, weekTo } = props
-  const numberOfWeeks = weekTo.diff(weekFrom, 'week')
-  const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
-
-  const { name, id } = props.project
+  const { name, id, displayValues } = props.project
+  console.log(displayValues);
 
   return (
     <tr>
       <td>
-        <input value={name} readOnly/>
+        <input className="slds-input" value={name} readOnly/>
       </td>
-      { weeksArray.map((__, index) =>{
-        return <ProjectTableRowInput key={index}/>
+      { displayValues.map((week, index) =>{
+        return <ProjectTableRowInput key={index} week={week}/>
       })}
       <td>
         <button onClick={ () => { props.removeHandler(id) } }>Remove</button>

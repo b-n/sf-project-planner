@@ -63,7 +63,10 @@ export function getResources(token, { weekstart, weekend }) {
         const projectId = currentValue.Project__c
 
         if (accumulator.hasOwnProperty(projectId)) {
-          const newProjectValues = accumulator[projectId].values.concat(currentValue);
+          const newProjectValues = {
+            ...accumulator[projectId].values,
+            [ currentValue.Week_Start__c ] : currentValue
+          };
 
           return {
             ...accumulator,
@@ -79,7 +82,9 @@ export function getResources(token, { weekstart, weekend }) {
           [ projectId ] : {
             id: currentValue.Project__c,
             name: currentValue.Project__r.Name,
-            values: [ currentValue ]
+            values: {
+              [currentValue.Week_Start__c] : currentValue
+            }
           }
         }
       }, {});

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import * as actionCreators from '../actions/project'
 
+import moment from 'moment'
 import ProjectTableDatePicker from './project-table-date-picker'
 import ProjectTableHeader from './project-table-header'
 import ProjectTableRow from './project-table-row'
@@ -37,20 +38,39 @@ class ProjectTable extends Component {
   }
 
   render() {
+
+    const { projects, weekFrom, weekTo } = this.props
+    const numberOfWeeks = weekTo.diff(weekFrom, 'week')
+    const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
+
+    const projectData = projects.map(project => {
+      const displayValues = weeksArray.map(week => {
+        if (project.values.hasOwnProperty(week)) {
+          return project.values[week];
+        }
+        return {
+          Week_Start__c: week
+        }
+      })
+
+      return {
+        ...project,
+        displayValues
+      }
+    })
+
     return (
       <div>
         <Spinner show={this.props.fetchingProjects}/>
         <ProjectTableDatePicker/>
-        <table className='slds-table slds-table--bordered slds-table--fixed-layout' role='grid'>
-          <ProjectTableHeader weekFrom={this.props.weekFrom} weekTo={this.props.weekTo}/>
+        <table className='slds-table slds-table--bordered slds-table--cell-buffer' role='grid'>
+          <ProjectTableHeader weeksArray={weeksArray} />
           <tbody>
             {
-              this.props.projects.map((project, index) => {
+              projectData.map(project => {
                 return <ProjectTableRow
                   project={project}
                   key={project.id}
-                  weekFrom={this.props.weekFrom}
-                  weekTo={this.props.weekTo}
                   removeHandler={this.removeProjectHandler}
                 />
               })

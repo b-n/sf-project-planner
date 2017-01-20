@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ProjectTableRowInput = () => {
+const ProjectTableRowInput = (props) => {
   return (
     <td>
-      <div className='slds-truncate'><input/></div>
+      <input className="slds-input" value={props.week.Hours__c}/>
     </td>
   )
 }

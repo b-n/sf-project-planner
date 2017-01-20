@@ -35,7 +35,9 @@ function* fetchProjects(){
   try {
     const data = yield api.doFetchProjects()
     console.log(data)
-    //yield put(actionCreators.projectsFetched())
+    yield put({
+      type: actionTypes.PROJECTS_FETCHED
+    })
   } catch(e) {
 
   }
