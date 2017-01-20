@@ -40,10 +40,13 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         projectData: Object.values(projectData)
       }
-    case actionTypes.PROJECTS_FETCHED:
-      return Object.assign({}, state, {
+    case actionTypes.SET_PROJECTS:
+      const { availableProjects } = action.payload
+      return {
+        ...state,
+        availableProjects,
         fetchingProjects: false
-      })
+      }
     case actionTypes.SAVE_TO_SERVER:
       return state
     case actionTypes.SAVE_SUCCESS:

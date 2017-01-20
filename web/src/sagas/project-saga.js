@@ -31,22 +31,25 @@ function* getProjectData(action){
   }
 }
 
-function* fetchProjects(){
+function* getProjects(){
   try {
-    const data = yield api.doFetchProjects()
-    console.log(data)
+
+    const token = yield select(selectors.token)
+
+    const data = yield api.getProjects(token)
     yield put({
-      type: actionTypes.PROJECTS_FETCHED
+      type: actionTypes.SET_PROJECTS,
+      payload: { availableProjects: data }
     })
   } catch(e) {
-
+    console.log(e.message);
   }
 }
 
 function* projectSaga(){
   yield [
     takeEvery(actionTypes.GET_RESOURCES, getProjectData),
-    takeEvery(actionTypes.FETCH_PROJECTS, fetchProjects)
+    takeEvery(actionTypes.FETCH_PROJECTS, getProjects)
   ]
 }
 
