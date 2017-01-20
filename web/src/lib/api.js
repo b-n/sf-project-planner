@@ -34,7 +34,7 @@ export function postLogin(username, password) {
 
 export function getProjects(token) {
 
-  if (!token) return Promise.reject(new Error('Need to be authenticated'))
+  if (!token) return Promise.reject(new Error('Not authenticated'))
 
   return new Promise((resolve, reject) => {
 

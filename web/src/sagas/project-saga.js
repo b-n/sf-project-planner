@@ -42,7 +42,10 @@ function* getProjects(){
       payload: { availableProjects: data }
     })
   } catch(e) {
-    console.log(e.message);
+    yield put({ type: actionTypes.API_ERROR, payload: {
+        message: e.message
+      }
+    })
   }
 }
 
