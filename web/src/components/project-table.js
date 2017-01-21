@@ -39,7 +39,7 @@ class ProjectTable extends Component {
 
   render() {
 
-    const { projects, weekFrom, weekTo } = this.props
+    const { availableProjects, projects, weekFrom, weekTo } = this.props
     const numberOfWeeks = weekTo.diff(weekFrom, 'week')
     const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
 
@@ -69,6 +69,7 @@ class ProjectTable extends Component {
             {
               projectData.map(project => {
                 return <ProjectTableRow
+                  availableProjects={availableProjects}
                   project={project}
                   key={project.id}
                   removeHandler={this.removeProjectHandler}
@@ -87,6 +88,7 @@ class ProjectTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    availableProjects: state.projects.availableProjects,
     projects: state.projects.projectData,
     weekFrom: state.projects.weekFrom,
     weekTo: state.projects.weekTo,
