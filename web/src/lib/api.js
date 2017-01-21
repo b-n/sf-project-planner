@@ -19,7 +19,7 @@ export function postLogin(username, password) {
     .then(handleErrors)
     .then(response => response.json())
     .then(data => {
-      if (!data.bearerToken) {
+      if (!data.token) {
         reject(new Error('Wrong username/password'))
       }
 
