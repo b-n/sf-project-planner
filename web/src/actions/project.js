@@ -1,11 +1,12 @@
 import actionTypes from './action-types'
 import Project from '../models/project'
+import uuidV4 from 'uuid/v4'
 
 export const addProject = () => {
   return {
     type: actionTypes.ADD_PROJECT,
     payload: {
-      newProject: new Project()
+      newProject: new Project(uuidV4())
     }
   }
 }

@@ -1,24 +1,48 @@
-import React, { PropTypes } from 'react'
-
+import React, { PropTypes, Component } from 'react'
+import { Typeahead } from 'react-typeahead'
 import ProjectTableRowInput from './project-table-row-input'
 
-const ProjectTableRow = (props) => {
+class ProjectTableRow extends Component {
 
-  const { name, id, displayValues } = props.project
+  render() {
+    const { name, id, displayValues } = this.props.project
+    const typeaheadClasses = {
+      results: 'slds-dropdown',
+      listItem: 'slds-dropdown__item',
+      input: 'slds-input',
+      hover: 'slds-theme--shade'
+    }
+    const typeaheadBugFix = () => {
+      this.refs.typeahead.setState({ showResults: true })
+    }
+    const typeaheadSelected = (e) => {
+      console.log('Value of typeahead', e)
+    }
 
-  return (
-    <tr>
-      <td>
-        <input className="slds-input" value={name} readOnly/>
-      </td>
-      { displayValues.map((week, index) =>{
-        return <ProjectTableRowInput key={index} week={week}/>
-      })}
-      <td>
-        <button onClick={ () => { props.removeHandler(id) } }>Remove</button>
-      </td>
-    </tr>
-  )
+    return (
+      <tr>
+        <td>
+          <Typeahead
+            ref="typeahead"
+            options={this.props.availableProjects}
+            filterOption='Name'
+            displayOption='Name'
+            value={name}
+            maxVisible={7}
+            customClasses={typeaheadClasses}
+            onChange={typeaheadBugFix}
+            onOptionSelected={typeaheadSelected}
+          />
+        </td>
+        { displayValues.map((week, index) =>{
+          return <ProjectTableRowInput key={index} week={week}/>
+        })}
+        <td>
+          <button onClick={ () => { this.props.removeHandler(id) } }>Remove</button>
+        </td>
+      </tr>
+    )
+  }
 }
 
 ProjectTableRow.propTypes = {

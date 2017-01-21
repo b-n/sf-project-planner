@@ -17,7 +17,7 @@ const initialState = {
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_PROJECT:
-      const newProjectData = state.projects.concat(action.payload.newProject);
+      const newProjectData = state.projectData.concat(action.payload.newProject);
 
       return {
         ...state,
