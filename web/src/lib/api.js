@@ -1,6 +1,6 @@
 import endpoints from '../endpoints'
 
-export function doLogin(username, password) {
+export function postLogin(username, password) {
 
   if (!username || !password) return Promise.reject(new Error('Need a username and password'))
 
@@ -29,6 +29,30 @@ export function doLogin(username, password) {
       reject(new Error('Error trying to login'))
     })
 
+  })
+}
+
+export function getProjects(token) {
+
+  if (!token) return Promise.reject(new Error('Not authenticated'))
+
+  return new Promise((resolve, reject) => {
+
+    fetch(endpoints.projects, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : 'Bearer ' + token
+      }
+    })
+    .then(handleErrors)
+    .then(response => response.json())
+    .then(data => {
+      resolve(data);
+    })
+    .catch(e => {
+      reject(new Error('Error trying to login'))
+    })
   })
 }
 
@@ -95,13 +119,8 @@ export function getResources(token, { weekstart, weekend }) {
   })
 }
 
+
 function handleErrors(response) {
   if (!response.ok) throw Error(response.statusText)
   return response
-}
-
-export function doFetchProjects(){
-  return new Promise((resolve, reject) => {
-    resolve()
-  })
 }

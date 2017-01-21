@@ -26,12 +26,6 @@ export const fetchProjects = () => {
   }
 }
 
-export const projectsFetched = () => {
-  return {
-    type: actionTypes.PROJECTS_FETCHED
-  }
-}
-
 export const updateWeeks = () => {
   return {
     type: actionTypes.UPDATE_WEEKS,
@@ -54,14 +48,5 @@ export const getResources = () => {
   return {
     type: actionTypes.GET_RESOURCES,
     payload: { }
-  }
-}
-
-export const setResources = (projectData) => {
-  return {
-    type: actionTypes.SET_RESOURCES,
-    payload: {
-      projectData
-    }
   }
 }
