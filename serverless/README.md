@@ -11,11 +11,6 @@ To install:
 
     npm install
 
-To run localdb (althought its not used anymore)
-
-    sls dynamodb install  <-- once only
-    sls dynamodb start
-
 To test an endpoint from the handler:
 
     babel-node tests/handler.js
