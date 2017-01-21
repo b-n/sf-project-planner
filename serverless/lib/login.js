@@ -62,7 +62,7 @@ export default class Login {
 
     generateToken(record) {
         const token = jwt.sign(
-            { employeedId: record },
+            { employeeId: record },
             env.JWT_SECRET,
             {
                 algorithm: 'HS256',

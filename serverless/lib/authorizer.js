@@ -6,12 +6,22 @@ const generatePolicy = (principalId, effect, resource) => {
     const authResponse = {
         principalId: principalId
     };
+
     if (effect && resource) {
+        const tmp = resource.split(':');
+        const apiGatewayArnTmp = tmp[5].split('/');
+        const awsAccountId = tmp[4];
+        const region = tmp[3];
+
+        const restApiId = apiGatewayArnTmp[0];
+        const stage = apiGatewayArnTmp[1];
+
+        const newResource = 'arn:aws:execute-api:' + region + ':' + awsAccountId + ':' + restApiId + '/' + stage + '/*/*'
+
         const statementOne = {
             Action: 'execute-api:Invoke',
             Effect: effect,
-            Resource: resource
-            //Resource: 'arn:aws:execute-api:us-east-1:*:*:*'
+            Resource: newResource
         };
         const policyDocument = {
             Version: '2012-10-17',
@@ -23,8 +33,6 @@ const generatePolicy = (principalId, effect, resource) => {
 };
 
 export function authorizer({ event, callback }) {
-    console.log(event.methodArn);
-
     const token = event.authorizationToken;
 
     if (!token) {
