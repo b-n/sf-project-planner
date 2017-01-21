@@ -5,13 +5,19 @@ const initialState = {
   projectData: [ ],
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  fetchingProjects: true
+  fetchingProjects: true,
+  availableProjects: [
+    {
+      Id: 'idgoeshere',
+      Name: 'goeshere'
+    }
+  ]
 }
 
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_PROJECT:
-      const newProjectData = state.projects.concat(action.payload.newProject);
+      const newProjectData = state.projectData.concat(action.payload.newProject);
 
       return {
         ...state,
@@ -34,10 +40,13 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         projectData: Object.values(projectData)
       }
-    case actionTypes.PROJECTS_FETCHED:
-      return Object.assign({}, state, {
+    case actionTypes.SET_PROJECTS:
+      const { availableProjects } = action.payload
+      return {
+        ...state,
+        availableProjects,
         fetchingProjects: false
-      })
+      }
     case actionTypes.SAVE_TO_SERVER:
       return state
     case actionTypes.SAVE_SUCCESS:

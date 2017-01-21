@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import dotenv from 'dotenv';
 import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
-import 'sinon-as-promised'; 
+import 'sinon-as-promised';
 
 import hasha from 'hasha';
 
@@ -13,7 +13,7 @@ describe('login', function() {
     const password = 'testingPassword';
     const salt = 'passwordSalt';
     const employeeId = 'RandomRecordId';
-    
+
     function generateSFRecord() {
         const hashedPassword = hasha(password + salt, { encoding: 'base64' });
         return {
@@ -23,17 +23,11 @@ describe('login', function() {
         };
     }
 
-    const dynamoStub = stub();
     const loginStub = stub();
     const queryStub = stub();
-    
-    dynamoStub.resolves();
+
     loginStub.resolves();
     queryStub.resolves({ records: [ generateSFRecord() ]});
-
-    const dynamo = {
-        put: () => { return { promise: dynamoStub }; }
-    }
 
     const salesforce = spy(() => {
         return {
@@ -43,14 +37,13 @@ describe('login', function() {
     });
 
     beforeEach(function() {
-        dynamoStub.reset();
         loginStub.reset();
         queryStub.reset();
     });
 
     it('run: end to end works', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         const event = {
             body: {
                 username: 'testing',
@@ -61,24 +54,22 @@ describe('login', function() {
         const callback = (error, success) => {
             assert.equal(error, null);
             assert.notEqual(success, null);
-            assert(dynamoStub.calledOnce);
             assert(loginStub.calledOnce);
             assert(queryStub.calledOnce);
-            done(); 
+            done();
         }
         handler.run({ event, callback });
     });
 
     it('constructor: generates and stores deps', function() {
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
 
-        assert.equal(handler.dynamo, dynamo);
         assert.equal(handler.salesforce, salesforce);
     });
-    
+
     it('validate: requires event and body', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         handler.validate()
         .then(() => { done('this should have failed') })
         .catch((err) => {
@@ -88,8 +79,8 @@ describe('login', function() {
     });
 
     it('validate: no username/pass', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         const event = {
             body: {}
         }
@@ -103,8 +94,8 @@ describe('login', function() {
     });
 
     it('validate: successful stores username and password', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         const event = {
             body: {
                 username: 'test',
@@ -118,26 +109,26 @@ describe('login', function() {
     });
 
     it('generateConnection: generates connection and stores in this.conn', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         handler.generateConnection()
         .then(() => { done() })
         .catch(done);
     });
 
     it('runQuery: queries from salesforce', function(done) {
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
         handler.generateConnection();
         handler.username = 'testing';
-        
+
         handler.runQuery()
         .then(() => { done() })
         .catch(done);
     });
 
     it('parseRecord: no result passed', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
+        const handler = new Login({ salesforce });
+
         handler.parseRecord()
         .then(() => { done('this should have failed') })
         .catch((err) => {
@@ -147,9 +138,9 @@ describe('login', function() {
     });
 
     it('parseRecord: password does not match', function(done) {
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
         handler.password = 'not valid';
-        
+
         const result = {
             records: [
                 {
@@ -168,9 +159,9 @@ describe('login', function() {
     });
 
     it('parseRecord: password matches and we have a result', function(done) {
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
         handler.password = password;
-        
+
         const queryResult = {
             records: [
                 generateSFRecord()
@@ -179,9 +170,7 @@ describe('login', function() {
 
         handler.parseRecord(queryResult)
         .then(result => {
-            assert.notEqual(result.bearerToken);
-            assert.notEqual(result.ttl);
-            assert.equal(result.employeeId, employeeId);
+            assert.equal(result, employeeId);
             done();
         })
         .catch(done);
@@ -193,18 +182,16 @@ describe('login', function() {
         assert.equal(Login.checkPassword(password, salt, sfRecord.Password__c), true);
     });
 
-    it('updateDynamo: update succeeds', function(done) {
-        const handler = new Login({ dynamo, salesforce });
-        
-        const queryResult = {
-            bearerToken: 'random bearer token',
-            ttl: 'some ttl string',
+    it('generateToken: generates token', function(done) {
+        const handler = new Login({ salesforce });
+
+        const checkResult = {
             employeeId: 'random employeeId'
         };
 
-        handler.updateDynamo(queryResult)
+        handler.generateToken(checkResult)
         .then(result => {
-            assert.deepEqual(result, queryResult);
+            assert.notEqual(null, result);
             done();
         })
         .catch(err => done);
@@ -212,7 +199,7 @@ describe('login', function() {
 
     it('sendCallback: calls', function(done) {
         const message = 'success';
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
         handler.callback = (error, success) => {
             assert.equal(error, null);
             assert.equal(success, message);
@@ -224,7 +211,7 @@ describe('login', function() {
 
     it('errorCallback: calls', function(done) {
         const message = 'error';
-        const handler = new Login({ dynamo, salesforce });
+        const handler = new Login({ salesforce });
         handler.callback = (error, success) => {
             assert.equal(error, message);
             assert.equal(success, null);

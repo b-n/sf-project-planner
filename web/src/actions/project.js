@@ -1,11 +1,12 @@
 import actionTypes from './action-types'
 import Project from '../models/project'
+import uuidV4 from 'uuid/v4'
 
 export const addProject = () => {
   return {
     type: actionTypes.ADD_PROJECT,
     payload: {
-      newProject: new Project()
+      newProject: new Project(uuidV4())
     }
   }
 }
@@ -22,12 +23,6 @@ export const removeProject = (index) => {
 export const fetchProjects = () => {
   return {
     type: actionTypes.FETCH_PROJECTS
-  }
-}
-
-export const projectsFetched = () => {
-  return {
-    type: actionTypes.PROJECTS_FETCHED
   }
 }
 
@@ -53,14 +48,5 @@ export const getResources = () => {
   return {
     type: actionTypes.GET_RESOURCES,
     payload: { }
-  }
-}
-
-export const setResources = (projectData) => {
-  return {
-    type: actionTypes.SET_RESOURCES,
-    payload: {
-      projectData
-    }
   }
 }

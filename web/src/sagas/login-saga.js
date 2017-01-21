@@ -7,10 +7,10 @@ function* attemptLogin(action){
   try {
     const { username, password } = action.payload
 
-    const data = yield api.doLogin(username, password)
+    const data = yield api.postLogin(username, password)
 
     yield put({ type: actionTypes.LOGIN_REDIRECT, payload: {
-        token: data.bearerToken
+        token: data.token
       }
     })
   } catch(e){

@@ -1,15 +1,27 @@
-import moment from 'moment';
+import jwt from 'jsonwebtoken';
+import env from './env.js';
 
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
     const authResponse = {
         principalId: principalId
     };
+
     if (effect && resource) {
+        const tmp = resource.split(':');
+        const apiGatewayArnTmp = tmp[5].split('/');
+        const awsAccountId = tmp[4];
+        const region = tmp[3];
+
+        const restApiId = apiGatewayArnTmp[0];
+        const stage = apiGatewayArnTmp[1];
+
+        const newResource = 'arn:aws:execute-api:' + region + ':' + awsAccountId + ':' + restApiId + '/' + stage + '/*/*'
+
         const statementOne = {
             Action: 'execute-api:Invoke',
             Effect: effect,
-            Resource: resource
+            Resource: newResource
         };
         const policyDocument = {
             Version: '2012-10-17',
@@ -20,57 +32,26 @@ const generatePolicy = (principalId, effect, resource) => {
     return authResponse;
 };
 
-const generateParams = (bearer) => {
-    return {
-        Key: {
-            bearerToken: bearer
-        },
-        TableName: 'sf-project-planner-auth'
-    };
-};
+export function authorizer({ event, callback }) {
+    const token = event.authorizationToken;
 
-export function authorizer({ event, callback }, { dynamo }) {
-
-    if (event.authorizationToken) {
-
-        const paramsForGet = generateParams(event.authorizationToken.replace('Bearer ', ''));
-
-        dynamo.get(paramsForGet).promise()
-            .then(data => {
-
-                //TODO: fix error in how time is stored in db (in login function and below with newTtl)
-                if (moment(data.Item.ttl).isBefore(moment())) {
-                    throw new Error('Token expired');
-                }
-                return data.Item;
-            })
-            .then(item => {
-
-                const newTtl = moment().utc().add(6, 'hours').format();
-                const paramsForUpdate = generateParams(item.bearerToken);
-                paramsForUpdate.AttributeUpdates = {
-                    ttl: {
-                        Action: 'PUT',
-                        Value: newTtl
-                    }
-                };
-
-                return dynamo.update(paramsForUpdate).promise()
-                    .then(() => {
-                        return item.employeeId;
-                    })
-                    .catch(() => {
-                        throw new Error('Can\'t store token.');
-                    });
-            })
-            .then(employeeId => {
-                callback(null, generatePolicy(employeeId, 'Allow', event.methodArn));
-            })
-            .catch(e => {
-                callback(e.message);
-            });
-
-    } else {
+    if (!token) {
         callback('No bearer token supplied');
+        return;
+    }
+
+    try {
+        const jwtToken = jwt.verify(
+            event.authorizationToken.replace('Bearer ', ''),
+            env.JWT_SECRET,
+            { algorithm: 'HS256' }
+        );
+
+        callback(null, generatePolicy(jwtToken.employeeId, 'Allow', event.methodArn));
+
+    } catch (e) {
+        callback('Invalid token');
+        console.log(e.message);
+        return;
     }
 }

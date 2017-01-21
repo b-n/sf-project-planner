@@ -10,11 +10,6 @@ Global deps:
 To install:
 
     npm install
-    sls dynamodb install
-
-To run localdb
-
-    sls dynamodb start
 
 To test an endpoint from the handler:
 
@@ -34,7 +29,8 @@ For deploying and salesforce connection under `./lib/env.js` you need the follow
         SF_USERNAME: '',
         SF_PASSWORD: '',
         SF_TOKEN: '',
-        SF_ENDPOINT: 'https://test.salesforce.com/'
+        SF_ENDPOINT: 'https://test.salesforce.com/',
+        JWT_SECRET: 'JWT secret here'
     }
 
 ## Testing:

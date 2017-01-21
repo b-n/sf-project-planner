@@ -1,23 +1,22 @@
 import hasha from 'hasha';
-import moment from 'moment';
-import { v4 as uuidV4 } from 'uuid';
+import jwt from 'jsonwebtoken';
+import env from './env.js'
 
 import messages from './messages.js';
 
 export default class Login {
-    constructor({ dynamo, salesforce }) {
-        this.dynamo = dynamo;
+    constructor({ salesforce }) {
         this.salesforce = salesforce;
     }
 
     run({ event, callback }) {
-        this.callback = callback;    
+        this.callback = callback;
 
         this.validate(event)
         .then(result => { return this.generateConnection(result) })
         .then(result => { return this.runQuery(result) })
         .then(result => { return this.parseRecord(result) })
-        .then(result => { return this.updateDynamo(result) })
+        .then(result => { return this.generateToken(result) })
         .then(result => { return this.sendCallback(result) })
         .catch(result => { return this.errorCallback(result) });
     }
@@ -39,7 +38,7 @@ export default class Login {
 
     generateConnection() {
         this.conn = new this.salesforce();
-        
+
         return this.conn.login();
     }
 
@@ -58,21 +57,20 @@ export default class Login {
             return Promise.reject(new Error(messages.ERROR_WRONG_LOGIN));
         }
 
-        return Promise.resolve({
-            bearerToken: hasha(uuidV4(), { encoding: 'hex' }),
-            ttl: moment().utc().add(6, 'hours').format(),
-            employeeId: record.Id
-        });
+        return Promise.resolve(record.Id);
     }
 
-    updateDynamo(record) {
-        //TODO: this should be in the dynamo class
-        return this.dynamo.put({
-            Item: record,
-            TableName: 'sf-project-planner-auth'
-        }).promise()
-        .then(() => record)
-        .catch(err => { throw new Error(messages.ERROR_INTERNAL_ERROR); });
+    generateToken(record) {
+        const token = jwt.sign(
+            { employeeId: record },
+            env.JWT_SECRET,
+            {
+                algorithm: 'HS256',
+                expiresIn: '2h'
+            }
+        );
+
+        return Promise.resolve({ token });
     }
 
     sendCallback(result) {
