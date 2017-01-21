@@ -34,13 +34,8 @@ function* getProjectData(action){
 function* fetchProjects(){
   try {
     const data = yield api.doFetchProjects()
-<<<<<<< HEAD
-    console.log('testing')
-    yield put(actionCreators.projectsFetched())
-=======
     console.log(data)
     //yield put(actionCreators.projectsFetched())
->>>>>>> ce8f2dc2f8b1ef3f21b36a94cab4228db17b9920
   } catch(e) {
 
   }
