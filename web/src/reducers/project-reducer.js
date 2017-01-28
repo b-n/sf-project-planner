@@ -45,6 +45,19 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         projectData: newProjectData
       }
+
+    case actionTypes.PROJECT_UUID_TO_ID_UPDATE:
+
+      return {
+        ...state,
+        projectData: {
+          ...state.projectData,
+          [ action.payload.uuid ] : {
+            ...state.projectData[action.payload.uuid],
+            Id: action.payload.projectId
+          }
+        }
+      }
     case actionTypes.UPDATE_WEEKS:
       return state
     case actionTypes.SET_RESOURCES:

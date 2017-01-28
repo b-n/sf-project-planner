@@ -41,6 +41,10 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.updateResourceValue(+hours, projectId, week))
   }
 
+  updateProjectUuidToId(uuid, projectId) {
+    this.props.dispatch(actionCreators.updateProjectUuidToId(uuid, projectId))
+  }
+
   render() {
 
     const { availableProjects, projects, weekFrom, weekTo } = this.props
@@ -78,6 +82,7 @@ class ProjectTable extends Component {
                   project={project}
                   key={project.uuid}
                   removeHandler={this.removeProjectHandler}
+                  updateProjectUuidToId={(uuid, projectId) => { this.updateProjectUuidToId(uuid, projectId)}}
                   updateResourceValue={(hours, projectId, week) => { this.updateResourceValue(hours, projectId, week) }}
                 />
               })

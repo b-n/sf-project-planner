@@ -51,6 +51,16 @@ export const getResources = () => {
   }
 }
 
+export const updateProjectUuidToId= (uuid, projectId) => {
+  return {
+    type: actionTypes.PROJECT_UUID_TO_ID_UPDATE,
+    payload: {
+      uuid,
+      projectId
+    }
+  }
+}
+
 export const updateResourceValue = (hours, projectId, week) => {
   return {
     type: actionTypes.UPDATE_RESOURCE_VALUE,

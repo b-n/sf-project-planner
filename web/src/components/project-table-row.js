@@ -15,9 +15,6 @@ class ProjectTableRow extends Component {
     const typeaheadBugFix = () => {
       this.refs.typeahead.setState({ showResults: true })
     }
-    const typeaheadSelected = (e) => {
-      console.log('Value of typeahead', e)
-    }
 
     return (
       <tr>
@@ -31,14 +28,14 @@ class ProjectTableRow extends Component {
             maxVisible={7}
             customClasses={typeaheadClasses}
             onChange={typeaheadBugFix}
-            onOptionSelected={typeaheadSelected}
+            onOptionSelected={e=>{ this.props.updateProjectUuidToId(uuid, e.Id)}}
           />
         </td>
         { displayValues.map((week, index) =>{
           return <ProjectTableRowInput
             key={index}
             hours={week.Hours__c}
-            onChange={(e) => { this.props.updateResourceValue(e.target.value, uuid, week.Week_Start__c) }}
+            onChange={e=>{ this.props.updateResourceValue(e.target.value, uuid, week.Week_Start__c) }}
           />
         })}
         <td>
@@ -54,6 +51,7 @@ ProjectTableRow.propTypes = {
   weekFrom: PropTypes.object,
   weekTo: PropTypes.object,
   removeHandler: PropTypes.func,
+  updateProjectUuidToId: PropTypes.func,
   updateResourceValue: PropTypes.func
 }
 
