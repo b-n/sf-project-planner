@@ -17,20 +17,33 @@ const initialState = {
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_PROJECT:
-      const newProjectData = state.projectData.concat(action.payload.newProject);
+      const { newProject } = action.payload
+      const { uuid } = newProject
+
+      return {
+        ...state,
+        projectData: {
+          ...state.projectData,
+          [ uuid ]: {
+            ...newProject
+          }
+        }
+      }
+    case actionTypes.REMOVE_PROJECT:
+      const { projectIndex } = action.payload
+
+      const newProjectData = Object.values(state.projectData).reduce((accumulator, currentValue) => {
+        if (currentValue.uuid === projectIndex) return accumulator;
+
+        return {
+          ...accumulator,
+          [ currentValue.uuid ]: currentValue
+        }
+      }, {})
 
       return {
         ...state,
         projectData: newProjectData
-      }
-    case actionTypes.REMOVE_PROJECT:
-      //TODO, projectIndex should be the projectId, not the index (off by one errors inbound otherwise!)
-      const { projectIndex } = action.payload
-      const filteredProjects = state.projectArray.filter(project => project.Id !== projectIndex);
-
-      return {
-        ...state,
-        projectData: filteredProjects
       }
     case actionTypes.UPDATE_WEEKS:
       return state

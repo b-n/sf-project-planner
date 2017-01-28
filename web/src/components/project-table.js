@@ -76,7 +76,7 @@ class ProjectTable extends Component {
                 return <ProjectTableRow
                   availableProjects={availableProjects}
                   project={project}
-                  key={project.id}
+                  key={project.uuid}
                   removeHandler={this.removeProjectHandler}
                   updateResourceValue={(hours, projectId, week) => { this.updateResourceValue(hours, projectId, week) }}
                 />

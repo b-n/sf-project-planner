@@ -5,7 +5,7 @@ import ProjectTableRowInput from './project-table-row-input'
 class ProjectTableRow extends Component {
 
   render() {
-    const { name, id, displayValues } = this.props.project
+    const { Name, uuid, displayValues } = this.props.project
     const typeaheadClasses = {
       results: 'slds-dropdown',
       listItem: 'slds-dropdown__item',
@@ -27,7 +27,7 @@ class ProjectTableRow extends Component {
             options={this.props.availableProjects}
             filterOption='Name'
             displayOption='Name'
-            value={name}
+            value={Name}
             maxVisible={7}
             customClasses={typeaheadClasses}
             onChange={typeaheadBugFix}
@@ -38,11 +38,11 @@ class ProjectTableRow extends Component {
           return <ProjectTableRowInput
             key={index}
             hours={week.Hours__c}
-            onChange={(e) => { this.props.updateResourceValue(e.target.value, id, week.Week_Start__c) }}
+            onChange={(e) => { this.props.updateResourceValue(e.target.value, uuid, week.Week_Start__c) }}
           />
         })}
         <td>
-          <button onClick={()=>{this.props.removeHandler(id)}}>Remove</button>
+          <button onClick={()=>{this.props.removeHandler(uuid)}}>Remove</button>
         </td>
       </tr>
     )
