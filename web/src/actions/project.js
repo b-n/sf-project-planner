@@ -50,3 +50,14 @@ export const getResources = () => {
     payload: { }
   }
 }
+
+export const updateResourceValue = (hours, projectId, week) => {
+  return {
+    type: actionTypes.UPDATE_RESOURCE_VALUE,
+    payload: {
+      hours,
+      projectId,
+      week
+    }
+  }
+}

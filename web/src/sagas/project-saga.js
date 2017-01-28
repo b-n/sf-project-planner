@@ -4,7 +4,7 @@ import * as api from '../lib/api'
 import selectors from '../lib/selectors'
 import actionTypes from '../actions/action-types'
 
-function* getProjectData(action){
+function* getResourceHourData(action){
   try {
     const projects = yield select(selectors.projects)
     const { weekFrom, weekTo } = projects
@@ -51,7 +51,7 @@ function* getProjects(){
 
 function* projectSaga(){
   yield [
-    takeEvery(actionTypes.GET_RESOURCES, getProjectData),
+    takeEvery(actionTypes.GET_RESOURCES, getResourceHourData),
     takeEvery(actionTypes.FETCH_PROJECTS, getProjects)
   ]
 }

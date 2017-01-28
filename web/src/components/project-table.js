@@ -37,6 +37,10 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.saveToServer())
   }
 
+  updateResourceValue(hours, projectId, week) {
+    this.props.dispatch(actionCreators.updateResourceValue(+hours, projectId, week))
+  }
+
   render() {
 
     const { availableProjects, projects, weekFrom, weekTo } = this.props
@@ -49,7 +53,8 @@ class ProjectTable extends Component {
           return project.values[week];
         }
         return {
-          Week_Start__c: week
+          Week_Start__c: week,
+          Hours__c: 0
         }
       })
 
@@ -73,6 +78,7 @@ class ProjectTable extends Component {
                   project={project}
                   key={project.id}
                   removeHandler={this.removeProjectHandler}
+                  updateResourceValue={(hours, projectId, week) => { this.updateResourceValue(hours, projectId, week) }}
                 />
               })
             }
@@ -89,7 +95,7 @@ class ProjectTable extends Component {
 const mapStateToProps = (state) => {
   return {
     availableProjects: state.projects.availableProjects,
-    projects: state.projects.projectData,
+    projects: Object.values(state.projects.projectData),
     weekFrom: state.projects.weekFrom,
     weekTo: state.projects.weekTo,
     fetchingProjects: state.projects.fetchingProjects

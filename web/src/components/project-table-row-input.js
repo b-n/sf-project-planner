@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 const ProjectTableRowInput = (props) => {
   return (
     <td>
-      <input className="slds-input" value={props.week.Hours__c}/>
+      <input className="slds-input" type="number" value={props.hours} onChange={props.onChange.bind(this)}/>
     </td>
   )
+}
+
+ProjectTableRowInput.propTypes = {
+  hours: PropTypes.number,
+  onChange: PropTypes.func
 }
 
 export default ProjectTableRowInput

@@ -2,7 +2,7 @@ import actionTypes from '../actions/action-types'
 import moment from 'moment'
 
 const initialState = {
-  projectData: [ ],
+  projectData: {},
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
   fetchingProjects: true,
@@ -38,7 +38,7 @@ const projectReducer = (state = initialState, action) => {
       const { projectData } = action.payload
       return {
         ...state,
-        projectData: Object.values(projectData)
+        projectData
       }
     case actionTypes.SET_PROJECTS:
       const { availableProjects } = action.payload
@@ -46,6 +46,30 @@ const projectReducer = (state = initialState, action) => {
         ...state,
         availableProjects,
         fetchingProjects: false
+      }
+    case actionTypes.UPDATE_RESOURCE_VALUE:
+      const { hours, week, projectId } = action.payload
+
+      const currentValue = state.projectData[projectId].values[week];
+
+      const values = {
+        ...state.projectData[projectId].values,
+        [ week ] : {
+          ...currentValue,
+          Hours__c: hours,
+          Week_Start__c: week
+        }
+      }
+
+      return {
+        ...state,
+        projectData: {
+          ...state.projectData,
+          [ projectId ]: {
+            ...state.projectData[projectId],
+            values
+          }
+        }
       }
     case actionTypes.SAVE_TO_SERVER:
       return state
