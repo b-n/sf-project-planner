@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import LoginFormInput from './login-form-input'
 import LoginFormSubmit from './login-form-submit'
+import LoginFormError from './login-form-error'
 import Spinner from './spinner'
 
 import * as actionCreators from '../actions/login'
@@ -11,6 +12,8 @@ class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.submit = this.submit.bind(this)
+    this.changeUsername = this.changeUsername.bind(this)
+    this.changePassword = this.changePassword.bind(this)
     this.state = {
         username: '',
         password: ''
@@ -18,8 +21,7 @@ class LoginForm extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.loggedIn)
-      this.context.router.push('/projects')
+    if (this.props.loggedIn) this.context.router.push('/projects')
   }
 
   submit(e) {
@@ -36,12 +38,19 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { isLoading, errorMessage } = this.props
+
+    const error = errorMessage !== ''
+      ?  <LoginFormError errorMessage={errorMessage} />
+      : null
+
     return (
       <div>
-        <Spinner show={this.props.displaySpinner}/>
+        <Spinner show={isLoading} />
         <form className='slds-form--stacked' onSubmit={this.submit}>
-          <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={e=>this.changeUsername(e)} />
-          <LoginFormInput label='Password' type='password' placeholder='password' onChange={e=>this.changePassword(e)} />
+          <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={this.changeUsername} />
+          <LoginFormInput label='Password' type='password' placeholder='password' onChange={this.changePassword} />
+          {error}
           <LoginFormSubmit label='Login' />
         </form>
       </div>
@@ -55,9 +64,7 @@ LoginForm.contextTypes = {
 
 const mapStateToProps = (state) =>  {
   return {
-    loggedIn: state.login.loggedIn,
-    displayError: state.login.displayError,
-    displaySpinner: state.login.displaySpinner
+    ...state.login
   }
 }
 
