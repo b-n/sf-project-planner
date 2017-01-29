@@ -92,7 +92,7 @@ class ProjectTable extends Component {
           </tbody>
         </table>
         <ProjectAddNew onClick={this.addProject} />
-        <ProjectTableSaveButton onClick={this.saveToServer} />
+        <ProjectTableSaveButton submit={this.saveToServer} />
       </div>
     )
   }

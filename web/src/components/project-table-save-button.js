@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react'
 const ProjectTableSaveButton = (props) => {
   return (
     <div className='slds-m-top--small slds-float--right'>
-      <button className='slds-button slds-button--brand'>Update Resources</button>
+      <button className='slds-button slds-button--brand' onClick={props.submit}>Update Resources</button>
     </div>
   )
 }

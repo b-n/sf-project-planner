@@ -93,8 +93,14 @@ const projectReducer = handleActions({
   },
 
   UPDATE_WEEKS : (state, action) => ({ ...state }),
-  SAVE_TO_SERVER : (state, action) => ({ ...state }),
-  SAVE_SUCCESS : (state, action) => ({ ...state }),
+  SAVE_TO_SERVER : (state, action) => ({
+    ...state,
+    isLoading: true
+  }),
+  SAVE_SUCCESS : (state, action) => ({
+    ...state,
+    isLoading: false
+  }),
   SAVE_ERROR : (state, action) => ({ ...state })
 
 }, initialState)

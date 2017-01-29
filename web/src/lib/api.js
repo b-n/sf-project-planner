@@ -135,6 +135,49 @@ export function getResources(token, { weekstart, weekend }) {
   })
 }
 
+export function saveResources(token, data) {
+  if (!token) return Promise.reject(new Error('Not authenticated'))
+
+  const resourceHours = Object.values(data).reduce((accumulator, currentValue) => {
+
+    const { values } = currentValue
+    const Project__c = currentValue.Id
+
+    return accumulator.concat(Object.values(values).map(value => {
+
+      const { Id, Hours__c, Week_Start__c } = value
+
+      return {
+        Project__c,
+        Id,
+        Hours__c,
+        Week_Start__c
+      }
+    }))
+  }, [])
+
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify(resourceHours)
+
+    fetch(endpoints.resources, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token}`
+      },
+      body
+    })
+    .then(handleErrors)
+    .then(response => response.json())
+    .then(data => {
+      resolve(data);
+    })
+    .catch(e => {
+      reject(new Error('Error trying to login'))
+    })
+  });
+}
+
 
 function handleErrors(response) {
   if (!response.ok) throw Error(response.statusText)

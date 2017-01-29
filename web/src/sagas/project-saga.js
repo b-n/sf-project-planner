@@ -49,10 +49,31 @@ function* getProjects(){
   }
 }
 
+function* saveResourceHourData() {
+  try {
+
+    const data = yield select(selectors.projectData)
+
+    const token = yield select(selectors.token)
+
+    yield api.saveResources(token, data)
+
+    yield put({
+      type: actionTypes.SAVE_SUCCESS
+    })
+  } catch(e) {
+    yield put({ type: actionTypes.API_ERROR, payload: {
+        message: e.message
+      }
+    })
+  }
+}
+
 function* projectSaga(){
   yield [
     takeEvery(actionTypes.GET_RESOURCES, getResourceHourData),
-    takeEvery(actionTypes.FETCH_PROJECTS, getProjects)
+    takeEvery(actionTypes.FETCH_PROJECTS, getProjects),
+    takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData)
   ]
 }
 
