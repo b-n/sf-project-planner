@@ -1,8 +1,8 @@
 
 const Project = (id) => {
   return {
-    'id': id,
-    'name': '',
+    'uuid': id,
+    'Name': '',
     'values': {}
   }
 }

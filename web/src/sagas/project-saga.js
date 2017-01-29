@@ -4,7 +4,7 @@ import * as api from '../lib/api'
 import selectors from '../lib/selectors'
 import actionTypes from '../actions/action-types'
 
-function* getProjectData(action){
+function* getResourceHourData(action){
   try {
     const projects = yield select(selectors.projects)
     const { weekFrom, weekTo } = projects
@@ -49,10 +49,31 @@ function* getProjects(){
   }
 }
 
+function* saveResourceHourData() {
+  try {
+
+    const data = yield select(selectors.projectData)
+
+    const token = yield select(selectors.token)
+
+    yield api.saveResources(token, data)
+
+    yield put({
+      type: actionTypes.SAVE_SUCCESS
+    })
+  } catch(e) {
+    yield put({ type: actionTypes.API_ERROR, payload: {
+        message: e.message
+      }
+    })
+  }
+}
+
 function* projectSaga(){
   yield [
-    takeEvery(actionTypes.GET_RESOURCES, getProjectData),
-    takeEvery(actionTypes.FETCH_PROJECTS, getProjects)
+    takeEvery(actionTypes.GET_RESOURCES, getResourceHourData),
+    takeEvery(actionTypes.FETCH_PROJECTS, getProjects),
+    takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData)
   ]
 }
 

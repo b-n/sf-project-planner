@@ -1,11 +1,11 @@
-import actionTypes from '../actions/action-types'
+import { handleActions } from 'redux-actions'
 import moment from 'moment'
 
 const initialState = {
-  projectData: [ ],
+  projectData: {},
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  fetchingProjects: true,
+  isLoading: true,
   availableProjects: [
     {
       Id: 'idgoeshere',
@@ -14,48 +14,96 @@ const initialState = {
   ]
 }
 
-const projectReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.ADD_PROJECT:
-      const newProjectData = state.projectData.concat(action.payload.newProject);
+const projectReducer = handleActions({
+  ADD_PROJECT : (state, action) => ({
+    ...state,
+    projectData: {
+      ...state.projectData,
+      [ action.payload.newProject.uuid ] : {
+        ...action.payload.newProject
+      }
+    }
+  }),
+
+  REMOVE_PROJECT : (state, action) => {
+    const { projectId } = action.payload
+
+    const projectData = Object.values(state.projectData).reduce((accumulator, currentValue) => {
+      const { uuid } = currentValue
+      if (uuid === projectId) return accumulator;
 
       return {
-        ...state,
-        projectData: newProjectData
+        ...accumulator,
+        [ uuid ]: currentValue
       }
-    case actionTypes.REMOVE_PROJECT:
-      //TODO, projectIndex should be the projectId, not the index (off by one errors inbound otherwise!)
-      const { projectIndex } = action.payload
-      const filteredProjects = state.projectArray.filter(project => project.Id !== projectIndex);
+    }, {})
 
-      return {
-        ...state,
-        projectData: filteredProjects
+    return {
+      ...state,
+      projectData
+    }
+  },
+
+  PROJECT_UUID_TO_ID_UPDATE : (state, action) => ({
+    ...state,
+    projectData: {
+      ...state.projectData,
+      [ action.payload.uuid ] : {
+        ...state.projectData[action.payload.uuid],
+        Id: action.payload.projectId
       }
-    case actionTypes.UPDATE_WEEKS:
-      return state
-    case actionTypes.SET_RESOURCES:
-      const { projectData } = action.payload
-      return {
-        ...state,
-        projectData: Object.values(projectData)
+    }
+  }),
+
+  SET_RESOURCES : (state, action) => ({
+    ...state,
+    projectData: action.payload.projectData
+  }),
+
+  SET_PROJECTS : (state, action) => ({
+    ...state,
+    availableProjects: action.payload.availableProjects,
+    isLoading: false
+  }),
+
+  UPDATE_RESOURCE_VALUE : (state, action) => {
+    const { hours, week, projectId } = action.payload
+
+    const currentValue = state.projectData[projectId].values[week];
+
+    const values = {
+      ...state.projectData[projectId].values,
+      [ week ] : {
+        ...currentValue,
+        Hours__c: hours,
+        Week_Start__c: week
       }
-    case actionTypes.SET_PROJECTS:
-      const { availableProjects } = action.payload
-      return {
-        ...state,
-        availableProjects,
-        fetchingProjects: false
+    }
+
+    return {
+      ...state,
+      projectData: {
+        ...state.projectData,
+        [ projectId ]: {
+          ...state.projectData[projectId],
+          values
+        }
       }
-    case actionTypes.SAVE_TO_SERVER:
-      return state
-    case actionTypes.SAVE_SUCCESS:
-      return state
-    case actionTypes.SAVE_ERROR:
-      return state
-    default:
-      return state
-  }
-}
+    }
+  },
+
+  UPDATE_WEEKS : (state, action) => ({ ...state }),
+  SAVE_TO_SERVER : (state, action) => ({
+    ...state,
+    isLoading: true
+  }),
+  SAVE_SUCCESS : (state, action) => ({
+    ...state,
+    isLoading: false
+  }),
+  SAVE_ERROR : (state, action) => ({ ...state })
+
+}, initialState)
+
 
 export default projectReducer

@@ -14,10 +14,12 @@ import Spinner from './spinner'
 class ProjectTable extends Component {
 
   constructor() {
-      super()
-      this.addProject = this.addProject.bind(this)
-      this.removeProjectHandler = this.removeProjectHandler.bind(this)
-      this.saveToServer = this.saveToServer.bind(this)
+    super()
+    this.addProject = this.addProject.bind(this)
+    this.removeProjectHandler = this.removeProjectHandler.bind(this)
+    this.saveToServer = this.saveToServer.bind(this)
+    this.updateResourceValue = this.updateResourceValue.bind(this)
+    this.updateProjectUuidToId = this.updateProjectUuidToId.bind(this)
   }
 
   componentDidMount() {
@@ -37,6 +39,14 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.saveToServer())
   }
 
+  updateResourceValue(hours, projectId, week) {
+    this.props.dispatch(actionCreators.updateResourceValue(+hours, projectId, week))
+  }
+
+  updateProjectUuidToId(uuid, projectId) {
+    this.props.dispatch(actionCreators.updateProjectUuidToId(uuid, projectId))
+  }
+
   render() {
 
     const { availableProjects, projects, weekFrom, weekTo } = this.props
@@ -49,7 +59,8 @@ class ProjectTable extends Component {
           return project.values[week];
         }
         return {
-          Week_Start__c: week
+          Week_Start__c: week,
+          Hours__c: 0
         }
       })
 
@@ -61,7 +72,7 @@ class ProjectTable extends Component {
 
     return (
       <div>
-        <Spinner show={this.props.fetchingProjects}/>
+        <Spinner show={this.props.isLoading}/>
         <ProjectTableDatePicker/>
         <table className='slds-table slds-table--bordered slds-table--cell-buffer' role='grid'>
           <ProjectTableHeader weeksArray={weeksArray} />
@@ -71,15 +82,17 @@ class ProjectTable extends Component {
                 return <ProjectTableRow
                   availableProjects={availableProjects}
                   project={project}
-                  key={project.id}
+                  key={project.uuid}
                   removeHandler={this.removeProjectHandler}
+                  updateProjectUuidToId={this.updateProjectUuidToId}
+                  updateResourceValue={this.updateResourceValue}
                 />
               })
             }
           </tbody>
         </table>
         <ProjectAddNew onClick={this.addProject} />
-        <ProjectTableSaveButton onClick={this.saveToServer} />
+        <ProjectTableSaveButton submit={this.saveToServer} />
       </div>
     )
   }
@@ -88,11 +101,8 @@ class ProjectTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    availableProjects: state.projects.availableProjects,
-    projects: state.projects.projectData,
-    weekFrom: state.projects.weekFrom,
-    weekTo: state.projects.weekTo,
-    fetchingProjects: state.projects.fetchingProjects
+    ...state.projects,
+    projects: Object.values(state.projects.projectData)
   }
 }
 
