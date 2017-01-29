@@ -5,7 +5,7 @@ const initialState = {
   projectData: {},
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  fetchingProjects: true,
+  isLoading: true,
   availableProjects: [
     {
       Id: 'idgoeshere',
@@ -63,7 +63,7 @@ const projectReducer = handleActions({
   SET_PROJECTS : (state, action) => ({
     ...state,
     availableProjects: action.payload.availableProjects,
-    fetchingProjects: false
+    isLoading: false
   }),
 
   UPDATE_RESOURCE_VALUE : (state, action) => {

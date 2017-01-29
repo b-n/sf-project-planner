@@ -14,10 +14,12 @@ import Spinner from './spinner'
 class ProjectTable extends Component {
 
   constructor() {
-      super()
-      this.addProject = this.addProject.bind(this)
-      this.removeProjectHandler = this.removeProjectHandler.bind(this)
-      this.saveToServer = this.saveToServer.bind(this)
+    super()
+    this.addProject = this.addProject.bind(this)
+    this.removeProjectHandler = this.removeProjectHandler.bind(this)
+    this.saveToServer = this.saveToServer.bind(this)
+    this.updateResourceValue = this.updateResourceValue.bind(this)
+    this.updateProjectUuidToId = this.updateProjectUuidToId.bind(this)
   }
 
   componentDidMount() {
@@ -70,7 +72,7 @@ class ProjectTable extends Component {
 
     return (
       <div>
-        <Spinner show={this.props.fetchingProjects}/>
+        <Spinner show={this.props.isLoading}/>
         <ProjectTableDatePicker/>
         <table className='slds-table slds-table--bordered slds-table--cell-buffer' role='grid'>
           <ProjectTableHeader weeksArray={weeksArray} />
@@ -82,8 +84,8 @@ class ProjectTable extends Component {
                   project={project}
                   key={project.uuid}
                   removeHandler={this.removeProjectHandler}
-                  updateProjectUuidToId={(uuid, projectId) => { this.updateProjectUuidToId(uuid, projectId)}}
-                  updateResourceValue={(hours, projectId, week) => { this.updateResourceValue(hours, projectId, week) }}
+                  updateProjectUuidToId={this.updateProjectUuidToId}
+                  updateResourceValue={this.updateResourceValue}
                 />
               })
             }
@@ -99,11 +101,8 @@ class ProjectTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    availableProjects: state.projects.availableProjects,
-    projects: Object.values(state.projects.projectData),
-    weekFrom: state.projects.weekFrom,
-    weekTo: state.projects.weekTo,
-    fetchingProjects: state.projects.fetchingProjects
+    ...state.projects,
+    projects: Object.values(state.projects.projectData)
   }
 }
 
