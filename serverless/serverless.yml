@@ -2,28 +2,22 @@ service: sf-project-planner
 
 plugins:
     - serverless-webpack
-    - serverless-dynamodb-local
-
-custom:
-    webpackIncludeModules: true
-    dynamodb:
-        start:
-            port: 8000
-            inMemory: true
-            migration: true
-        migration:
-            dir: ./db/migrations
+    - serverless-secrets-plugin
 
 provider:
     name: aws
     runtime: nodejs4.3
     stage: dev
-    iamRoleStatements:
-        - Effect: "Allow"
-          Action:
-              - "dynamodb:*"
-          Resource:
-              - "arn:aws:dynamodb:us-east-1:*"
+    environment:
+        JWT_SECRET: ${self:custom.secrets.JWT_SECRET}
+        SF_USERNAME: ${self:custom.secrets.SF_USERNAME}
+        SF_PASSWORD: ${self:custom.secrets.SF_PASSWORD}
+        SF_TOKEN: ${self:custom.secrets.SF_TOKEN}
+        SF_ENDPOINT: ${self:custom.secrets.SF_ENDPOINT}
+
+custom:
+    secrets: ${file(secrets.${opt:stage, self:provider.stage}.yml)}
+    webpackIncludeModules: true
 
 functions:
     authenticate:

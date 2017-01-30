@@ -1,29 +1,6 @@
+import { createAction } from 'redux-actions'
 import actionTypes from './action-types'
 
-export const loginAttempt = (username, password) => {
-  return {
-    type: actionTypes.LOGIN_ATTEMPT,
-    payload: {
-      username,
-      password
-    }
-  }
-}
-
-export const loginRedirect = (token) => {
-  return {
-    type: actionTypes.LOGIN_REDIRECT,
-    payload: {
-      token
-    }
-  }
-}
-
-export const loginError = (error) => {
-  return {
-    type: actionTypes.LOGIN_ERROR,
-    payload: {
-      error
-    }
-  }
-}
+export const loginAttempt = createAction(actionTypes.LOGIN_ATTEMPT, (username, password) => ({ username, password }))
+export const loginRedirect = createAction(actionTypes.LOGIN_REDIRECT, token => ({ token }))
+export const loginError = createAction(actionTypes.LOGIN_ERROR, error => ({ error }))

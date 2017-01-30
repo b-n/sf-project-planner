@@ -1,37 +1,33 @@
-import actionTypes from '../actions/action-types'
+import { handleActions } from 'redux-actions'
 
 const initialState = {
   loggedIn: false,
-  displayError: false,
-  displaySpinner: false,
+  isLoading: false,
+  errorMessage: '',
   token: ''
 }
 
-const LoginReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actionTypes.LOGIN_ATTEMPT:
-      return Object.assign({}, state, {
-        displaySpinner: true,
-        displayError: false
-      })
-    case actionTypes.LOGIN_REDIRECT:
-      const { token } = action.payload
-      return Object.assign({}, state, {
-        token,
-        loggedIn: true,
-        displaySpinner: false,
-        displayError: false
-      })
-    case actionTypes.LOGIN_ERROR:
-      return Object.assign({}, state, {
-        displayError: true,
-        displaySpinner: false
-      })
-    default:
-      return state
-  }
-}
+const LoginReducer = handleActions({
+  LOGIN_ATTEMPT: (state, action) => ({
+    ...state,
+    isLoading: true,
+    errorMessage: ''
+  }),
 
+  LOGIN_REDIRECT: (state, action) => ({
+    ...state,
+    token: action.payload.token,
+    loggedIn: true,
+    isLoading: false,
+    errorMessage: ''
+  }),
 
+  LOGIN_ERROR: (state, action) => ({
+    ...state,
+    errorMessage: action.payload.message,
+    isLoading: false
+  })
+
+}, initialState)
 
 export default LoginReducer

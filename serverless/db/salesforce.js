@@ -1,13 +1,12 @@
 import jsforce from 'jsforce';
-import env from '../lib/env.js';
 
 import messages from './../lib/messages.js';
 
 export default class {
-    
+
     constructor() {
-        const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = env;
-        
+        const { SF_USERNAME, SF_PASSWORD, SF_TOKEN, SF_ENDPOINT } = process.env;
+
         this.username = SF_USERNAME;
         this.password = SF_PASSWORD;
         this.token = SF_TOKEN;
@@ -45,7 +44,7 @@ export default class {
                 }
                 resolve(res);
             });
-        });    
+        });
     }
 
     resourceUpdate(resources) {
@@ -54,7 +53,7 @@ export default class {
                 reject(new Error(messages.ERROR_SF_AUTH));
                 return;
             }
-            
+
             this.conn.apex.post('/ResourceHours/', resources, (err, res) => {
                 if (err) {
                     console.log(err);
@@ -65,4 +64,4 @@ export default class {
             });
         });
     }
-} 
+}
