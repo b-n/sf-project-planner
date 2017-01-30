@@ -1,6 +1,5 @@
 import hasha from 'hasha';
 import jwt from 'jsonwebtoken';
-import env from './env.js'
 
 import messages from './messages.js';
 
@@ -63,7 +62,7 @@ export default class Login {
     generateToken(record) {
         const token = jwt.sign(
             { employeeId: record },
-            env.JWT_SECRET,
+            process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
                 expiresIn: '2h'

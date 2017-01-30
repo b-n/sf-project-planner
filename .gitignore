@@ -1,7 +1,6 @@
 node_modules/
 *.swp
 *.env
-env.js
 .npmignore
 .serverless
 npm-debug.log
@@ -9,3 +8,4 @@ npm-debug.log
 coverage/
 .DS_Store
 .idea/
+secrets.*.yml

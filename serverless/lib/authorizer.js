@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import env from './env.js';
 
 // Policy helper function
 const generatePolicy = (principalId, effect, resource) => {
@@ -43,7 +42,7 @@ export function authorizer({ event, callback }) {
     try {
         const jwtToken = jwt.verify(
             event.authorizationToken.replace('Bearer ', ''),
-            env.JWT_SECRET,
+            process.env.JWT_SECRET,
             { algorithm: 'HS256' }
         );
 
