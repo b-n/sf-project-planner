@@ -1,7 +1,5 @@
 # sf-project-planner serverless backend (for great victory)
 
-To test locally, you need Java for serverless local dynamo
-
 Global deps:
     
     npm install -g serverless
@@ -11,7 +9,7 @@ To install:
 
     npm install
 
-To test an endpoint from the handler:
+To test an endpoint from the handler (we should really be using webpack here, but oh well):
 
     babel-node tests/handler.js
 
