@@ -17,21 +17,33 @@ To test an endpoint from the handler:
 
 ## Environment variables:
 
+### Development and testing
+
 For dev in project root, you need `.env` with the following:
 
-    ENVIRONMENT=dev
-    USERNAME=usernameForAuthorizer
-    PASSWORD=passwordForAuthorizer
+    SF_USERNAME: '',
+    SF_PASSWORD: '',
+    SF_TOKEN: '',
+    SF_ENDPOINT: 'https://test.salesforce.com/',
+    JWT_SECRET: 'JWT secret here'
 
-For deploying and salesforce connection under `./lib/env.js` you need the following:
+### Deploying to AWS
 
-    export default {
-        SF_USERNAME: '',
-        SF_PASSWORD: '',
-        SF_TOKEN: '',
-        SF_ENDPOINT: 'https://test.salesforce.com/',
-        JWT_SECRET: 'JWT secret here'
-    }
+A couple of options here, you can decrypt the encrypted values by:
+
+    sls decrypt --stage <stage> --password <password>
+
+Or create a file called secrets.<stage>.yml with the following:
+
+    SF_USERNAME: '',
+    SF_PASSWORD: '',
+    SF_TOKEN: '',
+    SF_ENDPOINT: 'https://test.salesforce.com/',
+    JWT_SECRET: 'JWT secret here'
+
+To encrypt your secrets (if you want to commit them securely):
+
+    sls encrypt --stage <stage> --password <password>
 
 ## Testing:
 
