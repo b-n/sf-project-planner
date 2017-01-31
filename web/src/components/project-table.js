@@ -57,7 +57,7 @@ class ProjectTable extends Component {
   }
 
   render() {
-    const { selectedProjects, availableProjects, projects, weekFrom, weekTo, isLoading } = this.props
+    const { availableProjects, projects, weekFrom, weekTo, isLoading } = this.props
     const numberOfWeeks = weekTo.diff(weekFrom, 'week')
     const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
 
@@ -92,7 +92,6 @@ class ProjectTable extends Component {
             {
               projectData.map(project => {
                 return <ProjectTableRow
-                  selectedProjects={selectedProjects}
                   availableProjects={availableProjects}
                   project={project}
                   key={project.uuid}
@@ -113,9 +112,20 @@ class ProjectTable extends Component {
 
 
 const mapStateToProps = (state) => {
+  const projects = Object.values(state.projects.projectData);
+
+  //Contains list from the api, minus projects already on screen unless they are hidden
+  const availableProjects = state.projects.availableProjects.filter(avPrj => {
+    return !projects.some(prj => {
+      if (prj.isHidden) return false;
+      return prj.Id === avPrj.Id
+    });
+  });
+
   return {
     ...state.projects,
-    projects: Object.values(state.projects.projectData).filter(proj => !proj.isHidden)
+    projects: projects.filter(proj => !proj.isHidden),
+    availableProjects
   }
 }
 

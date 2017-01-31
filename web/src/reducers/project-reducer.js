@@ -6,14 +6,8 @@ const initialState = {
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
   isLoading: true,
-  availableProjects: [
-    {
-      Id: 'idgoeshere',
-      Name: 'goeshere'
-    }
-  ],
-  dirty: false,
-  selectedProjects: new Set()
+  availableProjects: [],
+  dirty: false
 }
 
 const projectReducer = handleActions({
@@ -56,8 +50,7 @@ const projectReducer = handleActions({
     return {
       ...state,
       projectData,
-      dirty: true,
-      selectedProjects: new Set([...state.selectedProjects].filter(projectActualId => projectActualId !== state.projectData[projectId].Id))
+      dirty: true
     }
   },
 
@@ -70,24 +63,17 @@ const projectReducer = handleActions({
         Id: action.payload.projectId
       }
     },
-    selectedProjects: new Set([...state.selectedProjects, action.payload.projectId]),
     dirty: true
   }),
 
-  SET_RESOURCES : (state, action) => {
-    return {
-        ...state,
+  SET_RESOURCES : (state, action) => ({
+      ...state,
       projectData: action.payload.projectData,
-      selectedProjects: new Set(Object.keys(action.payload.projectData).map((projectUuid) => {
-          return action.payload.projectData[projectUuid].Id
-        })
-      ),
       dirty: false
-    }
-  },
+  }),
 
   SET_PROJECTS : (state, action) => ({
-      ...state,
+    ...state,
     availableProjects: action.payload.availableProjects
   }),
 
