@@ -103,7 +103,7 @@ class ProjectTable extends Component {
 const mapStateToProps = (state) => {
   return {
     ...state.projects,
-    projects: Object.values(state.projects.projectData)
+    projects: Object.values(state.projects.projectData).filter(proj => !proj.isHidden)
   }
 }
 
