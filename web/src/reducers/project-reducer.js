@@ -12,7 +12,8 @@ const initialState = {
       Name: 'goeshere'
     }
   ],
-  dirty: false
+  dirty: false,
+  selectedProjects: new Set()
 }
 
 const projectReducer = handleActions({
@@ -32,7 +33,19 @@ const projectReducer = handleActions({
 
     const projectData = Object.values(state.projectData).reduce((accumulator, currentValue) => {
       const { uuid } = currentValue
-      if (uuid === projectId) return accumulator;
+
+      if (uuid === projectId) {
+        currentValue.isHidden = true;
+        currentValue.values = Object.values(currentValue.values).reduce((accumulator, value) => {
+          return {
+            ...accumulator,
+            [ value.Week_Start__c ]: {
+              ...value,
+              Hours__c: 0
+            }
+          };
+        }, {})
+      }
 
       return {
         ...accumulator,
@@ -43,7 +56,8 @@ const projectReducer = handleActions({
     return {
       ...state,
       projectData,
-      dirty: true
+      dirty: true,
+      selectedProjects: new Set([...state.selectedProjects].filter(projectActualId => projectActualId !== state.projectData[projectId].Id))
     }
   },
 
@@ -56,18 +70,25 @@ const projectReducer = handleActions({
         Id: action.payload.projectId
       }
     },
+    selectedProjects: new Set([...state.selectedProjects, action.payload.projectId]),
     dirty: true
   }),
 
-  SET_RESOURCES : (state, action) => ({
-    ...state,
-    projectData: action.payload.projectData,
-    dirty: false,
-    isLoading: false
-  }),
+  SET_RESOURCES : (state, action) => {
+    return {
+        ...state,
+      projectData: action.payload.projectData,
+      selectedProjects: new Set(Object.keys(action.payload.projectData).map((projectUuid) => {
+          return action.payload.projectData[projectUuid].Id
+        })
+      ),
+      dirty: false,
+      isLoading: false
+    }
+  },
 
   SET_PROJECTS : (state, action) => ({
-    ...state,
+      ...state,
     availableProjects: action.payload.availableProjects,
     isLoading: false
   }),
