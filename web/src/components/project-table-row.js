@@ -7,7 +7,7 @@ class ProjectTableRow extends Component {
   render() {
     const { Name, uuid, displayValues } = this.props.project
     const typeaheadClasses = {
-      results: 'slds-dropdown',
+      results: 'slds-dropdown slds-dropdown--left',
       listItem: 'slds-dropdown__item',
       input: 'slds-input',
       hover: 'slds-theme--shade'
@@ -21,7 +21,7 @@ class ProjectTableRow extends Component {
         <td>
           <Typeahead
             ref="typeahead"
-            options={this.props.availableProjects.filter(project => !this.props.selectedProjects.has(project.Id))}
+            options={this.props.availableProjects}
             filterOption='Name'
             displayOption='Name'
             value={Name}
