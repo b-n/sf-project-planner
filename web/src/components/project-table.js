@@ -117,7 +117,7 @@ const mapStateToProps = (state) => {
   //Contains list from the api, minus projects already on screen unless they are hidden
   const availableProjects = state.projects.availableProjects.filter(avPrj => {
     return !projects.some(prj => {
-      if (prj.isHidden === true) return false;
+      if (prj.isHidden) return false;
       return prj.Id === avPrj.Id
     });
   });
