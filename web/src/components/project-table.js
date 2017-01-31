@@ -112,9 +112,20 @@ class ProjectTable extends Component {
 
 
 const mapStateToProps = (state) => {
+  const projects = Object.values(state.projects.projectData);
+
+  //Contains list from the api, minus projects already on screen unless they are hidden
+  const availableProjects = state.projects.availableProjects.filter(avPrj => {
+    return !projects.some(prj => {
+      if (prj.isHidden === true) return false;
+      return prj.Id === avPrj.Id
+    });
+  });
+
   return {
     ...state.projects,
-    projects: Object.values(state.projects.projectData).filter(proj => !proj.isHidden)
+    projects: projects.filter(proj => !proj.isHidden),
+    availableProjects
   }
 }
 
