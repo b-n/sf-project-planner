@@ -62,7 +62,8 @@ const projectReducer = handleActions({
         ...state.projectData[action.payload.uuid],
         Id: action.payload.projectId
       }
-    }
+    },
+    dirty: true
   }),
 
   SET_RESOURCES : (state, action) => ({
@@ -73,8 +74,7 @@ const projectReducer = handleActions({
 
   SET_PROJECTS : (state, action) => ({
     ...state,
-    availableProjects: action.payload.availableProjects,
-    dirty: false
+    availableProjects: action.payload.availableProjects
   }),
 
   UPDATE_RESOURCE_VALUE : (state, action) => {
