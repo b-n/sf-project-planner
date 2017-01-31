@@ -31,7 +31,19 @@ const projectReducer = handleActions({
 
     const projectData = Object.values(state.projectData).reduce((accumulator, currentValue) => {
       const { uuid } = currentValue
-      if (uuid === projectId) return accumulator;
+
+      if (uuid === projectId) {
+        currentValue.isHidden = true;
+        currentValue.values = Object.values(currentValue.values).reduce((accumulator, value) => {
+          return {
+            ...accumulator,
+            [ value.Week_Start__c ]: {
+              ...value,
+              Hours__c: 0
+            }
+          };
+        }, {})
+      }
 
       return {
         ...accumulator,
