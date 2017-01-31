@@ -12,6 +12,7 @@ const initialState = {
       Name: 'goeshere'
     }
   ],
+  dirty: false,
   selectedProjects: new Set()
 }
 
@@ -23,7 +24,8 @@ const projectReducer = handleActions({
       [ action.payload.newProject.uuid ] : {
         ...action.payload.newProject
       }
-    }
+    },
+    dirty: true
   }),
 
   REMOVE_PROJECT : (state, action) => {
@@ -54,6 +56,7 @@ const projectReducer = handleActions({
     return {
       ...state,
       projectData,
+      dirty: true,
       selectedProjects: new Set([...state.selectedProjects].filter(projectActualId => projectActualId !== state.projectData[projectId].Id))
     }
   },
@@ -65,9 +68,10 @@ const projectReducer = handleActions({
       [ action.payload.uuid ] : {
         ...state.projectData[action.payload.uuid],
         Id: action.payload.projectId
-      },
-      selectedProjects: new Set([...state.selectedProjects, action.payload.projectId])
-    }
+      }
+    },
+    selectedProjects: new Set([...state.selectedProjects, action.payload.projectId]),
+    dirty: true
   }),
 
   SET_RESOURCES : (state, action) => {
@@ -77,7 +81,9 @@ const projectReducer = handleActions({
       selectedProjects: new Set(Object.keys(action.payload.projectData).map((projectUuid) => {
           return action.payload.projectData[projectUuid].Id
         })
-      )
+      ),
+      dirty: false,
+      isLoading: false
     }
   },
 
@@ -109,18 +115,26 @@ const projectReducer = handleActions({
           ...state.projectData[projectId],
           values
         }
-      }
+      },
+      dirty: true
     }
   },
 
-  UPDATE_WEEKS : (state, action) => ({ ...state }),
+  UPDATE_WEEKS : (state, action) => ({
+    ...state,
+    weekFrom: moment(action.payload.weekFrom),
+    weekTo: moment(action.payload.weekTo),
+    isLoading: true
+  }),
+
   SAVE_TO_SERVER : (state, action) => ({
     ...state,
     isLoading: true
   }),
   SAVE_SUCCESS : (state, action) => ({
     ...state,
-    isLoading: false
+    isLoading: false,
+    dirty: false
   }),
   SAVE_ERROR : (state, action) => ({ ...state })
 
