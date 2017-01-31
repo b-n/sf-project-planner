@@ -21,7 +21,7 @@ class ProjectTableRow extends Component {
         <td>
           <Typeahead
             ref="typeahead"
-            options={this.props.availableProjects}
+            options={this.props.availableProjects.filter(project => !this.props.selectedProjects.has(project.Id))}
             filterOption='Name'
             displayOption='Name'
             value={Name}

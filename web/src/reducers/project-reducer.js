@@ -11,7 +11,8 @@ const initialState = {
       Id: 'idgoeshere',
       Name: 'goeshere'
     }
-  ]
+  ],
+  selectedProjects: new Set()
 }
 
 const projectReducer = handleActions({
@@ -40,7 +41,8 @@ const projectReducer = handleActions({
 
     return {
       ...state,
-      projectData
+      projectData,
+      selectedProjects: new Set([...state.selectedProjects].filter(projectActualId => projectActualId !== state.projectData[projectId].Id))
     }
   },
 
@@ -51,17 +53,24 @@ const projectReducer = handleActions({
       [ action.payload.uuid ] : {
         ...state.projectData[action.payload.uuid],
         Id: action.payload.projectId
-      }
+      },
+      selectedProjects: new Set([...state.selectedProjects, action.payload.projectId])
     }
   }),
 
-  SET_RESOURCES : (state, action) => ({
-    ...state,
-    projectData: action.payload.projectData
-  }),
+  SET_RESOURCES : (state, action) => {
+    return {
+        ...state,
+      projectData: action.payload.projectData,
+      selectedProjects: new Set(Object.keys(action.payload.projectData).map((projectUuid) => {
+          return action.payload.projectData[projectUuid].Id
+        })
+      )
+    }
+  },
 
   SET_PROJECTS : (state, action) => ({
-    ...state,
+      ...state,
     availableProjects: action.payload.availableProjects,
     isLoading: false
   }),
