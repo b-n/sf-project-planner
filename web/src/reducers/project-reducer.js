@@ -82,15 +82,13 @@ const projectReducer = handleActions({
           return action.payload.projectData[projectUuid].Id
         })
       ),
-      dirty: false,
-      isLoading: false
+      dirty: false
     }
   },
 
   SET_PROJECTS : (state, action) => ({
       ...state,
-    availableProjects: action.payload.availableProjects,
-    isLoading: false
+    availableProjects: action.payload.availableProjects
   }),
 
   UPDATE_RESOURCE_VALUE : (state, action) => {
@@ -131,12 +129,19 @@ const projectReducer = handleActions({
     ...state,
     isLoading: true
   }),
+
   SAVE_SUCCESS : (state, action) => ({
     ...state,
     isLoading: false,
     dirty: false
   }),
-  SAVE_ERROR : (state, action) => ({ ...state })
+
+  SAVE_ERROR : (state, action) => ({ ...state }),
+
+  SET_IS_LOADING : (state, action) => ({
+    ...state,
+    isLoading: action.payload.isLoading
+  })
 
 }, initialState)
 

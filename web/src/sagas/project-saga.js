@@ -69,12 +69,38 @@ function* saveResourceHourData() {
   }
 }
 
+function* checkStoredData() {
+  try {
+
+    const hasResourceData = yield select(selectors.hasResourceData)
+    const hasProjectData = yield select(selectors.hasProjectData)
+
+    if (hasResourceData && hasProjectData) {
+      yield put({
+        type: actionTypes.SET_IS_LOADING,
+        payload: {
+          isLoading: false
+        }
+      })
+    }
+
+  } catch(e) {
+    yield put({ type: actionTypes.API_ERROR, payload: {
+        message: e.message
+      }
+    })
+  }
+}
+
 function* projectSaga(){
   yield [
     takeEvery(actionTypes.GET_RESOURCES, getResourceHourData),
-    takeEvery(actionTypes.FETCH_PROJECTS, getProjects),
     takeEvery(actionTypes.UPDATE_WEEKS, getResourceHourData),
-    takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData)
+    takeEvery(actionTypes.FETCH_PROJECTS, getProjects),
+    takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData),
+
+    takeEvery(actionTypes.SET_RESOURCES, checkStoredData),
+    takeEvery(actionTypes.SET_PROJECTS, checkStoredData)
   ]
 }
 
