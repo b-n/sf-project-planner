@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { Typeahead } from 'react-typeahead'
 import ProjectTableRowInput from './project-table-row-input'
+import utility from '@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg'
 
 class ProjectTableRow extends Component {
 
@@ -39,7 +40,11 @@ class ProjectTableRow extends Component {
           />
         })}
         <td>
-          <button onClick={()=>{this.props.removeHandler(uuid)}}>Remove</button>
+          <button className="slds-button slds-button--icon-border-filled" title="Delete" onClick={()=>{this.props.removeHandler(uuid)}}>
+            <svg className="slds-button__icon" aria-hidden="true">
+              <use xlinkHref={utility + '#delete'}></use>
+            </svg>
+          </button>
         </td>
       </tr>
     )
