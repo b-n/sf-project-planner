@@ -23,8 +23,7 @@ class ProjectTable extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actionCreators.getResources())
-    this.props.dispatch(actionCreators.fetchProjects())
+    this.props.dispatch(actionCreators.getProjectPageData())
   }
 
   addProject() {

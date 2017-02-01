@@ -36,7 +36,7 @@ GlobalLayout.contextTypes = {
 
 const mapStateToProps = (state) =>  {
   return {
-    isLoading: state.projects.isLoading,
+    isLoading: state.global.isLoading,
     loggedIn: state.login.loggedIn
   }
 }

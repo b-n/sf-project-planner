@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import LoginFormInput from './login-form-input'
 import LoginFormError from './login-form-error'
 import Button from './button'
-import Spinner from './spinner'
 
 import * as actionCreators from '../actions/login'
 
@@ -38,7 +37,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { isLoading, errorMessage } = this.props
+    const { errorMessage } = this.props
 
     const error = errorMessage !== ''
       ?  <LoginFormError errorMessage={errorMessage} />
@@ -46,7 +45,6 @@ class LoginForm extends Component {
 
     return (
       <div>
-        <Spinner show={isLoading} />
         <form className='slds-form--stacked' onSubmit={this.submit}>
           <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={this.changeUsername} />
           <LoginFormInput label='Password' type='password' placeholder='password' onChange={this.changePassword} />
