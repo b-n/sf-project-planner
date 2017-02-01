@@ -5,7 +5,7 @@ const initialState = {
   projectData: {},
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  isLoading: true,
+  isLoading: false,
   availableProjects: [],
   dirty: false
 }
