@@ -87,6 +87,13 @@ function* saveResourceHourData() {
     yield put({
       type: actionTypes.SAVE_SUCCESS
     })
+
+    yield put({ type: actionTypes.SHOW_TOAST, payload: {
+        message: 'Resources saved successfully',
+        type: 'success'
+      }
+    })
+
   } catch(e) {
     yield put({ type: actionTypes.API_ERROR, payload: {
         message: e.message

@@ -1,10 +1,12 @@
 import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
 import '@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css'
+import * as actionCreators from '../actions/global'
 
 import GlobalHeader from './global-header'
 import GlobalFooter from './global-footer'
 import Spinner from '../components/spinner'
+import Toaster from '../components/toast'
 
 class GlobalLayout extends Component {
 
@@ -13,12 +15,18 @@ class GlobalLayout extends Component {
   }
 
   render() {
+    const { isLoading, toastMessage, toastType, showToast, children } = this.props
     return (
       <div className='slds'>
         <GlobalHeader/>
         <main>
-          <Spinner show={this.props.isLoading}/>
-          {this.props.children}
+          <Spinner show={isLoading}/>
+          <Toaster 
+            message={toastMessage} 
+            type={toastType} 
+            hideToast={() => this.props.dispatch(actionCreators.hideToast())} 
+            show={showToast}/>
+          {children}
         </main>
         <GlobalFooter/>
       </div>
@@ -37,7 +45,10 @@ GlobalLayout.contextTypes = {
 const mapStateToProps = (state) =>  {
   return {
     isLoading: state.global.isLoading,
-    loggedIn: state.login.loggedIn
+    loggedIn: state.login.loggedIn,
+    showToast: state.global.showToast,
+    toastMessage: state.global.toastMessage,
+    toastType: state.global.toastType
   }
 }
 

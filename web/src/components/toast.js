@@ -1,13 +1,29 @@
 import React, { PropTypes } from 'react'
+import utility from '@salesforce-ux/design-system/assets/icons/utility-sprite/svg/symbols.svg'
+import classnames from 'classnames'
 
-const Toaster = (props) => {
+const Toast = (props) => {
+
+  const toastClass = classnames('slds-notify slds-notify--toast',
+    {
+      'slds-theme--success': props.type === 'success',
+      'slds-theme--warning': props.type === 'warning',
+      'slds-theme--error': props.type === 'error',
+      'slds-hide': !props.show
+    }
+  );
+
+  if (props.show) {
+    window.setTimeout(() => props.hideToast(), 3000);
+  }
+
   return (
     <div className='slds-notify_container'>
-      <div class='slds-notify slds-notify--toast slds-theme' role="alert">
+      <div className={toastClass} role="alert">
         <span className='slds-assistive-text'>Info</span>
-        <button className='slds-button slds-notify__close slds-button--icon-inverse' title='Close'>
-          <svg className='slds-button__icon slds-button__icon--large' aria-hidden='true'>
-            <use xlink:href='/assets/icons/utility-sprite/svg/symbols.svg#close'></use>
+        <button onClick={props.hideToast} className='slds-button slds-notify__close slds-button--icon-inverse' title='Close'>
+          <svg className="slds-button__icon slds-button__icon--large">
+            <use xlinkHref={utility + '#close'}></use>
           </svg>
           <span className='slds-assistive-text'>Close</span>
         </button>
@@ -19,9 +35,11 @@ const Toaster = (props) => {
   )
 }
 
-Toaster.propTypes = {
+Toast.propTypes = {
   message: PropTypes.string.isRequired,
-  type: PropTypes.bool.isRequired
+  type: PropTypes.oneOf(['default', 'success', 'warning', 'error']),
+  show: PropTypes.bool.isRequired,
+  hideToast: PropTypes.func.isRequired
 }
 
-export default Toaster
+export default Toast
