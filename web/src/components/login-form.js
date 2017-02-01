@@ -2,8 +2,8 @@
 import { connect } from 'react-redux'
 
 import LoginFormInput from './login-form-input'
-import LoginFormSubmit from './login-form-submit'
 import LoginFormError from './login-form-error'
+import Button from './button'
 import Spinner from './spinner'
 
 import * as actionCreators from '../actions/login'
@@ -51,7 +51,9 @@ class LoginForm extends Component {
           <LoginFormInput label='Username' type='text' placeholder='username@beethree.nl' onChange={this.changeUsername} />
           <LoginFormInput label='Password' type='password' placeholder='password' onChange={this.changePassword} />
           {error}
-          <LoginFormSubmit label='Login' />
+          <div className="slds-form-element">
+            <Button type="brand" label="Login" />
+          </div>
         </form>
       </div>
     )

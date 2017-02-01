@@ -3,13 +3,5 @@ header {
 }
 
 main {
-  padding: 1rem;
-}
-
-body {
-  height: 100%;
-}
-
-#form-logo {
-
+  padding-top: 1rem;
 }

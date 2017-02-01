@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Button from './button'
 
 class ProjectTableDatePicker extends Component {
 
@@ -40,7 +41,7 @@ class ProjectTableDatePicker extends Component {
             </div>
           </div>
           <div className="slds-form-element">
-            <button type="submit" className="slds-button slds-button--brand">Set</button>
+            <Button type="brand" label="Update" />
           </div>
         </form>
       </div>
