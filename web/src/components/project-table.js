@@ -79,6 +79,7 @@ class ProjectTable extends Component {
           <tbody>
             {
               projectData.map(project => {
+                console.log(project.uuid)
                 return <ProjectTableRow
                   selectedProjects={selectedProjects}
                   availableProjects={availableProjects}
