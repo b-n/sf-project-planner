@@ -5,7 +5,6 @@ const initialState = {
   projectData: {},
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
-  isLoading: false,
   availableProjects: [],
   dirty: false
 }
@@ -107,28 +106,15 @@ const projectReducer = handleActions({
   UPDATE_WEEKS : (state, action) => ({
     ...state,
     weekFrom: moment(action.payload.weekFrom),
-    weekTo: moment(action.payload.weekTo),
-    isLoading: true
-  }),
-
-  SAVE_TO_SERVER : (state, action) => ({
-    ...state,
-    isLoading: true
+    weekTo: moment(action.payload.weekTo)
   }),
 
   SAVE_SUCCESS : (state, action) => ({
     ...state,
-    isLoading: false,
     dirty: false
   }),
 
   SAVE_ERROR : (state, action) => ({ ...state }),
-
-  SET_IS_LOADING : (state, action) => ({
-    ...state,
-    isLoading: action.payload.isLoading
-  })
-
 }, initialState)
 
 
