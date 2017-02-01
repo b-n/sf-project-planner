@@ -82,6 +82,8 @@ function* saveResourceHourData() {
 
     yield api.saveResources(token, data)
 
+    yield getResourceHourData()
+
     yield put({
       type: actionTypes.SAVE_SUCCESS
     })
