@@ -6,13 +6,8 @@ const initialState = {
   weekFrom: moment().startOf('isoWeek'),
   weekTo: moment().add(5, 'week').startOf('isoWeek'),
   isLoading: true,
-  availableProjects: [
-    {
-      Id: 'idgoeshere',
-      Name: 'goeshere'
-    }
-  ],
-  selectedProjects: new Set()
+  availableProjects: [],
+  dirty: false
 }
 
 const projectReducer = handleActions({
@@ -23,7 +18,8 @@ const projectReducer = handleActions({
       [ action.payload.newProject.uuid ] : {
         ...action.payload.newProject
       }
-    }
+    },
+    dirty: true
   }),
 
   REMOVE_PROJECT : (state, action) => {
@@ -31,7 +27,19 @@ const projectReducer = handleActions({
 
     const projectData = Object.values(state.projectData).reduce((accumulator, currentValue) => {
       const { uuid } = currentValue
-      if (uuid === projectId) return accumulator;
+
+      if (uuid === projectId) {
+        currentValue.isHidden = true;
+        currentValue.values = Object.values(currentValue.values).reduce((accumulator, value) => {
+          return {
+            ...accumulator,
+            [ value.Week_Start__c ]: {
+              ...value,
+              Hours__c: 0
+            }
+          };
+        }, {})
+      }
 
       return {
         ...accumulator,
@@ -42,7 +50,7 @@ const projectReducer = handleActions({
     return {
       ...state,
       projectData,
-      selectedProjects: new Set([...state.selectedProjects].filter(projectActualId => projectActualId !== state.projectData[projectId].Id))
+      dirty: true
     }
   },
 
@@ -53,26 +61,20 @@ const projectReducer = handleActions({
       [ action.payload.uuid ] : {
         ...state.projectData[action.payload.uuid],
         Id: action.payload.projectId
-      },
-      selectedProjects: new Set([...state.selectedProjects, action.payload.projectId])
-    }
+      }
+    },
+    dirty: true
   }),
 
-  SET_RESOURCES : (state, action) => {
-    return {
-        ...state,
+  SET_RESOURCES : (state, action) => ({
+      ...state,
       projectData: action.payload.projectData,
-      selectedProjects: new Set(Object.keys(action.payload.projectData).map((projectUuid) => {
-          return action.payload.projectData[projectUuid].Id
-        })
-      )
-    }
-  },
+      dirty: false
+  }),
 
   SET_PROJECTS : (state, action) => ({
-      ...state,
-    availableProjects: action.payload.availableProjects,
-    isLoading: false
+    ...state,
+    availableProjects: action.payload.availableProjects
   }),
 
   UPDATE_RESOURCE_VALUE : (state, action) => {
@@ -97,20 +99,35 @@ const projectReducer = handleActions({
           ...state.projectData[projectId],
           values
         }
-      }
+      },
+      dirty: true
     }
   },
 
-  UPDATE_WEEKS : (state, action) => ({ ...state }),
+  UPDATE_WEEKS : (state, action) => ({
+    ...state,
+    weekFrom: moment(action.payload.weekFrom),
+    weekTo: moment(action.payload.weekTo),
+    isLoading: true
+  }),
+
   SAVE_TO_SERVER : (state, action) => ({
     ...state,
     isLoading: true
   }),
+
   SAVE_SUCCESS : (state, action) => ({
     ...state,
-    isLoading: false
+    isLoading: false,
+    dirty: false
   }),
-  SAVE_ERROR : (state, action) => ({ ...state })
+
+  SAVE_ERROR : (state, action) => ({ ...state }),
+
+  SET_IS_LOADING : (state, action) => ({
+    ...state,
+    isLoading: action.payload.isLoading
+  })
 
 }, initialState)
 

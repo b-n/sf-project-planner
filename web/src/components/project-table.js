@@ -20,6 +20,7 @@ class ProjectTable extends Component {
     this.saveToServer = this.saveToServer.bind(this)
     this.updateResourceValue = this.updateResourceValue.bind(this)
     this.updateProjectUuidToId = this.updateProjectUuidToId.bind(this)
+    this.changeDate = this.changeDate.bind(this)
   }
 
   componentDidMount() {
@@ -47,9 +48,16 @@ class ProjectTable extends Component {
     this.props.dispatch(actionCreators.updateProjectUuidToId(uuid, projectId))
   }
 
-  render() {
+  changeDate(weekFrom, weekTo) {
+    if (this.props.dirty) {
+      alert('Computer says no, you need to refresh the form before you can set the date')
+      return
+    }
+    this.props.dispatch(actionCreators.updateWeeks(weekFrom, weekTo))
+  }
 
-    const { selectedProjects, availableProjects, projects, weekFrom, weekTo } = this.props
+  render() {
+    const { availableProjects, projects, weekFrom, weekTo, isLoading } = this.props
     const numberOfWeeks = weekTo.diff(weekFrom, 'week')
     const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
 
@@ -72,8 +80,12 @@ class ProjectTable extends Component {
 
     return (
       <div>
-        <Spinner show={this.props.isLoading}/>
-        <ProjectTableDatePicker/>
+        <Spinner show={isLoading}/>
+        <ProjectTableDatePicker
+          weekFrom={moment(weekFrom).format('YYYY-MM-DD')}
+          weekTo={moment(weekTo).format('YYYY-MM-DD')}
+          submit={this.changeDate}
+        />
         <table className='slds-table slds-table--bordered slds-table--cell-buffer' role='grid'>
           <ProjectTableHeader weeksArray={weeksArray} />
           <tbody>
@@ -81,7 +93,6 @@ class ProjectTable extends Component {
               projectData.map(project => {
                 console.log(project.uuid)
                 return <ProjectTableRow
-                  selectedProjects={selectedProjects}
                   availableProjects={availableProjects}
                   project={project}
                   key={project.uuid}
@@ -102,9 +113,20 @@ class ProjectTable extends Component {
 
 
 const mapStateToProps = (state) => {
+  const projects = Object.values(state.projects.projectData);
+
+  //Contains list from the api, minus projects already on screen unless they are hidden
+  const availableProjects = state.projects.availableProjects.filter(avPrj => {
+    return !projects.some(prj => {
+      if (prj.isHidden) return false;
+      return prj.Id === avPrj.Id
+    });
+  });
+
   return {
     ...state.projects,
-    projects: Object.values(state.projects.projectData)
+    projects: projects.filter(proj => !proj.isHidden),
+    availableProjects
   }
 }
 

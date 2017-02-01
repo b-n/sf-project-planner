@@ -9,7 +9,5 @@ export const fetchProjects = createAction(actionTypes.FETCH_PROJECTS)
 export const getResources = createAction(actionTypes.GET_RESOURCES)
 export const updateProjectUuidToId = createAction(actionTypes.PROJECT_UUID_TO_ID_UPDATE, (uuid, projectId) => ({ uuid, projectId }))
 export const updateResourceValue = createAction(actionTypes.UPDATE_RESOURCE_VALUE, (hours, projectId, week) => ({ hours, projectId, week }))
-
-//TODO: implement:
-export const updateWeeks = createAction(actionTypes.UPDATE_WEEKS)
+export const updateWeeks = createAction(actionTypes.UPDATE_WEEKS, (weekFrom, weekTo) => ({ weekFrom, weekTo }))
 export const saveToServer = createAction(actionTypes.SAVE_TO_SERVER)

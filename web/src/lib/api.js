@@ -49,7 +49,12 @@ export function getProjects(token) {
     .then(handleErrors)
     .then(response => response.json())
     .then(data => {
-      resolve(data);
+      const projectData = data.map(item => {
+        const { Id, Name } = item;
+        return { Id, Name };
+      });
+      
+      resolve(projectData);
     })
     .catch(e => {
       reject(new Error('Error trying to login'))
