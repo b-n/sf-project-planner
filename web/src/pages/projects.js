@@ -12,11 +12,7 @@ class Projects extends Component {
   }
 
   render() {
-    return (
-      <div className='slds-container--center slds-container--x-large'>
-        <ProjectTable />
-      </div>
-    )
+    return <ProjectTable />
   }
 }
 

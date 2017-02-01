@@ -7,8 +7,7 @@ import moment from 'moment'
 import ProjectTableDatePicker from './project-table-date-picker'
 import ProjectTableHeader from './project-table-header'
 import ProjectTableRow from './project-table-row'
-import ProjectTableSaveButton from './project-table-save-button'
-import ProjectAddNew from './project-table-add-new'
+import Button from './button'
 import Spinner from './spinner'
 
 class ProjectTable extends Component {
@@ -17,6 +16,7 @@ class ProjectTable extends Component {
     super()
     this.addProject = this.addProject.bind(this)
     this.removeProjectHandler = this.removeProjectHandler.bind(this)
+    this.discardChanges = this.discardChanges.bind(this)
     this.saveToServer = this.saveToServer.bind(this)
     this.updateResourceValue = this.updateResourceValue.bind(this)
     this.updateProjectUuidToId = this.updateProjectUuidToId.bind(this)
@@ -34,6 +34,10 @@ class ProjectTable extends Component {
 
   removeProjectHandler(projectId) {
     this.props.dispatch(actionCreators.removeProject(projectId))
+  }
+
+  discardChanges() {
+    this.props.dispatch(actionCreators.getResources())
   }
 
   saveToServer() {
@@ -104,8 +108,12 @@ class ProjectTable extends Component {
             }
           </tbody>
         </table>
-        <ProjectAddNew onClick={this.addProject} />
-        <ProjectTableSaveButton submit={this.saveToServer} />
+        <div className="slds-grid slds-m-around--small">
+          <Button label="Add" onClick={this.addProject} iconName='add' iconPosition='left' type="neutral" />
+          <div className="slds-col"></div>
+          <Button label="Discard Changes" onClick={this.discardChanges} type="neutral" />
+          <Button label="Save Resources" onClick={this.saveToServer} type="brand" />
+        </div>
       </div>
     )
   }
