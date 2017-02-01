@@ -6,6 +6,13 @@ import actionTypes from '../actions/action-types'
 
 function* getResourceHourData(action){
   try {
+    yield put({
+      type: actionTypes.SET_IS_LOADING,
+      payload: {
+        isLoading: true
+      }
+    })
+
     const projects = yield select(selectors.projects)
     const { weekFrom, weekTo } = projects
     const dateRange = {
@@ -24,6 +31,13 @@ function* getResourceHourData(action){
       }
     })
   } catch(e){
+    yield put({
+      type: actionTypes.SET_IS_LOADING,
+      payload: {
+        isLoading: false
+      }
+    })
+
     yield put({ type: actionTypes.API_ERROR, payload: {
         message: e.message
       }
@@ -33,6 +47,12 @@ function* getResourceHourData(action){
 
 function* getProjects(){
   try {
+    yield put({
+      type: actionTypes.SET_IS_LOADING,
+      payload: {
+        isLoading: true
+      }
+    })
 
     const token = yield select(selectors.token)
 
@@ -42,6 +62,13 @@ function* getProjects(){
       payload: { availableProjects: data }
     })
   } catch(e) {
+    yield put({
+      type: actionTypes.SET_IS_LOADING,
+      payload: {
+        isLoading: false
+      }
+    })
+
     yield put({ type: actionTypes.API_ERROR, payload: {
         message: e.message
       }

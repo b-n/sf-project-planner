@@ -8,7 +8,6 @@ import ProjectTableDatePicker from './project-table-date-picker'
 import ProjectTableHeader from './project-table-header'
 import ProjectTableRow from './project-table-row'
 import Button from './button'
-import Spinner from './spinner'
 
 class ProjectTable extends Component {
 
@@ -61,7 +60,7 @@ class ProjectTable extends Component {
   }
 
   render() {
-    const { availableProjects, projects, weekFrom, weekTo, isLoading } = this.props
+    const { availableProjects, projects, weekFrom, weekTo } = this.props
     const numberOfWeeks = weekTo.diff(weekFrom, 'week')
     const weeksArray = Array.from({ length: numberOfWeeks }, (value, index) => moment(weekFrom).add(index, 'week').format('YYYY-MM-DD'))
 
@@ -84,7 +83,6 @@ class ProjectTable extends Component {
 
     return (
       <div>
-        <Spinner show={isLoading}/>
         <ProjectTableDatePicker
           weekFrom={moment(weekFrom).format('YYYY-MM-DD')}
           weekTo={moment(weekTo).format('YYYY-MM-DD')}
@@ -95,7 +93,6 @@ class ProjectTable extends Component {
           <tbody>
             {
               projectData.map(project => {
-                console.log(project.uuid)
                 return <ProjectTableRow
                   availableProjects={availableProjects}
                   project={project}
