@@ -1,5 +1,5 @@
 {
-  "login": "https://zo5571jwvj.execute-api.us-east-1.amazonaws.com/dev/login",
-  "resources": "https://zo5571jwvj.execute-api.us-east-1.amazonaws.com/dev/resources",
-  "projects": "https://zo5571jwvj.execute-api.us-east-1.amazonaws.com/dev/projects"
+  "login": "https://3idmo2c8ti.execute-api.us-east-1.amazonaws.com/dev/login",
+  "resources": "https://3idmo2c8ti.execute-api.us-east-1.amazonaws.com/dev/resources",
+  "projects": "https://3idmo2c8ti.execute-api.us-east-1.amazonaws.com/dev/projects"
 }

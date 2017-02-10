@@ -53,17 +53,24 @@ const projectReducer = handleActions({
     }
   },
 
-  PROJECT_UUID_TO_ID_UPDATE : (state, action) => ({
-    ...state,
-    projectData: {
-      ...state.projectData,
-      [ action.payload.uuid ] : {
-        ...state.projectData[action.payload.uuid],
-        Id: action.payload.projectId
-      }
-    },
-    dirty: true
-  }),
+  PROJECT_UUID_TO_ID_UPDATE : (state, action) => {
+    const { uuid, projectId } = action.payload
+    const { Id, Name, Status } = state.availableProjects.filter(project => project.Id === projectId)[0]
+
+    return {
+      ...state,
+      projectData: {
+        ...state.projectData,
+        [ uuid ] : {
+          ...state.projectData[ uuid ],
+          Id,
+          Name,
+          Status
+        }
+      },
+      dirty: true
+    }
+  },
 
   SET_RESOURCES : (state, action) => ({
       ...state,

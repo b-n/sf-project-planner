@@ -42,11 +42,11 @@ function* getResourceHourData(action){
 
     const data = yield api.getResources(token, dateRange)
 
+    const projectData = selectors.resourceDataFromAPI(data)
+
     yield put({
       type: actionTypes.SET_RESOURCES,
-      payload: {
-        projectData: data
-      }
+      payload: { projectData }
     })
   } catch(e){
     yield put({ type: actionTypes.API_ERROR, payload: {
@@ -61,9 +61,11 @@ function* getProjects(){
     const token = yield select(selectors.token)
 
     const data = yield api.getProjects(token)
+
+    const availableProjects = selectors.projectDataFromAPI(data)
     yield put({
       type: actionTypes.SET_PROJECTS,
-      payload: { availableProjects: data }
+      payload: { availableProjects }
     })
   } catch(e) {
     yield put({ type: actionTypes.API_ERROR, payload: {
@@ -78,9 +80,11 @@ function* saveResourceHourData() {
 
     const data = yield select(selectors.projectData)
 
+    const apiData = selectors.resourceDataToAPI(data)
+
     const token = yield select(selectors.token)
 
-    yield api.saveResources(token, data)
+    yield api.saveResources(token, apiData)
 
     yield getResourceHourData()
 
