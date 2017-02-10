@@ -7,9 +7,9 @@ export default {
   token: state => state.login.token,
   hasResourceData: state => Object.keys(state.projects.projectData).length !== 0,
   hasProjectData: state => state.projects.availableProjects.length !== 0,
-  resourceDataFromAPI: resourceDataFromAPI
+  resourceDataFromAPI: resourceDataFromAPI,
+  projectDataFromAPI: projectDataFromAPI
 }
-
 
 function resourceDataFromAPI(data) {
   //collect all resource hours by projectId
@@ -58,4 +58,11 @@ function resourceDataFromAPI(data) {
   }, {});
 
   return projectData
+}
+
+function projectDataFromAPI(data) {
+  return data.map(item => {
+    const { Id, Name } = item
+    return { Id, Name }
+  })
 }
