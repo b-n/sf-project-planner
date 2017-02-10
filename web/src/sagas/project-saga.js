@@ -80,9 +80,11 @@ function* saveResourceHourData() {
 
     const data = yield select(selectors.projectData)
 
+    const apiData = selectors.resourceDataToAPI(data)
+
     const token = yield select(selectors.token)
 
-    yield api.saveResources(token, data)
+    yield api.saveResources(token, apiData)
 
     yield getResourceHourData()
 

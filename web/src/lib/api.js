@@ -89,26 +89,8 @@ export function getResources(token, { weekstart, weekend }) {
 export function saveResources(token, data) {
   if (!token) return Promise.reject(new Error('Not authenticated'))
 
-  const resourceHours = Object.values(data).reduce((accumulator, currentValue) => {
-
-    const { values } = currentValue
-    const Project__c = currentValue.Id
-
-    return accumulator.concat(Object.values(values).map(value => {
-
-      const { Id, Hours__c, Week_Start__c } = value
-
-      return {
-        Project__c,
-        Id,
-        Hours__c,
-        Week_Start__c
-      }
-    }))
-  }, [])
-
   return new Promise((resolve, reject) => {
-    const body = JSON.stringify(resourceHours)
+    const body = JSON.stringify(data)
 
     fetch(endpoints.resources, {
       method: 'POST',
@@ -120,9 +102,7 @@ export function saveResources(token, data) {
     })
     .then(handleErrors)
     .then(response => response.json())
-    .then(data => {
-      resolve(data);
-    })
+    .then(resolve)
     .catch(e => {
       reject(new Error('Error trying to login'))
     })

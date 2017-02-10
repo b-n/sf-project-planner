@@ -7,9 +7,31 @@ export default {
   token: state => state.login.token,
   hasResourceData: state => Object.keys(state.projects.projectData).length !== 0,
   hasProjectData: state => state.projects.availableProjects.length !== 0,
+  resourceDataToAPI: resourceDataToAPI,
   resourceDataFromAPI: resourceDataFromAPI,
   projectDataFromAPI: projectDataFromAPI
 }
+
+function resourceDataToAPI(data) {
+  return Object.values(data).reduce((accumulator, currentValue) => {
+
+    const { values } = currentValue
+    const Project__c = currentValue.Id
+
+    return accumulator.concat(Object.values(values).map(value => {
+
+      const { Id, Hours__c, Week_Start__c } = value
+
+      return {
+        Project__c,
+        Id,
+        Hours__c,
+        Week_Start__c
+      }
+    }))
+  }, [])
+}
+
 
 function resourceDataFromAPI(data) {
   //collect all resource hours by projectId
