@@ -4,6 +4,16 @@ import * as api from '../lib/api'
 import selectors from '../lib/selectors'
 import actionTypes from '../actions/action-types'
 
+function* showAPIErrorToast(e) {
+  yield put({
+    type: actionTypes.SHOW_TOAST,
+    payload: {
+      message: 'Error when processing your request. Error message: ' + e.message,
+      type: 'error'
+    }
+  })
+}
+
 function* getProjectPageData(action) {
   yield [
     call(getResourceHourData),
@@ -49,10 +59,7 @@ function* getResourceHourData(action){
       payload: { projectData }
     })
   } catch(e){
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -68,10 +75,7 @@ function* getProjects(){
       payload: { availableProjects }
     })
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -99,10 +103,7 @@ function* saveResourceHourData() {
     })
 
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -122,10 +123,7 @@ function* checkStoredData() {
     }
 
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 

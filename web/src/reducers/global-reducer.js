@@ -53,11 +53,6 @@ const LoginReducer = handleActions({
     isLoading: false
   }),
 
-  API_ERROR: (state, action) => ({
-    ...state,
-    isloading: false
-  }),
-
   SET_IS_LOADING: (state, action) => ({
     ...state,
     isLoading: action.payload.isLoading
