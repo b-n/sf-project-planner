@@ -55,7 +55,6 @@ export function getProjects(token) {
 }
 
 export function getResources(token, { weekstart, weekend }) {
-  //TODO holy smokes batman, this function needs to be refactored a bit
   if (!token) return Promise.reject(new Error('Not authenticated'))
   if (!weekstart || !weekend) return Promise.reject(new Error('Invalid date range'))
 

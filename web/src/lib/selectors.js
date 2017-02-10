@@ -63,7 +63,7 @@ function resourceDataFromAPI(data) {
 
   //generate final structure
   const projectData = Object.values(ProjectHashMap).reduce((accumulator, currentValue) => {
-    const { Id, Name } = currentValue
+    const { Id, Name, Status__c } = currentValue
     const uuid = uuidV4();
 
     return {
@@ -72,6 +72,7 @@ function resourceDataFromAPI(data) {
         uuid,
         Id,
         Name,
+        Status: Status__c,
         values: {
           ...ProjectResourceHoursHashMap[Id]
         }
@@ -84,7 +85,7 @@ function resourceDataFromAPI(data) {
 
 function projectDataFromAPI(data) {
   return data.map(item => {
-    const { Id, Name } = item
-    return { Id, Name }
+    const { Id, Name, Status__c } = item
+    return { Id, Name, Status: Status__c }
   })
 }
