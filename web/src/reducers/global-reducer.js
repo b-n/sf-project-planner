@@ -23,6 +23,11 @@ const LoginReducer = handleActions({
     isLoading: true
   }),
 
+  UPDATE_WEEKS: (state, action) => ({
+    ...state,
+    isLoading: true
+  }),
+
   SAVE_TO_SERVER: (state, action) => ({
     ...state,
     isLoading: true

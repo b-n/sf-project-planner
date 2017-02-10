@@ -133,7 +133,7 @@ function* projectSaga(){
   yield [
     takeEvery(actionTypes.GET_RESOURCES, getOnlyResourceHourData),
     takeEvery(actionTypes.GET_PROJECT_PAGE_DATA, getProjectPageData),
-    takeEvery(actionTypes.UPDATE_WEEKS, getResourceHourData),
+    takeEvery(actionTypes.UPDATE_WEEKS, getOnlyResourceHourData),
     takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData),
 
     takeEvery(actionTypes.SET_RESOURCES, checkStoredData),
