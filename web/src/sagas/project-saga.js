@@ -42,10 +42,12 @@ function* getResourceHourData(action){
 
     const data = yield api.getResources(token, dateRange)
 
+    const projectData = selectors.resourceDataFromAPI(data)
+
     yield put({
       type: actionTypes.SET_RESOURCES,
       payload: {
-        projectData: data
+        projectData
       }
     })
   } catch(e){
