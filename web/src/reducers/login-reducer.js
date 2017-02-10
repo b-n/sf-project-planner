@@ -2,7 +2,6 @@ import { handleActions } from 'redux-actions'
 
 const initialState = {
   loggedIn: false,
-  isLoading: false,
   errorMessage: '',
   token: ''
 }
@@ -24,8 +23,7 @@ const LoginReducer = handleActions({
 
   LOGIN_ERROR: (state, action) => ({
     ...state,
-    errorMessage: action.payload.message,
-    isLoading: false
+    errorMessage: action.payload.message
   })
 
 }, initialState)
