@@ -9,7 +9,6 @@ const initialState = {
 const LoginReducer = handleActions({
   LOGIN_ATTEMPT: (state, action) => ({
     ...state,
-    isLoading: true,
     errorMessage: ''
   }),
 
@@ -17,7 +16,6 @@ const LoginReducer = handleActions({
     ...state,
     token: action.payload.token,
     loggedIn: true,
-    isLoading: false,
     errorMessage: ''
   }),
 
