@@ -28,7 +28,7 @@ export default class Resources {
         if (!query || !query.weekstart || !query.weekend) {
             return Promise.reject(new Error('Missing parameters'));
         }
-        return this.conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Project__r.Id, Hours__c
+        return this.conn.query(`SELECT Id, Week_Start__c, Project__c, Project__r.Name, Project__r.Id, Project__r.Status__c, Hours__c
                                 FROM   Resource_Hours__c
                                 WHERE  Employee__c = '${employeeId}'
                                        AND Week_Start__c <= ${query.weekend}
