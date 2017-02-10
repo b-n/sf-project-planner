@@ -6,7 +6,7 @@ import utility from '@salesforce-ux/design-system/assets/icons/utility-sprite/sv
 class ProjectTableRow extends Component {
 
   render() {
-    const { Name, uuid, displayValues } = this.props.project
+    const { Name, uuid, displayValues, Status } = this.props.project
     const typeaheadClasses = {
       results: 'slds-dropdown slds-dropdown--left',
       listItem: 'slds-dropdown__item',
@@ -31,6 +31,9 @@ class ProjectTableRow extends Component {
             onChange={typeaheadBugFix}
             onOptionSelected={e=>{ this.props.updateProjectUuidToId(uuid, e.Id)}}
           />
+        </td>
+        <td>
+          {Status}
         </td>
         { displayValues.map((week, index) =>{
           return <ProjectTableRowInput

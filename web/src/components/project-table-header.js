@@ -8,11 +8,13 @@ const ProjectTableHeader = (props) => {
     <thead>
       <tr className='slds-text-title--caps'>
         <ProjectTableHeaderCol colName='Project'/>
+        <ProjectTableHeaderCol colName='Status' />
         {
           props.weeksArray.map(week => {
             return <ProjectTableHeaderCol colName={week} key={week}/>
           })
         }
+        <ProjectTableHeaderCol colName='Action' />
       </tr>
     </thead>
   )
