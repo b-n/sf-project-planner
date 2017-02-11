@@ -3,6 +3,25 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 import * as api from '../lib/api'
 import selectors from '../lib/selectors'
 import actionTypes from '../actions/action-types'
+import { UnauthorizedError } from '../lib/exceptions'
+
+function* showAPIErrorToast(e) {
+  yield put({
+    type: actionTypes.SHOW_TOAST,
+    payload: {
+      message: 'Error when processing your request. Error message: ' + e.message,
+      type: 'error'
+    }
+  })
+
+  //shouldn't need the check on e.message however custom authorizers don't return valid cors responses if not validated
+  if (e instanceof UnauthorizedError || e.message === 'Failed to fetch') {
+    yield put({
+      type: actionTypes.API_UNAUTHORIZED,
+      payload: {}
+    })
+  }
+}
 
 function* getProjectPageData(action) {
   yield [
@@ -49,10 +68,7 @@ function* getResourceHourData(action){
       payload: { projectData }
     })
   } catch(e){
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -68,10 +84,7 @@ function* getProjects(){
       payload: { availableProjects }
     })
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -99,10 +112,7 @@ function* saveResourceHourData() {
     })
 
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -122,10 +132,7 @@ function* checkStoredData() {
     }
 
   } catch(e) {
-    yield put({ type: actionTypes.API_ERROR, payload: {
-        message: e.message
-      }
-    })
+    yield showAPIErrorToast(e)
   }
 }
 
@@ -133,7 +140,7 @@ function* projectSaga(){
   yield [
     takeEvery(actionTypes.GET_RESOURCES, getOnlyResourceHourData),
     takeEvery(actionTypes.GET_PROJECT_PAGE_DATA, getProjectPageData),
-    takeEvery(actionTypes.UPDATE_WEEKS, getResourceHourData),
+    takeEvery(actionTypes.UPDATE_WEEKS, getOnlyResourceHourData),
     takeEvery(actionTypes.SAVE_TO_SERVER, saveResourceHourData),
 
     takeEvery(actionTypes.SET_RESOURCES, checkStoredData),

@@ -2,7 +2,6 @@ import { handleActions } from 'redux-actions'
 
 const initialState = {
   loggedIn: false,
-  isLoading: false,
   errorMessage: '',
   token: ''
 }
@@ -10,7 +9,6 @@ const initialState = {
 const LoginReducer = handleActions({
   LOGIN_ATTEMPT: (state, action) => ({
     ...state,
-    isLoading: true,
     errorMessage: ''
   }),
 
@@ -18,14 +16,19 @@ const LoginReducer = handleActions({
     ...state,
     token: action.payload.token,
     loggedIn: true,
-    isLoading: false,
     errorMessage: ''
   }),
 
   LOGIN_ERROR: (state, action) => ({
     ...state,
-    errorMessage: action.payload.message,
-    isLoading: false
+    errorMessage: action.payload.message
+  }),
+
+  API_UNAUTHORIZED: (state, action) => ({
+    ...state,
+    loggedIn: false,
+    token: '',
+    errorMessage: 'Your login expired, please log in again'
   })
 
 }, initialState)

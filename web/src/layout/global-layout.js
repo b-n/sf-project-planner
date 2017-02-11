@@ -14,6 +14,10 @@ class GlobalLayout extends Component {
     if (!this.props.loggedIn && this.props.location.pathname !== '/') this.context.router.push('/')
   }
 
+  componentWillUpdate(nextProps) {
+    if (!nextProps.loggedIn && nextProps.location.pathname !== '/') this.context.router.push('/')
+  }
+
   render() {
     const { isLoading, toastMessage, toastType, showToast, children } = this.props
     return (
@@ -21,10 +25,10 @@ class GlobalLayout extends Component {
         <GlobalHeader/>
         <main>
           <Spinner show={isLoading}/>
-          <Toaster 
-            message={toastMessage} 
-            type={toastType} 
-            hideToast={() => this.props.dispatch(actionCreators.hideToast())} 
+          <Toaster
+            message={toastMessage}
+            type={toastType}
+            hideToast={() => this.props.dispatch(actionCreators.hideToast())}
             show={showToast}/>
           {children}
         </main>

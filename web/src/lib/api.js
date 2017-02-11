@@ -1,4 +1,5 @@
 import endpoints from '../endpoints'
+import { UnauthorizedError } from './exceptions'
 
 export function postLogin(username, password) {
 
@@ -25,16 +26,12 @@ export function postLogin(username, password) {
 
       resolve(data);
     })
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
-
+    .catch(reject)
   })
 }
 
 export function getProjects(token) {
-
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
 
   return new Promise((resolve, reject) => {
 
@@ -48,14 +45,12 @@ export function getProjects(token) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
+    .catch(reject)
   })
 }
 
 export function getResources(token, { weekstart, weekend }) {
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
   if (!weekstart || !weekend) return Promise.reject(new Error('Invalid date range'))
 
   return new Promise((resolve, reject) => {
@@ -79,14 +74,12 @@ export function getResources(token, { weekstart, weekend }) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error processing get resources call'))
-    })
+    .catch(reject)
   })
 }
 
 export function saveResources(token, data) {
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
 
   return new Promise((resolve, reject) => {
     const body = JSON.stringify(data)
@@ -102,14 +95,13 @@ export function saveResources(token, data) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
+    .catch(reject)
   });
 }
 
 
 function handleErrors(response) {
-  if (!response.ok) throw Error(response.statusText)
+  if (response.status === 401) throw new UnauthorizedError()
+  if (!response.ok) throw new Error(response.statusText)
   return response
 }
