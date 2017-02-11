@@ -34,12 +34,11 @@ const generatePolicy = (principalId, effect, resource) => {
 export function authorizer({ event, callback }) {
     const token = event.authorizationToken;
 
-    if (!token) {
-        callback('No bearer token supplied');
-        return;
-    }
-
     try {
+        if (!token) {
+            throw new Error('No bearer token supplied');
+        }
+
         const jwtToken = jwt.verify(
             event.authorizationToken.replace('Bearer ', ''),
             process.env.JWT_SECRET,
@@ -49,8 +48,7 @@ export function authorizer({ event, callback }) {
         callback(null, generatePolicy(jwtToken.employeeId, 'Allow', event.methodArn));
 
     } catch (e) {
-        callback('Invalid token');
         console.log(e.message);
-        return;
+        callback('Unauthorized');
     }
 }
