@@ -22,6 +22,13 @@ const LoginReducer = handleActions({
   LOGIN_ERROR: (state, action) => ({
     ...state,
     errorMessage: action.payload.message
+  }),
+
+  API_UNAUTHORIZED: (state, action) => ({
+    ...state,
+    loggedIn: false,
+    token: '',
+    errorMessage: 'Your login expired, please log in again'
   })
 
 }, initialState)

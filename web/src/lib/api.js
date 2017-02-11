@@ -31,8 +31,7 @@ export function postLogin(username, password) {
 }
 
 export function getProjects(token) {
-
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
 
   return new Promise((resolve, reject) => {
 
@@ -51,7 +50,7 @@ export function getProjects(token) {
 }
 
 export function getResources(token, { weekstart, weekend }) {
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
   if (!weekstart || !weekend) return Promise.reject(new Error('Invalid date range'))
 
   return new Promise((resolve, reject) => {
@@ -80,7 +79,7 @@ export function getResources(token, { weekstart, weekend }) {
 }
 
 export function saveResources(token, data) {
-  if (!token) return Promise.reject(new Error('Not authenticated'))
+  if (!token) return Promise.reject(new UnauthorizedError())
 
   return new Promise((resolve, reject) => {
     const body = JSON.stringify(data)
@@ -102,6 +101,7 @@ export function saveResources(token, data) {
 
 
 function handleErrors(response) {
+  console.log(response)
   if (response.status === 401) throw new UnauthorizedError()
   if (!response.ok) throw new Error(response.statusText)
   return response

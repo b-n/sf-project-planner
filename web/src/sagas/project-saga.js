@@ -14,7 +14,8 @@ function* showAPIErrorToast(e) {
     }
   })
 
-  if (e instanceof UnauthorizedError) {
+  //shouldn't need the check on e.message however custom authorizers don't return valid cors responses if not validated
+  if (e instanceof UnauthorizedError || e.message === 'Failed to fetch') {
     yield put({
       type: actionTypes.API_UNAUTHORIZED,
       payload: {}
