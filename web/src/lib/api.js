@@ -101,7 +101,6 @@ export function saveResources(token, data) {
 
 
 function handleErrors(response) {
-  console.log(response)
   if (response.status === 401) throw new UnauthorizedError()
   if (!response.ok) throw new Error(response.statusText)
   return response
