@@ -1,4 +1,5 @@
 import endpoints from '../endpoints'
+import { UnauthorizedError } from './exceptions'
 
 export function postLogin(username, password) {
 
@@ -25,10 +26,7 @@ export function postLogin(username, password) {
 
       resolve(data);
     })
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
-
+    .catch(reject)
   })
 }
 
@@ -48,9 +46,7 @@ export function getProjects(token) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
+    .catch(reject)
   })
 }
 
@@ -79,9 +75,7 @@ export function getResources(token, { weekstart, weekend }) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error processing get resources call'))
-    })
+    .catch(reject)
   })
 }
 
@@ -102,14 +96,13 @@ export function saveResources(token, data) {
     .then(handleErrors)
     .then(response => response.json())
     .then(resolve)
-    .catch(e => {
-      reject(new Error('Error trying to login'))
-    })
+    .catch(reject)
   });
 }
 
 
 function handleErrors(response) {
-  if (!response.ok) throw Error(response.statusText)
+  if (response.status === 401) throw new UnauthorizedError()
+  if (!response.ok) throw new Error(response.statusText)
   return response
 }

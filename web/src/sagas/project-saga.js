@@ -3,6 +3,7 @@ import { call, put, select, takeEvery } from 'redux-saga/effects'
 import * as api from '../lib/api'
 import selectors from '../lib/selectors'
 import actionTypes from '../actions/action-types'
+import { UnauthorizedError } from '../lib/exceptions'
 
 function* showAPIErrorToast(e) {
   yield put({
@@ -12,6 +13,13 @@ function* showAPIErrorToast(e) {
       type: 'error'
     }
   })
+
+  if (e instanceof UnauthorizedError) {
+    yield put({
+      type: actionTypes.API_UNAUTHORIZED,
+      payload: {}
+    })
+  }
 }
 
 function* getProjectPageData(action) {
