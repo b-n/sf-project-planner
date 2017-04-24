@@ -72,14 +72,6 @@ export default class Login {
         return Promise.resolve({ token });
     }
 
-    sendCallback(result) {
-        this.callback(null, result);
-    }
-
-    errorCallback(error) {
-        this.callback(error);
-    }
-
     static checkPassword(password, salt, storedPassword) {
         const hashedPassword = hasha(password + salt, { encoding: 'base64' });
         return (hashedPassword === storedPassword);
