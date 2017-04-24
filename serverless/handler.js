@@ -16,7 +16,7 @@ export function _login(event, context, callback) {
     handler.run({ event, context, callback });
 }
 
-export function _forgotPassword(event, content, callback) {
+export function _forgotPassword(event, context, callback) {
     const handler = new ForgotPassword({ salesforce });
     handler.run({event, context, callback });
 }
