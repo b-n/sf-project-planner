@@ -16,8 +16,8 @@ export default class Login {
         .then(result => { return this.runQuery(result) })
         .then(result => { return this.parseRecord(result) })
         .then(result => { return this.generateToken(result) })
-        .then(result => { return this.sendCallback(result) })
-        .catch(result => { return this.errorCallback(result) });
+        .then(result => { return this.callback(null, result) })
+        .catch(result => { return this.callback(result) });
     }
 
     validate(event) {
