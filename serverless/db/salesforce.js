@@ -47,17 +47,25 @@ export default class {
         });
     }
 
+    forgotPassword(username) {
+        return this.callRestResource('/ForgotPassword/', username);
+    }
+
     resourceUpdate(resources) {
+        return this.callRestResource('/ResourceHours/', resources);
+    }
+
+    callRestResource(endpoint, payload) {
         return new Promise((resolve, reject) => {
             if (!this.loggedIn) {
                 reject(new Error(messages.ERROR_SF_AUTH));
                 return;
             }
 
-            this.conn.apex.post('/ResourceHours/', resources, (err, res) => {
+            this.conn.apex.post(endpoint, payload, (err, res) => {
                 if (err) {
                     console.log(err);
-                    reject(new Error('Failed to call rest resource'));
+                    reject(new Error(messages.ERROR_REST_RESOURCE));
                     return;
                 }
                 resolve(res);
