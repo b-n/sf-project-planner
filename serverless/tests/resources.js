@@ -1,13 +1,13 @@
 import { assert } from 'chai';
 import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
-import 'sinon-as-promised'; 
+import 'sinon-as-promised';
 
 import messages from '../lib/messages.js';
 import Resources from '../lib/resources.js';
 
 describe('resources', function() {
-    
+
     const postRecords = [
         {
             Id: 'existing records',
@@ -28,7 +28,7 @@ describe('resources', function() {
     const loginStub = stub();
     const queryStub = stub();
     const resourceUpdateStub = stub();
-    
+
     loginStub.resolves();
     queryStub.resolves({ records: queryRecords });
     resourceUpdateStub.resolves();
@@ -49,7 +49,7 @@ describe('resources', function() {
 
     it('run: GET method works', function(done) {
         const handler = new Resources({ salesforce });
-        
+
         const event = {
             method: 'GET',
             principalId: 'randomId',
@@ -63,14 +63,14 @@ describe('resources', function() {
             assert.equal(error, null);
             assert.notEqual(success, null);
             assert(queryStub.calledOnce);
-            done(); 
+            done();
         }
         handler.run({ event, callback });
     });
 
     it('run: POST method works', function(done) {
         const handler = new Resources({ salesforce });
-        
+
         const body = postRecords;
 
         const event = {
@@ -84,7 +84,7 @@ describe('resources', function() {
             assert.isTrue(loginStub.calledOnce);
             assert.isTrue(queryStub.notCalled);
             assert.isTrue(resourceUpdateStub.calledOnce);
-            done(); 
+            done();
         }
 
         handler.run({ event, callback });
@@ -98,7 +98,7 @@ describe('resources', function() {
 
     it('generateConnection: generates connection and stores in this.conn', function(done) {
         const handler = new Resources({ salesforce });
-        
+
         handler.generateConnection()
         .then(() => { done() })
         .catch(done);
@@ -107,7 +107,7 @@ describe('resources', function() {
     it('getMethod: errors when no query parameters', function(done) {
         const handler = new Resources({ salesforce });
         handler.generateConnection();
-        
+
         const query = {};
 
         handler.getMethod('dummyId', query)
@@ -121,7 +121,7 @@ describe('resources', function() {
     it('getMethod: gets results', function(done) {
         const handler = new Resources({ salesforce });
         handler.generateConnection();
-        
+
         const query = {
             weekstart: 'weekStart',
             weekend: 'weekEnd'
@@ -135,35 +135,11 @@ describe('resources', function() {
     it('postMethod: posts the recods', function(done) {
         const handler = new Resources({ salesforce });
         handler.generateConnection();
-        
+
         const body = postRecords;
 
         handler.postMethod('RandomId', body)
         .then(() => { done(); })
         .catch(done);
     });
-
-    it('sendCallback: calls', function(done) {
-        const message = 'success';
-        const handler = new Resources({ salesforce });
-        handler.callback = (error, success) => {
-            assert.equal(error, null);
-            assert.equal(success, message);
-            done();
-        };
-
-        handler.sendCallback(message);
-    })
-
-    it('errorCallback: calls', function(done) {
-        const message = 'error';
-        const handler = new Resources({ salesforce });
-        handler.callback = (error, success) => {
-            assert.equal(error, message);
-            assert.equal(success, null);
-            done();
-        };
-
-        handler.errorCallback(message);
-    })
 });
