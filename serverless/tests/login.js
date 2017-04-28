@@ -1,7 +1,5 @@
 import { assert } from 'chai';
-import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
-sinonAssert.expose(assert, { prefix: "" });
-import 'sinon-as-promised';
+import { assert as sinonAssert } from 'sinon';
 
 import hasha from 'hasha';
 
