@@ -22,7 +22,7 @@ export default class ForgotPassword {
         return Promise.resolve();
     }
 
-    generateConenction() {
+    generateConnection() {
         this.conn = new this.salesforce();
 
         return this.conn.login();
