@@ -12,12 +12,12 @@ export default class Login {
         this.callback = callback;
 
         this.validate(event)
-        .then(result => { return this.generateConnection(result) })
-        .then(result => { return this.runQuery(result) })
+        .then(() => { return this.generateConnection() })
+        .then(() => { return this.runQuery() })
         .then(result => { return this.parseRecord(result) })
         .then(result => { return this.generateToken(result) })
         .then(result => { return this.callback(null, result) })
-        .catch(result => { return this.callback(result) });
+        .catch(result => { return this.callback(result.message) });
     }
 
     validate(event) {
@@ -47,10 +47,6 @@ export default class Login {
     }
 
     parseRecord(res) {
-        if (!res) {
-            return Promise.reject(new Error(messages.ERROR_WRONG_LOGIN));
-        }
-
         const record = res.records[0];
         if (!record || !Login.checkPassword(this.password, record.Salt__c, record.Password__c)) {
             return Promise.reject(new Error(messages.ERROR_WRONG_LOGIN));
