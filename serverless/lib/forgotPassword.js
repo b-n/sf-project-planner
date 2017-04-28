@@ -9,8 +9,8 @@ export default class ForgotPassword {
         this.callback = callback;
 
         this.validate(event)
-            .then(() => { this.generateConnection() })
-            .then(() => { this.sendForgotPassword(this.username) })
+            .then(() => { return this.generateConnection() })
+            .then(() => { return this.sendForgotPassword() })
             .then(result => { this.callback(null, result) })
             .catch(result => { this.callback(result.message) });
     }
