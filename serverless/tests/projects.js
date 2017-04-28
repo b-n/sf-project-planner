@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { assert as sinonAssert } from 'sinon';
+sinonAssert.expose(assert, { prefix: "" });
 
 import messages from '../lib/messages';
 import Projects from '../lib/projects';
