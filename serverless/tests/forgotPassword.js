@@ -18,20 +18,25 @@ describe('forgotPassword', function() {
     const mock = new SalesforceMock();
 
     it('run: with a username supplied', function(done) {
-        const handler = new ForgotPassword({ salesforce: mock.getMock() });
+        const salesforce = mock.getMock();
+
+        const handler = new ForgotPassword({ salesforce });
 
         const event = validRequest;
 
         const callback = (error, success) => {
             assert.equal(error, null);
             assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('forgotPassword').calledOnce);
             done();
         }
         handler.run({ event, callback });
     });
 
     it('no username supplied', function(done) {
-        const handler = new ForgotPassword({ salesforce: mock.getMock() });
+        const salesforce = mock.getMock();
+
+        const handler = new ForgotPassword({ salesforce });
 
         const event = {};
 
@@ -44,12 +49,16 @@ describe('forgotPassword', function() {
     });
 
     it('salesforce forgotPassword error', function(done) {
-        const handler = new ForgotPassword({ salesforce: mock.getMock({ failStubs: [ 'forgotPassword' ]}) });
+        const salesforce = mock.getMock({
+            forgotPassword: { resolves: false, value: messages.ERROR_REST_RESOURCE }
+        });
+
+        const handler = new ForgotPassword({ salesforce });
 
         const event = validRequest;
 
         const callback = (error, success) => {
-            assert.equal(success, null);
+            assert.strictEqual(error, messages.ERROR_REST_RESOURCE);
             assert.isTrue(mock.getStub('login').calledOnce);
             assert.isTrue(mock.getStub('forgotPassword').calledOnce);
             done();

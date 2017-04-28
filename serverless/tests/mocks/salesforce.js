@@ -7,22 +7,19 @@ class SalesforceMock {
         this.stubs = {};
     }
 
-    getMock(options) {
-        const optionsObj = {
-            failStubs : [],
-            ...options
-        };
+    getMock(stubs) {
 
-        const { failStubs } = optionsObj;
-
-        const failStubList = failStubs === undefined || !failStubs ? [] : failStubs;
+        const stubOptions = stubs === undefined || !stubs ? {} : stubs;
 
         this.listStubs().map(name => {
-            const isFailStub = failStubList.filter(stubName => stubName === name);
+            const stubObj = {
+                resolves: true,
+                value: null,
+                ...stubOptions[name]
+            };
 
-            this.setStub(name, !isFailStub);
+            this.setStub(name, stubObj.resolves, stubObj.value);
         });
-
 
         const mockObj = this.listStubs().reduce((accumulator, currentValue) => {
             return {
@@ -36,8 +33,8 @@ class SalesforceMock {
         });
     }
 
-    setStub(name, resolves) {
-        this.stubs[name] = resolves ? stub().resolves() : stub().rejects();
+    setStub(name, resolves, value) {
+        this.stubs[name] = resolves ? stub().resolves(value) : stub().rejects(value);
     }
 
     getStub(name) {
