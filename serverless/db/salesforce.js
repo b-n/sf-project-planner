@@ -48,14 +48,14 @@ export default class {
     }
 
     forgotPassword(username) {
-        return this.callRestResource('/ForgotPassword/', username);
+        return this._callRestResource('/ForgotPassword/', username);
     }
 
     resourceUpdate(resources) {
-        return this.callRestResource('/ResourceHours/', resources);
+        return this._callRestResource('/ResourceHours/', resources);
     }
 
-    callRestResource(endpoint, payload) {
+    _callRestResource(endpoint, payload) {
         return new Promise((resolve, reject) => {
             if (!this.loggedIn) {
                 reject(new Error(messages.ERROR_SF_AUTH));
