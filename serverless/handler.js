@@ -1,32 +1,40 @@
-import salesforce from './db/salesforce.js';
+import { _login, _authorizer, _projects, _resources } from '../handler.js';
 
-import Login from './lib/login.js';
-import ForgotPassword from './lib/forgotPassword';
-import Projects from './lib/projects.js';
-import Resources from './lib/resources.js';
-import { authorizer } from './lib/authorizer.js';
+(() => {
+    const event = {
+        type: 'TOKEN',
+        authorizationToken: 'Bearer token',
+        methodArn: 'arn:aws:execute-api:us-east-1:411615132843:zo5571jwvj/dev/GET/resources',
+        employeeId: 'a0025000005IXKsAAO',
+        query: {
+            weekEnd: '2017-01-30',
+            weekStart: '2016-11-01'
+        },
+        method: 'GET',
+        body: [
+            {
+                Id: 'a0X25000001vlanEAA',
+                Week_Start__c: '2016-12-26',
+                Project__c: 'a0925000005zra0AAA',
+                Hours__c: 21
+            },
+            {
+                Id: 'a0X25000001vlaoEAA',
+                Week_Start__c: '2017-01-02',
+                Project__c: 'a0925000005zra0AAA',
+                Hours__c: 0
+            },
+            {
+                Id: '',
+                Week_Start__c: '2017-01-09',
+                Project__c: 'a0925000005zra0AAA',
+                Hours__c: 32
+            }
+        ]
+    };
 
-
-export function _authorizer(event, context, callback) {
-    authorizer({ event, context, callback });
-}
-
-export function _login(event, context, callback) {
-    const handler = new Login({ salesforce });
-    handler.run({ event, context, callback });
-}
-
-export function _forgotPassword(event, context, callback) {
-    const handler = new ForgotPassword({ salesforce });
-    handler.run({event, context, callback });
-}
-
-export function _resources(event, context, callback) {
-    const handler = new Resources({ salesforce });
-    handler.run({ event, context, callback });
-}
-
-export function _projects(event, context, callback) {
-    const handler = new Projects({ salesforce });
-    handler.run({ event, context, callback });
-}
+    _authorizer(event, {} , (error, success) => {
+        if (error) console.log('error', error);
+        if (success) console.log('success', success);
+    });
+})();
