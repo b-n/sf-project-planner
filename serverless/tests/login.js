@@ -1,5 +1,4 @@
 import { assert } from 'chai';
-import dotenv from 'dotenv';
 import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
 import 'sinon-as-promised';
@@ -10,6 +9,7 @@ import messages from '../lib/messages.js';
 import Login from '../lib/login.js';
 
 describe('login', function() {
+    process.env.JWT_SECRET = 'TESTING SECRET';
     const password = 'testingPassword';
     const salt = 'passwordSalt';
     const employeeId = 'RandomRecordId';
@@ -196,29 +196,4 @@ describe('login', function() {
         })
         .catch(err => done);
     });
-
-    it('sendCallback: calls', function(done) {
-        const message = 'success';
-        const handler = new Login({ salesforce });
-        handler.callback = (error, success) => {
-            assert.equal(error, null);
-            assert.equal(success, message);
-            done();
-        };
-
-        handler.sendCallback(message);
-    })
-
-    it('errorCallback: calls', function(done) {
-        const message = 'error';
-        const handler = new Login({ salesforce });
-        handler.callback = (error, success) => {
-            assert.equal(error, message);
-            assert.equal(success, null);
-            done();
-        };
-
-        handler.errorCallback(message);
-    })
-
 });

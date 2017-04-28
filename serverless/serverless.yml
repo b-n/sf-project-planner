@@ -30,6 +30,14 @@ functions:
                 method: post
                 integration: lambda
                 cors: true
+    forgotpassword:
+        handler: handler._forgotPassword
+        events:
+            - http:
+                path: forgotpassword
+                method: post
+                integration: lambda
+                cors: true
     resources:
         handler: handler._resources
         events:

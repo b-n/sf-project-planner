@@ -1,17 +1,20 @@
 # sf-project-planner serverless backend (for great victory)
 
-Global deps:
-    
-    npm install -g serverless
-    npm install -g babel-cli
+Global deps: 
+ - serverless
+ - babel-cli
 
 To install:
 
-    npm install
+    yarn install
 
 To test an endpoint from the handler (we should really be using webpack here, but oh well):
 
     babel-node tests/handler.js
+
+Save yourself some time and run the linter
+
+    yarn run lint
 
 ## Environment variables:
 
@@ -29,7 +32,7 @@ For dev in project root, you need `.env` with the following:
 
 A couple of options here, you can decrypt the encrypted values by:
 
-    sls decrypt --stage <stage> --password <password>
+    sls decrypt -s <stage> -p <password>
 
 Or create a file called secrets.<stage>.yml with the following:
 
@@ -41,15 +44,15 @@ Or create a file called secrets.<stage>.yml with the following:
 
 To encrypt your secrets (if you want to commit them securely):
 
-    sls encrypt --stage <stage> --password <password>
+    sls encrypt -s <stage> -p <password>
 
 ## Testing:
 
 Test!
 
-    npm run test
+    yarn run test
 
 Coverage!
 
-    npm run coverage
+    yarn run coverage
 

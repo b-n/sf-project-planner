@@ -9,8 +9,8 @@ export default class Projects {
 
         this.generateConnection()
         .then(result => { return this.runQuery() })
-        .then(result => { return this.sendCallback(result) })
-        .catch(result => { return this.errorCallback(result.message) });
+        .then(result => { return this.callback(null, result) })
+        .catch(result => { return this.callback(result.message) });
     }
 
     generateConnection() {
@@ -25,13 +25,5 @@ export default class Projects {
                                 WHERE  Status__c in ('Active','On Hold','Planning') OR
                                 (Status__c = 'Completed' AND End_Date__c = LAST_N_DAYS:21)`)
         .then(result => result.records);
-    }
-
-    sendCallback(message) {
-        this.callback(null, message);
-    }
-
-    errorCallback(message) {
-        this.callback(message);
     }
 }

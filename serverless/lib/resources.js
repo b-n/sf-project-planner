@@ -14,8 +14,8 @@ export default class Resources {
             if (method === 'POST') return this.postMethod(principalId, body);
             return Promise.reject(new Error('Invalid method'));
         })
-        .then(result => { return this.sendCallback(result) })
-        .catch(result => { return this.errorCallback(result.message) });
+        .then(result => { return this.callback(null, result) })
+        .catch(result => { return this.callback(result.message) });
     }
 
     generateConnection() {
@@ -59,13 +59,5 @@ export default class Resources {
         };
 
         return this.conn.resourceUpdate(request);
-    }
-
-    sendCallback(result) {
-        this.callback(null, result);
-    }
-
-    errorCallback(error) {
-        this.callback(error);
     }
 }
