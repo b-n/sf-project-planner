@@ -1,6 +1,6 @@
 import jsforce from 'jsforce';
 
-import messages from './../lib/messages.js';
+import messages from './../lib/messages';
 
 export default class {
 
