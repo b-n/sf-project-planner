@@ -1,4 +1,4 @@
-import './login.js';
-import './projects.js';
-import './resources.js';
+import './login';
+import './projects';
+import './resources';
 import './forgotPassword';

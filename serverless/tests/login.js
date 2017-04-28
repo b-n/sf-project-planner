@@ -5,8 +5,8 @@ import 'sinon-as-promised';
 
 import hasha from 'hasha';
 
-import messages from '../lib/messages.js';
-import Login from '../lib/login.js';
+import messages from '../lib/messages';
+import Login from '../lib/login';
 
 describe('login', function() {
     process.env.JWT_SECRET = 'TESTING SECRET';

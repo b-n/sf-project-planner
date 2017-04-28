@@ -1,7 +1,7 @@
 import hasha from 'hasha';
 import jwt from 'jsonwebtoken';
 
-import messages from './messages.js';
+import messages from './messages';
 
 export default class Login {
     constructor({ salesforce }) {

@@ -1,10 +1,10 @@
-import salesforce from './db/salesforce.js';
+import salesforce from './db/salesforce';
 
-import Login from './lib/login.js';
+import Login from './lib/login';
 import ForgotPassword from './lib/forgotPassword';
-import Projects from './lib/projects.js';
-import Resources from './lib/resources.js';
-import { authorizer } from './lib/authorizer.js';
+import Projects from './lib/projects';
+import Resources from './lib/resources';
+import { authorizer } from './lib/authorizer';
 
 
 export function _authorizer(event, context, callback) {

@@ -3,8 +3,8 @@ import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
 import 'sinon-as-promised';
 
-import messages from '../lib/messages.js';
-import Resources from '../lib/resources.js';
+import messages from '../lib/messages';
+import Resources from '../lib/resources';
 
 describe('resources', function() {
 
