@@ -1,64 +1,54 @@
 import { assert } from 'chai';
-import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
+import { assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
-import 'sinon-as-promised';
 
 import messages from '../lib/messages';
 import Projects from '../lib/projects';
 
+import SalesforceMock from './mocks/salesforce';
+
 describe('projects', function() {
 
-    function generateSFRecords() {
-        return [
+    const mock = new SalesforceMock();
+
+    const validSFReturn = {
+        records: [
             { name: 'record1' },
-            { name: 'record2' }
-        ];
+            { name: 'record2' },
+            { name: 'record3' },
+        ]
     }
 
-    const loginStub = stub();
-    const queryStub = stub();
+    it('returns salesforce records', function(done) {
+        const salesforce = mock.getMock({
+            query: { resolves: true, value: validSFReturn }
+        });
 
-    loginStub.resolves();
-    queryStub.resolves({ records: generateSFRecords() });
-
-    const salesforce = spy(() => {
-        return {
-            login: loginStub,
-            query: queryStub
-        };
-    });
-
-    it('run: end to end works', function(done) {
         const handler = new Projects({ salesforce });
 
         const callback = (error, success) => {
             assert.equal(error, null);
-            assert.deepEqual(success, generateSFRecords());
+            assert.deepEqual(success, validSFReturn.records);
+            assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('query').calledOnce);
             done();
         }
+
         handler.run({ callback });
     });
 
-    it('constructor: stores deps', function() {
+    it('fails nicely with no salesforce query/connection', function(done) {
+        const salesforce = mock.getMock({
+            login: { resolves: false, value: messages.ERROR_SF_AUTH }
+        });
+
         const handler = new Projects({ salesforce });
 
-        assert(handler.salesforce, salesforce);
-    });
+        const callback = (error, success) => {
+            assert.equal(error, messages.ERROR_SF_AUTH);
+            done();
+        }
 
-    it('generateConnection: generates connection and stores in this.conn', function(done) {
-        const handler = new Projects({ salesforce });
-
-        handler.generateConnection()
-        .then(() => { done() })
-        .catch(done);
-    });
-
-    it('runQuery: return query from salesforce', function(done) {
-        const handler = new Projects({ salesforce });
-        handler.generateConnection();
-
-        handler.runQuery()
-        .then(() => { done() })
-        .catch(done);
+        handler.run({ callback });
     });
 });

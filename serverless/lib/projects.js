@@ -8,7 +8,7 @@ export default class Projects {
         this.callback = callback;
 
         this.generateConnection()
-        .then(result => { return this.runQuery() })
+        .then(() => { return this.runQuery() })
         .then(result => { return this.callback(null, result) })
         .catch(result => { return this.callback(result.message) });
     }

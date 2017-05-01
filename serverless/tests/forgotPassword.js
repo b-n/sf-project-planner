@@ -1,10 +1,11 @@
 import { assert } from 'chai';
-import { stub, spy, createStubInstance, assert as sinonAssert } from 'sinon';
+import { assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
-import 'sinon-as-promised';
 
 import messages from '../lib/messages';
 import ForgotPassword from '../lib/forgotPassword';
+
+import SalesforceMock from './mocks/salesforce';
 
 describe('forgotPassword', function() {
 
@@ -14,76 +15,55 @@ describe('forgotPassword', function() {
         }
     };
 
-    const loginStub = stub();
-    const forgotPasswordStub = stub();
+    const mock = new SalesforceMock();
 
-    loginStub.resolves();
-    forgotPasswordStub.resolves();
+    it('run: with a username supplied', function(done) {
+        const salesforce = mock.getMock();
 
-    const salesforce = spy(() => {
-        return {
-            login: loginStub,
-            forgotPassword: forgotPasswordStub
-        };
-    });
-
-    it('run: end to end works', function(done) {
         const handler = new ForgotPassword({ salesforce });
 
         const event = validRequest;
 
         const callback = (error, success) => {
             assert.equal(error, null);
-            assert.isTrue(loginStub.calledOnce);
-            assert.isTrue(forgotPasswordStub.calledOnce);
+            assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('forgotPassword').calledOnce);
             done();
         }
         handler.run({ event, callback });
     });
 
-    it('constructor: stores deps', function() {
-        const handler = new ForgotPassword({ salesforce });
+    it('no username supplied', function(done) {
+        const salesforce = mock.getMock();
 
-        assert(handler.salesforce, salesforce);
-    });
-
-    it('validate: username is required', function(done) {
         const handler = new ForgotPassword({ salesforce });
 
         const event = {};
 
-        handler.validate(event)
-            .then(done)
-            .catch((err) => {
-                assert.equal(err.message, messages.ERROR_NO_USERNAME);
-                done()
-            });
+        const callback = (error, success) => {
+            assert.equal(error, messages.ERROR_NO_USERNAME);
+            done();
+        }
+
+        handler.run({ event, callback });
     });
 
-    it('validate: username exists', function(done) {
+    it('salesforce forgotPassword error', function(done) {
+        const salesforce = mock.getMock({
+            forgotPassword: { resolves: false, value: messages.ERROR_REST_RESOURCE }
+        });
+
         const handler = new ForgotPassword({ salesforce });
 
         const event = validRequest;
 
-        handler.validate(event)
-            .then(() => { done() })
-            .catch(done);
-    });
+        const callback = (error, success) => {
+            assert.strictEqual(error, messages.ERROR_REST_RESOURCE);
+            assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('forgotPassword').calledOnce);
+            done();
+        }
 
-    it('generateConnection: generates connection and stores in this.conn', function(done) {
-        const handler = new ForgotPassword({ salesforce });
-
-        handler.generateConnection()
-        .then(() => { done() })
-        .catch(done);
-    });
-
-    it('sendForgotPassword: send request to Salesforce', function(done) {
-        const handler = new ForgotPassword({ salesforce });
-        handler.generateConnection();
-
-        handler.sendForgotPassword()
-        .then(() => { done() })
-        .catch(done);
+        handler.run({ event, callback });
     });
 });
