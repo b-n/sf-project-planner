@@ -1,2 +1,3 @@
 tests/
 coverage/
+webpack.config.js
