@@ -9,5 +9,5 @@ export default {
     ERROR_REQUIRE_PRINCIPALID: 'Need to have a valid JWT token for this request',
     ERROR_INVALID_METHOD: 'Method not supported',
     ERROR_REQUIRE_QUERY_PARAMS: 'This method requires query parameters',
-    ERROR_REQUIRE_BODY: 'This method requires a body'
+    ERROR_REQUIRE_BODY: 'This method requires a body',
 }
