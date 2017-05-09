@@ -38,6 +38,15 @@ functions:
                 method: post
                 integration: lambda
                 cors: true
+    changePassword:
+        handler: handler._changePassword
+        events:
+            - http:
+                path: changepassword
+                method: post
+                integration: lambda
+                authorizer: authenticate
+                cors: true
     resources:
         handler: handler._resources
         events:
