@@ -5,6 +5,7 @@ export default {
     ERROR_WRONG_LOGIN: 'Wrong Username/Password',
     ERROR_INTERNAL_ERROR: 'Could not login. Try again later',
     ERROR_NO_USERNAME: 'You need to supply a username for this request',
+    ERROR_REQUIRE_PASSWORDS: 'You need to specify both the new and old password for this request',
     ERROR_REST_RESOURCE: 'Failed to call rest resource',
     ERROR_REQUIRE_PRINCIPALID: 'Need to have a valid JWT token for this request',
     ERROR_INVALID_METHOD: 'Method not supported',
