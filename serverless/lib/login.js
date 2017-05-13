@@ -8,10 +8,10 @@ export default class Login {
         this.Salesforce = salesforce
     }
 
-    run({ event, callback }) {
+    login({ event, callback }) {
         this.callback = callback
 
-        this.validate(event)
+        this.validate(event, ['username', 'password'])
             .then(() => { return this.generateConnection() })
             .then(() => { return this.runQuery() })
             .then((result) => { return this.parseRecord(result) })
@@ -20,19 +20,33 @@ export default class Login {
             .catch((result) => { return this.callback(result.message) })
     }
 
-    validate(event) {
+    changePassword({ event, callback }) {
+        this.callback = callback
+
+        this.validate(event, ['username', 'password', 'oldPassword'])
+            .then((result) => { return this.callback(null, result) })
+            .catch((result) => { return this.callback(result.message) })
+        // validate event body { userId, oldPassword, newPassword }
+        //   check current username and password
+        //   generate new salt, and hash from newpassword
+        //   call salesforce to store new hash and newpassword
+
+        // if (!event || !event.body || !event.body.password || !event.body.oldPassword) return Promise.reject(new Error(messages.ERROR_REQUIRE_PASSWORDS))
+    }
+
+    validate(event, requiredFields) {
         if (!event || !event.body) {
-            return Promise.reject(new Error(messages.REQUIRE_LOGIN))
+            return Promise.reject(new Error(messages.ERROR_REQUIRE_BODY))
         }
 
-        const { username, password } = event.body
-        if (!username || !password) {
-            return Promise.reject(new Error(messages.REQUIRE_LOGIN))
+        const nonExistantKeys = Object.keys(event.body).filter((key) => requiredFields.indexOf(key) == -1 || !event.body[key])
+        if (nonExistantKeys.length != 0) {
+            const missingKeysString = nonExistantKeys.join(', ')
+            return Promise.reject(new Error(messages.ERROR_REQUIRE_BODY_KEYS + missingKeysString))
         }
 
-        this.username = username
-        this.password = password
-        return Promise.resolve()
+        const params = requiredFields.reduce((accumulator, currentValue) => ({ ...accumulator, [currentValue]: event.body[currentValue] }), {})
+        return Promise.resolve(params)
     }
 
     generateConnection() {
