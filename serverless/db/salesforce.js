@@ -56,8 +56,8 @@ export default class {
         return this._callRestResource('/ResourceHours/', resources)
     }
 
-    changePassword(userId, newPassword) {
-
+    changePassword(username, password, salt) {
+        return this._callRestResource('/ChangePassword/', { username, password, salt })
     }
 
     _callRestResource(endpoint, payload) {
