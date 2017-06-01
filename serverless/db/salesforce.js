@@ -56,6 +56,10 @@ export default class {
         return this._callRestResource('/ResourceHours/', resources)
     }
 
+    changePassword(userId, newPassword) {
+
+    }
+
     _callRestResource(endpoint, payload) {
         return new Promise((resolve, reject) => {
             if (!this.loggedIn) {
