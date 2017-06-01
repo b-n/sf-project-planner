@@ -1,14 +1,7 @@
 var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-    entry: {
-        handler: './handler.js'
-    },
-    output: {
-        libraryTarget: 'commonjs',
-        path: '.webpack',
-        filename: '[name].js'
-    },
+    entry: [ 'babel-polyfill', './handler.js' ],
     target: 'node',
     devtool: 'source-map',
     externals: [nodeExternals()],
