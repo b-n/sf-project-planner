@@ -11,6 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "crypto-random-string": "^1.0.0",
     "hasha": "^2.2.0",
     "jsforce": "^1.7.1",
@@ -23,7 +24,6 @@
     "babel-eslint": "^7.1.1",
     "babel-istanbul": "^0.12.1",
     "babel-loader": "^6.2.10",
-    "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
