@@ -5,7 +5,7 @@ sinonAssert.expose(assert, { prefix: "" });
 import messages from '../lib/messages';
 import Resources from '../lib/resources';
 
-import SalesforceMock from './mocks/salesforce';
+import ClassMock from './mocks/classMock';
 
 describe('resources', function() {
 
@@ -28,7 +28,7 @@ describe('resources', function() {
         ]
     };
 
-    const mock = new SalesforceMock();
+    const mock = new ClassMock([ 'login', 'query', 'forgotPassword', 'resourceUpdate', 'changePassword' ]);
 
     it('fails with no principalId', function(done) {
         const salesforce = mock.getMock();

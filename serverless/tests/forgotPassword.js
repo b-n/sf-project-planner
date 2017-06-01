@@ -5,7 +5,7 @@ sinonAssert.expose(assert, { prefix: "" });
 import messages from '../lib/messages';
 import ForgotPassword from '../lib/forgotPassword';
 
-import SalesforceMock from './mocks/salesforce';
+import ClassMock from './mocks/classMock';
 
 describe('forgotPassword', function() {
 
@@ -15,7 +15,7 @@ describe('forgotPassword', function() {
         }
     };
 
-    const mock = new SalesforceMock();
+    const mock = new ClassMock([ 'login', 'query', 'forgotPassword', 'resourceUpdate', 'changePassword' ]);
 
     it('run: with a username supplied', function(done) {
         const salesforce = mock.getMock();
