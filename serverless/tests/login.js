@@ -24,22 +24,30 @@ describe('login', function() {
         ]
     };
 
-    const validEvent = {
+    const validLoginEvent = {
         body: {
             username: 'testing',
             password
         }
     }
 
+    const validChangePasswordEvent = {
+        body: {
+            username: 'testing',
+            oldPassword: password,
+            password: 'testingPasswordNew'
+        }
+    }
+
     const mock = new ClassMock([ 'login', 'query', 'forgotPassword', 'resourceUpdate', 'changePassword' ]);
 
-    it('accepts valid username and password', function(done) {
+    it('[login] accepts valid username and password', function(done) {
         const salesforce = mock.getMock({
             query: { resolves: true, value: validSFReturn }
         });
 
         const handler = new Login({ salesforce });
-        const event = validEvent;
+        const event = validLoginEvent;
 
         const callback = (error, success) => {
             assert.notEqual(success, null);
@@ -49,25 +57,25 @@ describe('login', function() {
             done();
         };
 
-        handler.run({ event, callback });
+        handler.login({ event, callback });
     });
 
-    it('errors if no username/password supplied', function(done) {
+    it('[login] errors if no username/password supplied', function(done) {
         const salesforce = mock.getMock();
 
         const handler = new Login({ salesforce });
         const event = {};
 
         const callback = (error, success) => {
-            assert.equal(error, messages.REQUIRE_LOGIN);
+            assert.equal(error, messages.ERROR_REQUIRE_BODY);
             assert.isTrue(mock.getStub('login').notCalled);
             done();
         };
 
-        handler.run({ event, callback });
+        handler.login({ event, callback });
     });
 
-    it('fails on bad username/password', function(done) {
+    it('[login] fails on bad username/password', function(done) {
         const salesforce = mock.getMock({
             query: { resolves: true, value: validSFReturn }
         });
@@ -87,7 +95,67 @@ describe('login', function() {
             done();
         };
 
-        handler.run({ event, callback });
+        handler.login({ event, callback });
+    });
+
+    it('[changePassword] changes a password successfully', function(done) {
+        const salesforce = mock.getMock({
+            query: { resolves: true, value: validSFReturn },
+            changePassword: { resolves: true, value: 'testing' }
+        })
+
+        const handler = new Login({ salesforce });
+        const event = validChangePasswordEvent;
+
+        const callback = (error, success) => {
+            assert.equal(success, 'testing');
+            assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('query').calledOnce);
+            assert.isTrue(mock.getStub('changePassword').calledOnce);
+            done();
+        }
+
+        handler.changePassword({ event, callback })
+    });
+
+    it('[changePassword] fails on current password is wrong', function(done) {
+        const salesforce = mock.getMock({
+            query: { resolves: true, value: validSFReturn }
+        })
+
+        const handler = new Login({ salesforce });
+        const event = {
+            body: {
+                username: 'testing',
+                oldPassword: 'notAValidOldPassword',
+                password: 'testingPasswordNew'
+            }
+        }
+
+        const callback = (error, success) => {
+            assert.equal(error, messages.ERROR_WRONG_LOGIN);
+            assert.isTrue(mock.getStub('login').calledOnce);
+            assert.isTrue(mock.getStub('query').calledOnce);
+            assert.isTrue(mock.getStub('changePassword').notCalled);
+            done();
+        }
+
+        handler.changePassword({ event, callback })
+    });
+
+    it('errors if missing body key', function(done) {
+        const salesforce = mock.getMock();
+
+        const handler = new Login({ salesforce })
+        const event = { body: { username: 'test' } };
+
+        const callback = (error, success) => {
+            assert.isTrue(error.indexOf(messages.ERROR_MISSING_BODY_KEYS) !== -1);
+            assert.isTrue(mock.getStub('login').notCalled);
+            done();
+        }
+
+        handler.login({ event, callback })
     });
 
     it('fails nicely if salesforce connection fails', function(done) {
@@ -96,7 +164,7 @@ describe('login', function() {
         });
 
         const handler = new Login({ salesforce });
-        const event = validEvent;
+        const event = validLoginEvent;
 
         const callback = (error, success) => {
             assert.equal(error, messages.ERROR_SF_QUERY_FAILED);
@@ -105,6 +173,6 @@ describe('login', function() {
             done();
         };
 
-        handler.run({ event, callback });
+        handler.login({ event, callback });
     });
 });
