@@ -1,13 +1,12 @@
 import { assert } from 'chai';
 import { assert as sinonAssert } from 'sinon';
 sinonAssert.expose(assert, { prefix: "" });
-
 import hasha from 'hasha';
 
 import messages from '../lib/messages';
 import Login from '../lib/login';
 
-import SalesforceMock from './mocks/salesforce';
+import ClassMock from './mocks/classMock';
 
 describe('login', function() {
     process.env.JWT_SECRET = 'TESTING SECRET';
@@ -32,7 +31,7 @@ describe('login', function() {
         }
     }
 
-    const mock = new SalesforceMock();
+    const mock = new ClassMock([ 'login', 'query', 'forgotPassword', 'resourceUpdate', 'changePassword' ]);
 
     it('accepts valid username and password', function(done) {
         const salesforce = mock.getMock({

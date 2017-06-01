@@ -5,11 +5,11 @@ sinonAssert.expose(assert, { prefix: "" });
 import messages from '../lib/messages';
 import Projects from '../lib/projects';
 
-import SalesforceMock from './mocks/salesforce';
+import ClassMock from './mocks/classMock';
 
 describe('projects', function() {
 
-    const mock = new SalesforceMock();
+    const mock = new ClassMock([ 'login', 'query', 'forgotPassword', 'resourceUpdate', 'changePassword' ]);
 
     const validSFReturn = {
         records: [

@@ -1,17 +1,18 @@
 import { stub, spy } from 'sinon';
 import 'sinon-as-promised';
 
-class SalesforceMock {
+class ClassMock {
 
-    constructor() {
+    constructor(listOfStubs) {
         this.stubs = {};
+        this.listOfStubs = listOfStubs;
     }
 
     getMock(stubs) {
 
         const stubOptions = stubs === undefined || !stubs ? {} : stubs;
 
-        this.listStubs().map(name => {
+        this.listOfStubs.map(name => {
             const stubObj = {
                 resolves: true,
                 value: null,
@@ -21,7 +22,7 @@ class SalesforceMock {
             this.setStub(name, stubObj.resolves, stubObj.value);
         });
 
-        const mockObj = this.listStubs().reduce((accumulator, currentValue) => {
+        const mockObj = this.listOfStubs.reduce((accumulator, currentValue) => {
             return {
                 ...accumulator,
                 [ currentValue ] : this.getStub(currentValue)
@@ -41,10 +42,6 @@ class SalesforceMock {
         return this.stubs[name];
     }
 
-    listStubs() {
-        return [ 'login', 'query', 'forgotPassword', 'resourceUpdate' ];
-    }
-
 }
 
-export default SalesforceMock;
+export default ClassMock;
